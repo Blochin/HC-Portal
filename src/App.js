@@ -8,12 +8,15 @@ import WelcomePage from "pages/WelcomePage";
 import CryptogramListingPage from "pages/CryptogramListingPage";
 import CreateCryptogramPage from "pages/CreateCryptogramPage";
 import NoPage from "pages/NoPage";
+import { DataProvider } from "./context/DataContext";
 
 function App() {
   return (
     <BrowserRouter>
       <UserProvider>
-        <AppRoutes />
+        <DataProvider>
+          <AppRoutes />
+        </DataProvider>
       </UserProvider>
     </BrowserRouter>
   );

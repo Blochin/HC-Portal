@@ -9,6 +9,7 @@ import CryptogramListingPage from "pages/CryptogramListingPage";
 import CreateCryptogramPage from "pages/CreateCryptogramPage";
 import NoPage from "pages/NoPage";
 import { DataProvider } from "./context/DataContext";
+import CryptogramDetailPage from "./pages/CryptogramDetailPage";
 
 function App() {
   return (
@@ -21,7 +22,6 @@ function App() {
     </BrowserRouter>
   );
 }
-
 function AppRoutes() {
   return (
     <Routes>
@@ -32,6 +32,7 @@ function AppRoutes() {
         <Route index element={<WelcomePage />} />
         <Route path={"cryptograms"} element={<CryptogramListingPage />} />
         <Route path={"cryptograms/add"} element={<CreateCryptogramPage />} />
+        <Route path={"cryptograms/:id"} element={<CryptogramDetailPage />} />
         <Route path={"*"} element={<NoPage />} />
       </Route>
     </Routes>

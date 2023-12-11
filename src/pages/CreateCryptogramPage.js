@@ -15,9 +15,7 @@ import Dates from "../components/form/custom_inputs/Dates";
 import Languages from "../components/form/custom_inputs/Languages";
 import { useState } from "react";
 function CreateCryptogramPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-  });
+  const [formData, setFormData] = useState({});
   const handleChange = (name, value) => {
     setFormData({
       ...formData,
@@ -46,7 +44,7 @@ function CreateCryptogramPage() {
       />
       <Thumbnail
         name={"thumbnail_base64"}
-        urlName={"thumbnail_url"}
+        urlName={"thumbnail_link"}
         onSelect={(name, value) => handleChange(name, value)}
       />
       <RichtextEditor

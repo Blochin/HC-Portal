@@ -5,12 +5,17 @@ import { DataContext } from "../../../context/DataContext";
 import CustomDropdown from "../inputs/dropdown/Dropdown";
 import { LAYOUT_FULL } from "../inputs/dropdown/trigger/Layout";
 import PropTypes from "prop-types";
+import { COLOR_FAILURE, COLOR_GRAY } from "../inputs/Colors";
 
 const Availability = ({
   onChangeAvailability,
   onChangeArchive,
   onChangeFond,
   onChangeFolder,
+  availabilityErrorMessage,
+  archiveErrorMessage,
+  fondErrorMessage,
+  folderErrorMessage,
 }) => {
   const [availability, setAvailability] = useState("archive");
   const { archives, fonds, folders } = useContext(DataContext);
@@ -19,13 +24,10 @@ const Availability = ({
   const handleChange = (event) => {
     const eventValue = event.target.value;
     setAvailability(eventValue);
-    if (eventValue === "other") {
-      onChangeAvailability("availability", null);
-    } else if (eventValue === "archive") {
-      onChangeArchive("archive", null);
-      onChangeFond("fond", null);
-      onChangeFolder("folder", null);
-    }
+    onChangeAvailability("availability", null);
+    onChangeArchive("archive", null);
+    onChangeFond("fond", null);
+    onChangeFolder("folder", null);
   };
 
   const handleFilter = (object, keyObject, searchObject, searchKey) => {
@@ -41,12 +43,23 @@ const Availability = ({
   };
 
   const handleArchive = (name, archive) => {
+    if (!archive) {
+      onChangeArchive(name, null);
+      setSelectedFonds([]);
+      setSelectedFolders([]);
+      return;
+    }
     const selectedFonds = handleFilter(fonds, "archive", archive, "value");
     setSelectedFonds(selectedFonds);
     onChangeArchive(name, archive.value);
   };
 
   const handleFond = (name, fond) => {
+    if (!fond) {
+      onChangeArchive(name, null);
+      setSelectedFolders([]);
+      return;
+    }
     const selectedFond = handleFilter(
       folders,
       "archive_id",
@@ -83,18 +96,21 @@ const Availability = ({
         </div>
         <div className="w-full">
           {availability === "other" && (
-            <CustomTextInput
-              name={"availability"}
-              onChange={(name, value) => onChangeAvailability(name, value)}
-              label={"Other"}
-              placeholder={"Other"}
-            />
+            <div>
+              <CustomTextInput
+                name={"availability"}
+                onChange={(name, value) => onChangeAvailability(name, value)}
+                label={"Other"}
+                placeholder={"Other"}
+                errorMessage={availabilityErrorMessage}
+              />
+            </div>
           )}
         </div>
       </fieldset>
       {availability === "archive" && (
         <div>
-          <div>
+          <div className={"mb-6"}>
             <CustomDropdown
               name={"archive"}
               isMulti={false}
@@ -105,9 +121,15 @@ const Availability = ({
               label={"Archive"}
               canAddNew={true}
               onSelect={(name, value) => handleArchive(name, value)}
+              color={archiveErrorMessage ? COLOR_FAILURE : COLOR_GRAY}
             />
+            {archiveErrorMessage ? (
+              <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span className="font-medium">{archiveErrorMessage}</span>
+              </p>
+            ) : null}
           </div>
-          <div>
+          <div className={"mb-6"}>
             <CustomDropdown
               name={"fond"}
               isMulti={false}
@@ -118,9 +140,15 @@ const Availability = ({
               label={"Fond"}
               canAddNew={true}
               onSelect={(name, value) => handleFond(name, value)}
+              color={fondErrorMessage ? COLOR_FAILURE : COLOR_GRAY}
             />
+            {fondErrorMessage ? (
+              <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span className="font-medium">{fondErrorMessage}</span>
+              </p>
+            ) : null}
           </div>
-          <div>
+          <div className={"mb-6"}>
             <CustomDropdown
               name={"folder"}
               isMulti={false}
@@ -130,8 +158,16 @@ const Availability = ({
               data={selectedFolders}
               label={"Folder"}
               canAddNew={true}
-              onSelect={(name, value) => onChangeFolder(name, value.value)}
+              onSelect={(name, value) =>
+                onChangeFolder(name, value ? value.value : null)
+              }
+              color={folderErrorMessage ? COLOR_FAILURE : COLOR_GRAY}
             />
+            {folderErrorMessage ? (
+              <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                <span className="font-medium">{folderErrorMessage}</span>
+              </p>
+            ) : null}
           </div>
         </div>
       )}
@@ -144,5 +180,9 @@ Availability.propTypes = {
   onChangeArchive: PropTypes.func.isRequired,
   onChangeFond: PropTypes.func.isRequired,
   onChangeFolder: PropTypes.func.isRequired,
+  availabilityErrorMessage: PropTypes.string,
+  archiveErrorMessage: PropTypes.string,
+  fondErrorMessage: PropTypes.string,
+  folderErrorMessage: PropTypes.string,
 };
 export default Availability;

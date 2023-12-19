@@ -25,10 +25,10 @@ function CreateCryptogramPage() {
     updatedErrors[name] = null;
     setErrors(updatedErrors);
 
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
-    });
+    }));
     console.log(formData, { [name]: value });
   };
 
@@ -79,6 +79,7 @@ function CreateCryptogramPage() {
       <Locations
         onChangeContinent={(name, value) => handleChange(name, value)}
         onChangeLocationName={(name, value) => handleChange(name, value)}
+        errorMessage={errors.continent ? errors.continent[0] : null}
       />
       <CustomTextInput
         onChange={(name, value) => handleChange(name, value)}
@@ -92,8 +93,17 @@ function CreateCryptogramPage() {
         onChangeArchive={(name, value) => handleChange(name, value)}
         onChangeFolder={(name, value) => handleChange(name, value)}
         onChangeFond={(name, value) => handleChange(name, value)}
+        availabilityErrorMessage={
+          errors.availability ? errors.availability[0] : null
+        }
+        archiveErrorMessage={errors.archive ? errors.archive[0] : null}
+        folderErrorMessage={errors.folder ? errors.folder[0] : null}
+        fondErrorMessage={errors.fond ? errors.fond[0] : null}
       />
-      <Solutions onChange={(name, value) => handleChange(name, value)} />
+      <Solutions
+        onChange={(name, value) => handleChange(name, value)}
+        errorMessage={errors.solution_id ? errors.solution_id : null}
+      />
       <Users
         onChangeSender={(name, value) => handleChange(name, value)}
         onChangeRecipient={(name, value) => handleChange(name, value)}

@@ -22,6 +22,7 @@ const Tags = ({ onChange }) => {
       canAddNew={true}
       isMulti={true}
       withMeta={false}
+      className={"mb-6"}
       data={tags}
       onSelect={(name, values) => handleChange(name, values)}
     />

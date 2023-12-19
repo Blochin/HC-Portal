@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 const Users = ({ onChangeSender, onChangeRecipient }) => {
   const { persons } = useContext(DataContext);
   return (
-    <div className={"flex justify-center gap-6"}>
+    <div className={"flex justify-center gap-6 mb-6"}>
       <div className={"w-full"}>
         <CustomDropdown
           name={"sender"}

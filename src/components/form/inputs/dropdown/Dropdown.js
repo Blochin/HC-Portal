@@ -18,6 +18,7 @@ const CustomDropdown = ({
   data,
   onSelect,
   color = COLOR_GRAY,
+  className,
 }) => {
   const [selectedValues, setSelectedValues] = useState(
     value === "" ? [] : [value],
@@ -85,7 +86,7 @@ const CustomDropdown = ({
   );
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className={`${className} flex flex-col gap-4`}>
       <div>
         <div className="mb-2 block">
           <Label value={label} />
@@ -183,6 +184,7 @@ CustomDropdown.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSelect: PropTypes.func.isRequired,
   color: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default CustomDropdown;

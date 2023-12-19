@@ -16,7 +16,15 @@ import Languages from "../components/form/custom_inputs/Languages";
 import { useState } from "react";
 function CreateCryptogramPage() {
   const [formData, setFormData] = useState({});
+  const [errors, setErrors] = useState({});
+  // eslint-disable-next-line no-unused-vars
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const handleChange = (name, value) => {
+    const updatedErrors = { ...errors };
+    updatedErrors[name] = null;
+    setErrors(updatedErrors);
+
     setFormData({
       ...formData,
       [name]: value,
@@ -25,13 +33,18 @@ function CreateCryptogramPage() {
   };
 
   const handleSubmit = () => {
+    setErrors({});
     request
       .post("api/cryptograms", formData)
       .then((response) => {
         console.log("Form submitted successfully", response);
       })
       .catch((error) => {
-        console.error("Error submitting form", error);
+        if (error.response) {
+          setErrors(error.response.data.errors);
+          setErrorMessage(error.response.data.message);
+          console.log(error.response.data.errors);
+        }
       });
   };
   return (
@@ -41,6 +54,7 @@ function CreateCryptogramPage() {
         label={"Name"}
         placeholder="Name"
         onChange={(name, value) => handleChange(name, value)}
+        errorMessage={errors.name ? errors.name[0] : null}
       />
       <Thumbnail
         name={"thumbnail_base64"}
@@ -55,9 +69,13 @@ function CreateCryptogramPage() {
       <Categories
         onChangeMainCategory={(name, value) => handleChange(name, value)}
         onChangeSubCategory={(name, value) => handleChange(name, value)}
+        errorMessage={errors.category_id ? errors.category_id[0] : null}
       />
       <Dates onChange={(name, value) => handleChange(name, value)} />
-      <Languages onChange={(name, value) => handleChange(name, value)} />
+      <Languages
+        onChange={(name, value) => handleChange(name, value)}
+        errorMessage={errors.language_id ? errors.language_id[0] : null}
+      />
       <Locations
         onChangeContinent={(name, value) => handleChange(name, value)}
         onChangeLocationName={(name, value) => handleChange(name, value)}

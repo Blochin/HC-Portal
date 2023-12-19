@@ -9,13 +9,14 @@ const CustomTextInput = ({
   placeholder,
   onChange,
   defaultValue,
+  errorMessage,
 }) => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     onChange(name, value);
   };
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 mb-6">
       <div>
         <div className="mb-2 block">
           <Label value={label} />
@@ -26,7 +27,12 @@ const CustomTextInput = ({
           placeholder={placeholder}
           onChange={(event) => handleChange(event)}
           defaultValue={defaultValue}
-          className={"mb-6"}
+          color={errorMessage ? "failure" : "gray"}
+          helperText={
+            errorMessage ? (
+              <span className="font-medium">{errorMessage}</span>
+            ) : null
+          }
         />
       </div>
     </div>
@@ -40,6 +46,7 @@ CustomTextInput.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   defaultValue: PropTypes.string,
+  errorMessage: PropTypes.string,
 };
 
 export default CustomTextInput;

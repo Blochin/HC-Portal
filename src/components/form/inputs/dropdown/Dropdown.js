@@ -5,6 +5,7 @@ import { HiArrowDown, HiSearch } from "react-icons/hi";
 import { resolveLayoutClass } from "./trigger/Layout";
 import BadgeTrigger from "./trigger/BadgeTrigger";
 import TextFieldTrigger from "./trigger/TextFieldTrigger";
+import { COLOR_GRAY, resolveColorClasses } from "../Colors";
 
 const CustomDropdown = ({
   label,
@@ -16,6 +17,7 @@ const CustomDropdown = ({
   withMeta,
   data,
   onSelect,
+  color = COLOR_GRAY,
 }) => {
   const [selectedValues, setSelectedValues] = useState(
     value === "" ? [] : [value],
@@ -26,6 +28,7 @@ const CustomDropdown = ({
   const [checkboxNewValue, setCheckboxNewValue] = useState(false);
 
   const layoutClass = resolveLayoutClass(layout);
+  const colorClass = resolveColorClasses(color);
 
   const handleSelect = (selectedItem) => {
     if (
@@ -58,6 +61,7 @@ const CustomDropdown = ({
       (value) => value !== valueToRemove,
     );
     setSelectedValues(newSelectedValues);
+    onSelect(name, isMulti ? newSelectedValues : newSelectedValues[0]);
   };
 
   const handleCheckbox = (event, item) => {
@@ -94,7 +98,7 @@ const CustomDropdown = ({
           onToggle={() => setDropdownOpen(!dropdownOpen)}
           renderTrigger={() => (
             <div
-              className={`flex items-center justify-between bg-gray-50 border border-gray-300 text-gray-900 text-sm ${layoutClass} focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mb-6`}
+              className={`flex items-center justify-between ${colorClass} text-sm ${layoutClass} focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
             >
               {isMulti ? (
                 <BadgeTrigger
@@ -178,6 +182,7 @@ CustomDropdown.propTypes = {
   withMeta: PropTypes.bool.isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSelect: PropTypes.func.isRequired,
+  color: PropTypes.string,
 };
 
 export default CustomDropdown;

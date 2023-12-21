@@ -21,7 +21,7 @@ const CustomDropdown = ({
   className,
 }) => {
   const [selectedValues, setSelectedValues] = useState(
-    value === "" ? [] : [value],
+    value === "" || value.value === "" ? [] : [value],
   );
   const [copyData, setCopyData] = useState(data);
   const [searchQuery, setSearchQuery] = useState("");
@@ -54,6 +54,7 @@ const CustomDropdown = ({
       setSearchQuery("");
     }
     setCopyData(data);
+    onSelect(name, isMulti ? selectedValues : selectedValues[0]);
   }, [dropdownOpen, data]);
 
   const handleRemove = (valueToRemove, event) => {
@@ -175,7 +176,7 @@ const CustomDropdown = ({
 CustomDropdown.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.object,
   layout: PropTypes.string,
   size: PropTypes.string,
   canAddNew: PropTypes.bool.isRequired,

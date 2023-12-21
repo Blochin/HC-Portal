@@ -31,7 +31,10 @@ function AppRoutes() {
       <Route path={"/dashboard"} element={<Dashboard />}>
         <Route index element={<WelcomePage />} />
         <Route path={"cryptograms"} element={<CryptogramListingPage />} />
-        <Route path={"cryptograms/add"} element={<CreateCryptogramPage />} />
+        <Route
+          path={"cryptograms/add/:id?"}
+          element={<CreateCryptogramPage />}
+        />
         <Route path={"cryptograms/:id"} element={<CryptogramDetailPage />} />
         <Route path={"*"} element={<NoPage />} />
       </Route>

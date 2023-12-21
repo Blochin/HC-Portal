@@ -18,7 +18,7 @@ const Languages = ({ onChange, errorMessage }) => {
         layout={LAYOUT_FULL}
         label={"Language"}
         canAddNew={false}
-        onSelect={(name, value) => onChange(name, value.id)}
+        onSelect={(name, value) => onChange(name, value ? value.id : null)}
         color={errorMessage ? COLOR_FAILURE : COLOR_GRAY}
       />
       {errorMessage ? (

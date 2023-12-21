@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Label, TextInput } from "flowbite-react";
 
@@ -15,6 +15,11 @@ const CustomTextInput = ({
     const { name, value } = event.target;
     onChange(name, value);
   };
+
+  useEffect(() => {
+    onChange(name, defaultValue ? defaultValue : null);
+  }, [name, defaultValue]);
+
   return (
     <div className="flex flex-col gap-4 mb-6">
       <div>

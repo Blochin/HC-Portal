@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import Header from "../components/detail/Header";
 import General from "../components/detail/General";
@@ -10,6 +10,7 @@ import Description from "../components/detail/Description";
 
 function CryptogramDetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [cryptogramData, setCryptogramData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
@@ -23,6 +24,10 @@ function CryptogramDetailPage() {
     });
   }, [id]);
 
+  const handleClone = () => {
+    navigate(`/dashboard/cryptograms/add/${id}`);
+  };
+
   return (
     <div>
       {isLoading ? (
@@ -34,6 +39,7 @@ function CryptogramDetailPage() {
             title={cryptogramData.name}
             image={cryptogramData.thumb}
             tags={cryptogramData.tags}
+            onClone={handleClone}
           />
           <Tabs
             color={"light"}

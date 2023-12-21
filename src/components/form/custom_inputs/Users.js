@@ -18,7 +18,7 @@ const Users = ({ onChangeSender, onChangeRecipient }) => {
           label={"Sender"}
           canAddNew={true}
           onSelect={(name, value) => {
-            onChangeSender(name, value.value);
+            onChangeSender(name, value ? value.value : null);
           }}
         />
       </div>
@@ -32,7 +32,7 @@ const Users = ({ onChangeSender, onChangeRecipient }) => {
           label={"Recipient"}
           canAddNew={true}
           onSelect={(name, value) => {
-            onChangeRecipient(name, value.value);
+            onChangeRecipient(name, value ? value.value : null);
           }}
         />
       </div>

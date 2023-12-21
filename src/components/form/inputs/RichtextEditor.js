@@ -4,7 +4,7 @@ import { Label } from "flowbite-react";
 import React from "react";
 import PropTypes from "prop-types";
 
-const RichtextEditor = ({ onChange, name, label }) => {
+const RichtextEditor = ({ onChange, defaultValue, name, label }) => {
   const editorConfiguration = {
     toolbar: {
       items: [
@@ -37,7 +37,7 @@ const RichtextEditor = ({ onChange, name, label }) => {
         <CKEditor
           editor={ClassicEditor}
           config={editorConfiguration}
-          data=""
+          data={defaultValue}
           onChange={(event, editor) => {
             const data = editor.getData();
             handleChange(data);
@@ -50,6 +50,7 @@ const RichtextEditor = ({ onChange, name, label }) => {
 
 RichtextEditor.propTypes = {
   name: PropTypes.string.isRequired,
+  defaultValue: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   label: PropTypes.string,
 };

@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { COLOR_FAILURE, COLOR_GRAY } from "../inputs/Colors";
 
 const Categories = ({
+  defaultValueMainCategory,
   onChangeMainCategory,
   onChangeSubCategory,
   errorMessage,
@@ -19,6 +20,8 @@ const Categories = ({
       setFilteredSubcategories([]);
       return;
     }
+    onChangeMainCategory(name, category.id);
+
     let selectedSubCategories = subCategories.filter((value) => {
       return value.main_category === category.value;
     });
@@ -29,7 +32,6 @@ const Categories = ({
     }
 
     setFilteredSubcategories(selectedSubCategories[0].value);
-    onChangeMainCategory(name, category.id);
   };
 
   return (
@@ -39,7 +41,7 @@ const Categories = ({
           <CustomDropdown
             name={"category_id"}
             label={"Main Category"}
-            value=""
+            value={defaultValueMainCategory}
             layout={LAYOUT_LEFT}
             canAddNew={false}
             isMulti={false}
@@ -76,6 +78,7 @@ const Categories = ({
 };
 
 Categories.propTypes = {
+  defaultValueMainCategory: PropTypes.string,
   onChangeMainCategory: PropTypes.func.isRequired,
   onChangeSubCategory: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,

@@ -23,7 +23,9 @@ const Header = ({ className, image, title, tags, onClone, onExport }) => {
             </div>
             <div>
               <div className="flex flex-row gap-2">
-                <Button size={"xs"}>Clone</Button>
+                <Button size={"xs"} onClick={onClone}>
+                  Clone
+                </Button>
                 <Button size={"xs"}>Export PDF</Button>
               </div>
             </div>

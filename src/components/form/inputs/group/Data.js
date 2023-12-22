@@ -7,20 +7,51 @@ import CustomTextArea from "components/form/inputs/TextArea";
 import ImageUploadDropzone from "components/form/inputs/ImageUploadDropzone";
 import { DATA_TYPE_IMAGE, DATA_TYPE_LINK, DATA_TYPE_TEXT } from "./Types";
 
-const Data = ({ selectedTab, removeComponent, onChange }) => {
-  const [activeTab, setActiveTab] = useState(selectedTab ? selectedTab : 0);
+const Data = ({ selectedTab, defaultValue, removeComponent, onChange }) => {
+  const resolveSelectedTab = (defaultData) => {
+    if (!defaultData) {
+      return 0;
+    }
+    if (defaultData[0].type === "text") {
+      return 0;
+    } else if (defaultData[0].type === "link") {
+      return 1;
+    } else if (defaultData[0].type === "image") {
+      return 2;
+    }
+    return 0;
+  };
+
+  const [activeTab, setActiveTab] = useState(
+    selectedTab ? selectedTab : resolveSelectedTab(defaultValue),
+  );
   const [textAreaData, setTextAreaData] = useState({
-    title: "",
+    title:
+      defaultValue && defaultValue[0].type === "text"
+        ? defaultValue[0].title
+        : "",
     type: DATA_TYPE_TEXT,
-    text: "",
+    text:
+      defaultValue && defaultValue[0].type === "text"
+        ? defaultValue[0].text
+        : "",
   });
   const [linkData, setLinkData] = useState({
-    title: "",
+    title:
+      defaultValue && defaultValue[0].type === "link"
+        ? defaultValue[0].title
+        : "",
     type: DATA_TYPE_LINK,
-    link: "",
+    link:
+      defaultValue && defaultValue[0].type === "link"
+        ? defaultValue[0].link
+        : "",
   });
   const [imageData, setImageData] = useState({
-    title: "",
+    title:
+      defaultValue && defaultValue[0].type === "image"
+        ? defaultValue[0].title
+        : "",
     type: DATA_TYPE_IMAGE,
     image: null,
   });
@@ -57,6 +88,7 @@ const Data = ({ selectedTab, removeComponent, onChange }) => {
       >
         <Tabs.Item active={activeTab === 0} title="Text" icon={HiDocumentText}>
           <CustomTextInput
+            defaultValue={textAreaData.title}
             name={"title"}
             label={"Title"}
             placeholder={"Title"}
@@ -64,6 +96,7 @@ const Data = ({ selectedTab, removeComponent, onChange }) => {
           />
           <CustomTextArea
             name={DATA_TYPE_TEXT}
+            defaultValue={textAreaData.text}
             label={"Text"}
             placeholder={"Your text..."}
             onChange={(name, value) => handleTextAreaChange(name, value)}
@@ -71,12 +104,14 @@ const Data = ({ selectedTab, removeComponent, onChange }) => {
         </Tabs.Item>
         <Tabs.Item active={activeTab === 1} title="Link" icon={HiLink}>
           <CustomTextInput
+            defaultValue={linkData.title}
             onChange={(name, value) => handleLinkChange(name, value)}
             name={"title"}
             label={"Title"}
             placeholder={"Title"}
           />
           <CustomTextInput
+            defaultValue={linkData.link}
             onChange={(name, value) => handleLinkChange(name, value)}
             name={DATA_TYPE_LINK}
             label={"Link"}
@@ -85,6 +120,7 @@ const Data = ({ selectedTab, removeComponent, onChange }) => {
         </Tabs.Item>
         <Tabs.Item active={activeTab === 2} title="Image" icon={HiCloud}>
           <CustomTextInput
+            defaultValue={imageData.title}
             onChange={(name, value) => handleImageChange(name, value)}
             name={"title"}
             label={"Title"}
@@ -102,6 +138,7 @@ const Data = ({ selectedTab, removeComponent, onChange }) => {
 
 Data.propTypes = {
   removeComponent: PropTypes.node,
+  defaultValue: PropTypes.object,
   selectedTab: PropTypes.number,
   onChange: PropTypes.func.isRequired,
 };

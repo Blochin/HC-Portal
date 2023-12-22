@@ -21,6 +21,7 @@ const Thumbnail = ({ name, defaultValue, urlName, onSelect }) => {
     <div>
       {!url && (
         <ImageCrop
+          //defaultValue={defaultValue}
           name={name}
           onSelect={(name, value) => handleImage(name, value)}
         />

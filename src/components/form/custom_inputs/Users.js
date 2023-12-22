@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { DataContext } from "../../../context/DataContext";
 import PropTypes from "prop-types";
 
-const Users = ({ onChangeSender, onChangeRecipient }) => {
+const Users = ({ defaultSenderValue, defaultRecipientValue, onChange }) => {
   const { persons } = useContext(DataContext);
   return (
     <div className={"flex justify-center gap-6 mb-6"}>
@@ -13,12 +13,16 @@ const Users = ({ onChangeSender, onChangeRecipient }) => {
           name={"sender"}
           isMulti={false}
           withMeta={false}
+          value={{
+            id: defaultSenderValue?.id,
+            value: defaultSenderValue?.name,
+          }}
           layout={LAYOUT_FULL}
           data={persons}
           label={"Sender"}
           canAddNew={true}
           onSelect={(name, value) => {
-            onChangeSender(name, value ? value.value : null);
+            onChange(name, value ? value.value : null);
           }}
         />
       </div>
@@ -28,11 +32,15 @@ const Users = ({ onChangeSender, onChangeRecipient }) => {
           isMulti={false}
           withMeta={false}
           layout={LAYOUT_FULL}
+          value={{
+            id: defaultRecipientValue?.id,
+            value: defaultRecipientValue?.name,
+          }}
           data={persons}
           label={"Recipient"}
           canAddNew={true}
           onSelect={(name, value) => {
-            onChangeRecipient(name, value ? value.value : null);
+            onChange(name, value ? value.value : null);
           }}
         />
       </div>
@@ -41,8 +49,9 @@ const Users = ({ onChangeSender, onChangeRecipient }) => {
 };
 
 Users.propTypes = {
-  onChangeSender: PropTypes.func.isRequired,
-  onChangeRecipient: PropTypes.func.isRequired,
+  defaultSenderValue: PropTypes.object,
+  defaultRecipientValue: PropTypes.object,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default Users;

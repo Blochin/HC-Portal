@@ -4,7 +4,7 @@ import { DataContext } from "../../../context/DataContext";
 import PropTypes from "prop-types";
 import { COLOR_FAILURE, COLOR_GRAY } from "../inputs/Colors";
 
-const Solutions = ({ onChange, errorMessage }) => {
+const Solutions = ({ defaultValue, onChange, errorMessage }) => {
   const { solutions } = useContext(DataContext);
 
   return (
@@ -14,6 +14,9 @@ const Solutions = ({ onChange, errorMessage }) => {
         isMulti={false}
         withMeta={false}
         data={solutions}
+        value={
+          defaultValue ? { id: defaultValue.id, value: defaultValue.name } : ""
+        }
         label={"Solutions"}
         canAddNew={false}
         onSelect={(name, value) => onChange(name, value ? value.id : null)}
@@ -28,6 +31,7 @@ const Solutions = ({ onChange, errorMessage }) => {
   );
 };
 Solutions.propTypes = {
+  defaultValue: PropTypes.object,
   onChange: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
 };

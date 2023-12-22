@@ -1,7 +1,7 @@
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Label } from "flowbite-react";
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 
 const RichtextEditor = ({ onChange, defaultValue, name, label }) => {
@@ -25,6 +25,16 @@ const RichtextEditor = ({ onChange, defaultValue, name, label }) => {
       ],
     },
   };
+
+  useEffect(() => {
+    if (defaultValue === undefined) {
+      onChange(name, null);
+      return;
+    }
+
+    onChange(name, defaultValue);
+  }, [defaultValue]);
+
   const handleChange = (value) => {
     onChange(name, value);
   };

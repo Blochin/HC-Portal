@@ -1,14 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import PropTypes from "prop-types";
 import ImageUploadDropzone from "./ImageUploadDropzone";
 import CustomButton from "./Button";
 
-const ImageCropper = ({ name, onSelect }) => {
-  const [image, setImage] = useState("");
-  const [croppedImage, setCroppedImage] = useState("");
-  const [acceptCroppedImage, setAcceptCroppedImage] = useState(false);
+// eslint-disable-next-line no-unused-vars
+const ImageCropper = ({ defaultValue = null, name, onSelect }) => {
+  const [image, setImage] = useState(defaultValue);
+  const [croppedImage, setCroppedImage] = useState(defaultValue);
+  const [acceptCroppedImage, setAcceptCroppedImage] = useState(!!defaultValue);
   const cropperRef = useRef(null);
 
   const handleFileSelect = (file) => {
@@ -80,6 +81,7 @@ const ImageCropper = ({ name, onSelect }) => {
 };
 
 ImageCropper.propTypes = {
+  defaultValue: PropTypes.string,
   name: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
 };

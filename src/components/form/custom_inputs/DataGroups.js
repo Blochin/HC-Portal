@@ -5,8 +5,10 @@ import { Button } from "flowbite-react";
 import { v4 as uuid } from "uuid";
 import PropTypes from "prop-types";
 
-const DataGroups = ({ onChange }) => {
-  const [dataGroupComponents, setDataGroupComponents] = useState([]);
+const DataGroups = ({ defaultValue, onChange }) => {
+  const [dataGroupComponents, setDataGroupComponents] = useState(
+    defaultValue ? defaultValue : [],
+  );
 
   const handleGroupData = (id, group, description) => {
     setDataGroupComponents((prevComponents) =>
@@ -44,9 +46,11 @@ const DataGroups = ({ onChange }) => {
 
   return (
     <div>
-      {dataGroupComponents.map(({ id, selectedTab }) => (
+      {dataGroupComponents.map(({ id, selectedTab, description, data }) => (
         <div key={id} className="flex flex-col relative">
           <DataGroup
+            description={description ? description : ""}
+            defaultValue={data}
             selectedTab={selectedTab}
             onChange={(group, description) =>
               handleGroupData(id, group, description)
@@ -74,6 +78,7 @@ const DataGroups = ({ onChange }) => {
 };
 
 DataGroups.propTypes = {
+  defaultValue: PropTypes.object,
   onChange: PropTypes.func,
 };
 export default DataGroups;

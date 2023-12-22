@@ -3,7 +3,7 @@ import { DataContext } from "context/DataContext";
 import CustomDropdown from "../inputs/dropdown/Dropdown";
 import PropTypes from "prop-types";
 
-const Tags = ({ onChange }) => {
+const Tags = ({ defaultValue, onChange }) => {
   const { tags } = useContext(DataContext);
 
   const handleChange = (name, values) => {
@@ -17,7 +17,7 @@ const Tags = ({ onChange }) => {
     <CustomDropdown
       name={"tags"}
       label={"Tags"}
-      value={""}
+      value={defaultValue}
       layout={"full"}
       canAddNew={true}
       isMulti={true}
@@ -30,6 +30,7 @@ const Tags = ({ onChange }) => {
 };
 
 Tags.propTypes = {
+  defaultValue: PropTypes.array,
   onChange: PropTypes.func.isRequired,
 };
 

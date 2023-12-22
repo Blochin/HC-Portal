@@ -5,18 +5,20 @@ import PropTypes from "prop-types";
 import { COLOR_FAILURE, COLOR_GRAY } from "../inputs/Colors";
 
 const Locations = ({
-  onChangeContinent,
-  onChangeLocationName,
+  defaultContinentValue,
+  defaultLocationValue,
+  onChange,
   errorMessage,
 }) => {
   const { continents, locations } = useContext(DataContext);
   const [filteredLocations, setFilteredLocations] = useState([]);
   const handleLocations = (name, continent) => {
     if (!continent) {
-      onChangeContinent(name, null);
+      onChange(name, null);
       setFilteredLocations([]);
       return;
     }
+    onChange(name, continent.value);
     const filteredLocations = locations
       .filter((location) => {
         return (
@@ -27,7 +29,6 @@ const Locations = ({
         return { value: location.location };
       });
     setFilteredLocations(filteredLocations);
-    onChangeContinent(name, continent.value);
   };
 
   return (
@@ -37,7 +38,7 @@ const Locations = ({
           <CustomDropdown
             name={"continent"}
             label={"Continent"}
-            value=""
+            value={defaultContinentValue}
             layout={"left"}
             canAddNew={false}
             isMulti={false}
@@ -51,14 +52,14 @@ const Locations = ({
           <CustomDropdown
             name={"location_name"}
             label={"Location"}
-            value={""}
+            value={defaultLocationValue}
             layout={"right"}
             canAddNew={true}
             isMulti={false}
             withMeta={false}
             data={filteredLocations}
             onSelect={(name, value) =>
-              onChangeLocationName(name, value ? value.value : null)
+              onChange(name, value ? value.value : null)
             }
             color={errorMessage ? COLOR_FAILURE : COLOR_GRAY}
           />
@@ -74,8 +75,9 @@ const Locations = ({
 };
 
 Locations.propTypes = {
-  onChangeContinent: PropTypes.func.isRequired,
-  onChangeLocationName: PropTypes.func.isRequired,
+  defaultContinentValue: PropTypes.object,
+  defaultLocationValue: PropTypes.object,
+  onChange: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
 };
 

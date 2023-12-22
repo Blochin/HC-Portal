@@ -10,7 +10,7 @@ import { COLOR_GRAY, resolveColorClasses } from "../Colors";
 const CustomDropdown = ({
   label,
   name,
-  value = "",
+  value = undefined,
   layout,
   canAddNew,
   isMulti,
@@ -20,8 +20,17 @@ const CustomDropdown = ({
   color = COLOR_GRAY,
   className,
 }) => {
+  const resolveDefaultSelectedValues = (value, isMulti) => {
+    if (isMulti) {
+      return Array.isArray(value)
+        ? value.filter((item) => item?.value !== undefined)
+        : [];
+    } else {
+      return value?.value !== undefined ? [value] : [];
+    }
+  };
   const [selectedValues, setSelectedValues] = useState(
-    value === "" || value.value === "" ? [] : [value],
+    resolveDefaultSelectedValues(value, isMulti),
   );
   const [copyData, setCopyData] = useState(data);
   const [searchQuery, setSearchQuery] = useState("");

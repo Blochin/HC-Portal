@@ -5,13 +5,14 @@ import { DataContext } from "../../../context/DataContext";
 import PropTypes from "prop-types";
 import { COLOR_FAILURE, COLOR_GRAY } from "../inputs/Colors";
 
-const Languages = ({ onChange, errorMessage }) => {
+const Languages = ({ defaultValue, onChange, errorMessage }) => {
   const { languages } = useContext(DataContext);
 
   return (
     <div className={"mb-6"}>
       <CustomDropdown
         name={"language_id"}
+        value={defaultValue}
         isMulti={false}
         withMeta={false}
         data={languages}
@@ -32,6 +33,7 @@ const Languages = ({ onChange, errorMessage }) => {
 
 Languages.propTypes = {
   onChange: PropTypes.func.isRequired,
+  defaultValue: PropTypes.object,
   errorMessage: PropTypes.string,
 };
 export default Languages;

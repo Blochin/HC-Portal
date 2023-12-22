@@ -1,9 +1,9 @@
 import CustomTextInput from "../inputs/TextInput";
 import { Label, Radio } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-const Dates = ({ onChange }) => {
+const Dates = ({ defaultAroundDateValue, defaultDateValue, onChange }) => {
   const [dateType, setDateType] = useState("date");
 
   const handleDate = (name, value) => {
@@ -19,6 +19,11 @@ const Dates = ({ onChange }) => {
       onChange("date", null);
     }
   };
+
+  useEffect(() => {
+    setDateType(defaultAroundDateValue ? "date_around" : "date");
+  }, [defaultAroundDateValue]);
+
   return (
     <div>
       <fieldset className="flex flex-row gap-4 mb-6">
@@ -28,7 +33,7 @@ const Dates = ({ onChange }) => {
             onChange={(event) => handleChange(event)}
             name="dates"
             value="date"
-            defaultChecked
+            checked={dateType === "date"}
           />
           <Label htmlFor="united-state">Exact Date</Label>
         </div>
@@ -37,6 +42,7 @@ const Dates = ({ onChange }) => {
             onChange={(event) => handleChange(event)}
             name="dates"
             value="date_around"
+            checked={dateType === "date_around"}
           />
           <Label>Around Date</Label>
         </div>
@@ -45,6 +51,7 @@ const Dates = ({ onChange }) => {
             <div className={"w-full"}>
               <CustomTextInput
                 name={"date_around"}
+                defaultValue={defaultAroundDateValue}
                 label={"Date Around"}
                 onChange={(name, value) => handleDate(name, value)}
               />
@@ -53,6 +60,7 @@ const Dates = ({ onChange }) => {
           {dateType === "date" && (
             <div className={"w-full"}>
               <CustomTextInput
+                defaultValue={defaultDateValue}
                 type={"date"}
                 name={"date"}
                 label={"Date"}
@@ -67,6 +75,8 @@ const Dates = ({ onChange }) => {
 };
 
 Dates.propTypes = {
+  defaultAroundDateValue: PropTypes.string,
+  defaultDateValue: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 

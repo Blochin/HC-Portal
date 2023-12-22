@@ -5,7 +5,13 @@ import PropTypes from "prop-types";
 import { v4 as uuid } from "uuid";
 import CustomTextInput from "components/form/inputs/TextInput";
 
-const DataGroup = ({ selectedTab, onChange, removeComponent }) => {
+const DataGroup = ({
+  description,
+  defaultValue,
+  selectedTab,
+  onChange,
+  removeComponent,
+}) => {
   const [dataComponents, setDataComponents] = useState([{ id: uuid() }]);
   const [groupDescription, setGroupDescription] = useState("");
 
@@ -33,6 +39,7 @@ const DataGroup = ({ selectedTab, onChange, removeComponent }) => {
   return (
     <div className="bg-gray-50 rounded border-2 border-dashed border-gray-300 p-5 mb-6">
       <CustomTextInput
+        defaultValue={description ? description : ""}
         name="description"
         label={"Group Description"}
         placeholder="Group Description"
@@ -47,6 +54,7 @@ const DataGroup = ({ selectedTab, onChange, removeComponent }) => {
             <div className={"flex w-full justify-center mb-6"}>
               <Data
                 selectedTab={selectedTab}
+                defaultValue={defaultValue}
                 key={id}
                 onChange={(newData) => handleDataChange(id, newData)}
                 removeComponent={
@@ -68,6 +76,8 @@ const DataGroup = ({ selectedTab, onChange, removeComponent }) => {
 };
 
 DataGroup.propTypes = {
+  description: PropTypes.string,
+  defaultValue: PropTypes.object,
   onChange: PropTypes.func,
   selectedTab: PropTypes.number,
   removeComponent: PropTypes.node,

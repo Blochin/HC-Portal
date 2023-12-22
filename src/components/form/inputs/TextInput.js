@@ -17,7 +17,11 @@ const CustomTextInput = ({
   };
 
   useEffect(() => {
-    onChange(name, defaultValue ? defaultValue : null);
+    if (defaultValue === undefined) {
+      onChange(name, null);
+      return;
+    }
+    onChange(name, defaultValue);
   }, [name, defaultValue]);
 
   return (

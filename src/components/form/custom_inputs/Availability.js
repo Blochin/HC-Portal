@@ -1,5 +1,5 @@
 import { Label, Radio } from "flowbite-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CustomTextInput from "../inputs/TextInput";
 import { DataContext } from "../../../context/DataContext";
 import CustomDropdown from "../inputs/dropdown/Dropdown";
@@ -8,10 +8,9 @@ import PropTypes from "prop-types";
 import { COLOR_FAILURE, COLOR_GRAY } from "../inputs/Colors";
 
 const Availability = ({
-  onChangeAvailability,
-  onChangeArchive,
-  onChangeFond,
-  onChangeFolder,
+  defaultValueAvailability,
+  defaultValueArchive,
+  onChange,
   availabilityErrorMessage,
   archiveErrorMessage,
   fondErrorMessage,
@@ -24,10 +23,10 @@ const Availability = ({
   const handleChange = (event) => {
     const eventValue = event.target.value;
     setAvailability(eventValue);
-    onChangeAvailability("availability", null);
-    onChangeArchive("archive", null);
-    onChangeFond("fond", null);
-    onChangeFolder("folder", null);
+    onChange("availability", null);
+    onChange("archive", null);
+    onChange("fond", null);
+    onChange("folder", null);
   };
 
   const handleFilter = (object, keyObject, searchObject, searchKey) => {
@@ -44,19 +43,19 @@ const Availability = ({
 
   const handleArchive = (name, archive) => {
     if (!archive) {
-      onChangeArchive(name, null);
       setSelectedFonds([]);
       setSelectedFolders([]);
+      onChange(name, null);
       return;
     }
+    onChange(name, archive.value);
     const selectedFonds = handleFilter(fonds, "archive", archive, "value");
     setSelectedFonds(selectedFonds);
-    onChangeArchive(name, archive.value);
   };
 
   const handleFond = (name, fond) => {
     if (!fond) {
-      onChangeArchive(name, null);
+      onChange(name, null);
       setSelectedFolders([]);
       return;
     }
@@ -70,8 +69,12 @@ const Availability = ({
     const selectedFolder = handleFilter(selectedFond, "name", fond, "value");
 
     setSelectedFolders(selectedFolder);
-    onChangeArchive(name, fond.value);
+    onChange(name, fond.value);
   };
+
+  useEffect(() => {
+    setAvailability(defaultValueAvailability ? "other" : "archive");
+  }, [defaultValueAvailability]);
 
   return (
     <div>
@@ -83,6 +86,7 @@ const Availability = ({
             name="availability"
             value="archive"
             defaultChecked
+            checked={availability === "archive"}
           />
           <Label htmlFor="united-state">Archive</Label>
         </div>
@@ -91,6 +95,7 @@ const Availability = ({
             onChange={(event) => handleChange(event)}
             name="availability"
             value="other"
+            checked={availability === "other"}
           />
           <Label>Other</Label>
         </div>
@@ -99,7 +104,8 @@ const Availability = ({
             <div>
               <CustomTextInput
                 name={"availability"}
-                onChange={(name, value) => onChangeAvailability(name, value)}
+                onChange={(name, value) => onChange(name, value)}
+                defaultValue={defaultValueAvailability}
                 label={"Other"}
                 placeholder={"Other"}
                 errorMessage={availabilityErrorMessage}
@@ -115,7 +121,10 @@ const Availability = ({
               name={"archive"}
               isMulti={false}
               layout={LAYOUT_FULL}
-              value={""}
+              value={{
+                id: defaultValueArchive?.fond?.archive?.id,
+                value: defaultValueArchive?.fond?.archive?.name,
+              }}
               withMeta={false}
               data={archives}
               label={"Archive"}
@@ -134,7 +143,10 @@ const Availability = ({
               name={"fond"}
               isMulti={false}
               layout={LAYOUT_FULL}
-              value={""}
+              value={{
+                id: defaultValueArchive?.fond?.id,
+                value: defaultValueArchive?.fond?.name,
+              }}
               withMeta={false}
               data={selectedFonds}
               label={"Fond"}
@@ -153,13 +165,16 @@ const Availability = ({
               name={"folder"}
               isMulti={false}
               layout={LAYOUT_FULL}
-              value={""}
+              value={{
+                id: defaultValueArchive?.id,
+                value: defaultValueArchive?.name,
+              }}
               withMeta={false}
               data={selectedFolders}
               label={"Folder"}
               canAddNew={true}
               onSelect={(name, value) =>
-                onChangeFolder(name, value ? value.value : null)
+                onChange(name, value ? value.value : null)
               }
               color={folderErrorMessage ? COLOR_FAILURE : COLOR_GRAY}
             />
@@ -176,10 +191,9 @@ const Availability = ({
 };
 
 Availability.propTypes = {
-  onChangeAvailability: PropTypes.func.isRequired,
-  onChangeArchive: PropTypes.func.isRequired,
-  onChangeFond: PropTypes.func.isRequired,
-  onChangeFolder: PropTypes.func.isRequired,
+  defaultValueAvailability: PropTypes.object,
+  defaultValueArchive: PropTypes.object,
+  onChange: PropTypes.func.isRequired,
   availabilityErrorMessage: PropTypes.string,
   archiveErrorMessage: PropTypes.string,
   fondErrorMessage: PropTypes.string,

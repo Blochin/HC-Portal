@@ -5,22 +5,17 @@ import { LAYOUT_LEFT, LAYOUT_RIGHT } from "../inputs/dropdown/trigger/Layout";
 import PropTypes from "prop-types";
 import { COLOR_FAILURE, COLOR_GRAY } from "../inputs/Colors";
 
-const Categories = ({
-  defaultValueMainCategory,
-  onChangeMainCategory,
-  onChangeSubCategory,
-  errorMessage,
-}) => {
+const Categories = ({ defaultValueMainCategory, onChange, errorMessage }) => {
   const { categories, subCategories } = useContext(DataContext);
   const [filteredSubCategories, setFilteredSubcategories] = useState([]);
 
   const handleCategories = (name, category) => {
     if (!category) {
-      onChangeMainCategory(name, null);
+      onChange(name, null);
       setFilteredSubcategories([]);
       return;
     }
-    onChangeMainCategory(name, category.id);
+    onChange(name, category.id);
 
     let selectedSubCategories = subCategories.filter((value) => {
       return value.main_category === category.value;
@@ -61,9 +56,7 @@ const Categories = ({
             isMulti={false}
             withMeta={false}
             data={filteredSubCategories}
-            onSelect={(name, value) =>
-              onChangeSubCategory(name, value ? value.id : null)
-            }
+            onSelect={(name, value) => onChange(name, value ? value.id : null)}
             color={errorMessage ? "failure" : "gray"}
           />
         </div>
@@ -79,8 +72,7 @@ const Categories = ({
 
 Categories.propTypes = {
   defaultValueMainCategory: PropTypes.string,
-  onChangeMainCategory: PropTypes.func.isRequired,
-  onChangeSubCategory: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
 };
 

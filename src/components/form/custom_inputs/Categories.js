@@ -35,6 +35,7 @@ const Categories = ({ defaultValueMainCategory, onChange, errorMessage }) => {
         <div className={"w-1/3"}>
           <CustomDropdown
             name={"category_id"}
+            isRequired={true}
             label={"Main Category"}
             value={defaultValueMainCategory}
             layout={LAYOUT_LEFT}

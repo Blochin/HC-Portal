@@ -12,6 +12,7 @@ const Languages = ({ defaultValue, onChange, errorMessage }) => {
     <div className={"mb-6"}>
       <CustomDropdown
         name={"language_id"}
+        isRequired={true}
         value={defaultValue}
         isMulti={false}
         withMeta={false}

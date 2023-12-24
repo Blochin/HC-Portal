@@ -2,22 +2,26 @@ import CustomTextInput from "../inputs/TextInput";
 import { Label, Radio } from "flowbite-react";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { parseDate } from "../../../utils/utils";
 
-const Dates = ({ defaultAroundDateValue, defaultDateValue, onChange }) => {
+const CryptogramDates = ({
+  defaultAroundDateValue,
+  defaultDateValue,
+  onChange,
+}) => {
   const [dateType, setDateType] = useState("date");
 
   const handleDate = (name, value) => {
     onChange(name, value);
   };
 
+  console.log(defaultDateValue);
+
   const handleChange = (event) => {
     const eventValue = event.target.value;
     setDateType(eventValue);
-    if (eventValue === "date") {
-      onChange("date_around", null);
-    } else if (eventValue === "date_around") {
-      onChange("date", null);
-    }
+    onChange("date_around", null);
+    onChange("date", null);
   };
 
   useEffect(() => {
@@ -60,7 +64,7 @@ const Dates = ({ defaultAroundDateValue, defaultDateValue, onChange }) => {
           {dateType === "date" && (
             <div className={"w-full"}>
               <CustomTextInput
-                defaultValue={defaultDateValue}
+                defaultValue={parseDate(defaultDateValue)}
                 type={"date"}
                 name={"date"}
                 label={"Date"}
@@ -74,10 +78,10 @@ const Dates = ({ defaultAroundDateValue, defaultDateValue, onChange }) => {
   );
 };
 
-Dates.propTypes = {
+CryptogramDates.propTypes = {
   defaultAroundDateValue: PropTypes.string,
   defaultDateValue: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 
-export default Dates;
+export default CryptogramDates;

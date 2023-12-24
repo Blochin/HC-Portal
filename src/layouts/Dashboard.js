@@ -1,13 +1,5 @@
 import { Sidebar } from "flowbite-react";
-import {
-  HiArrowSmRight,
-  HiChartPie,
-  HiInbox,
-  HiShoppingBag,
-  HiTable,
-  HiUser,
-  HiViewBoards,
-} from "react-icons/hi";
+import { HiKey, HiLockClosed } from "react-icons/hi";
 import { Link, Outlet } from "react-router-dom";
 
 function Dashboard() {
@@ -16,31 +8,12 @@ function Dashboard() {
       <Sidebar aria-label="Default sidebar example">
         <Sidebar.Items>
           <Sidebar.ItemGroup>
-            <Sidebar.Item icon={HiChartPie}>
+            <Sidebar.Item icon={HiLockClosed}>
               <Link to={"/dashboard/cryptograms/add"}>Add Cryptogram</Link>
             </Sidebar.Item>
-            <Sidebar.Item
-              href="#"
-              icon={HiViewBoards}
-              label="Pro"
-              labelColor="dark"
-            >
-              Kanban
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiInbox} label="3">
-              Inbox
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiUser}>
-              Users
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiShoppingBag}>
-              Products
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiArrowSmRight}>
-              Sign In
-            </Sidebar.Item>
-            <Sidebar.Item href="#" icon={HiTable}>
-              Sign Up
+
+            <Sidebar.Item icon={HiKey}>
+              <Link to={"/dashboard/cipher-keys/add"}>Add Cipher Key</Link>
             </Sidebar.Item>
           </Sidebar.ItemGroup>
         </Sidebar.Items>

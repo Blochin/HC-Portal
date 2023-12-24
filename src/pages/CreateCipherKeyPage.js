@@ -2,15 +2,10 @@ import Form from "components/form/Form";
 import request from "utils/api";
 import Locations from "components/form/custom_inputs/Locations";
 import Tags from "components/form/custom_inputs/Tags";
-import Thumbnail from "components/form/custom_inputs/Thumbnail";
 import RichtextEditor from "components/form/inputs/RichtextEditor";
 import CustomTextInput from "components/form/inputs/TextInput";
-import DataGroups from "components/form/custom_inputs/DataGroups";
 import Categories from "../components/form/custom_inputs/Categories";
 import Availability from "../components/form/custom_inputs/Availability";
-import CryptogramUsers from "../components/form/custom_inputs/CryptogramUsers";
-import Solutions from "../components/form/custom_inputs/Solutions";
-import CryptogramDates from "../components/form/custom_inputs/CryptogramDates";
 import Languages from "../components/form/custom_inputs/Languages";
 import { useEffect, useState } from "react";
 import CryptogramDetailPage from "./CryptogramDetailPage";
@@ -19,11 +14,15 @@ import api from "utils/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Checkbox, Label } from "flowbite-react";
 import { toast } from "react-toastify";
+import CipherKeyDates from "../components/form/custom_inputs/CipherKeyDates";
+import CipherKeyUsers from "../components/form/custom_inputs/CipherKeyUsers";
+import CipherKeyImages from "../components/form/custom_inputs/CipherKeyImages";
+import KeyTypes from "../components/form/custom_inputs/KeyTypes";
 function CreateCryptogramPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [cryptogramData, setCryptogramData] = useState(null);
+  const [cipherKeyData, setCipherKeyData] = useState(null);
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
   const [notEraseData, setNotEraseData] = useState(false);
@@ -49,10 +48,10 @@ function CreateCryptogramPage() {
       return;
     }
     api
-      .get(`api/cryptograms/${id}`)
+      .get(`api/cipher-keys/${id}`)
       .then((responseData) => {
         console.log(responseData.data.data);
-        setCryptogramData(responseData.data.data);
+        setCipherKeyData(responseData.data.data);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -64,7 +63,7 @@ function CreateCryptogramPage() {
     setErrors({});
     console.log(notEraseData);
     request
-      .post("api/cryptograms", formData)
+      .post("api/cipher-keys", formData)
       .then((response) => {
         toast.success(response.data.message, {
           position: "bottom-center",
@@ -83,8 +82,8 @@ function CreateCryptogramPage() {
       })
       .catch((error) => {
         if (error.response) {
-          setErrors(error.response.data.errors);
-          console.log(error.response.data.errors);
+          setErrors(error.response.data.data);
+          console.log(error.response.data.data);
           toast.error(error.response.data.message, {
             position: "bottom-center",
             autoClose: 5000,
@@ -107,51 +106,47 @@ function CreateCryptogramPage() {
           <CustomTextInput
             name="name"
             isRequired={true}
-            defaultValue={cryptogramData?.name}
+            defaultValue={cipherKeyData?.name}
             label={"Name"}
             placeholder="Name"
             onChange={(name, value) => handleChange(name, value)}
             errorMessage={errors?.name?.[0]}
           />
-          <Thumbnail
-            name={"thumbnail_base64"}
-            defaultValue={cryptogramData?.thumb}
-            urlName={"thumbnail_link"}
-            onSelect={(name, value) => handleChange(name, value)}
-          />
           <RichtextEditor
-            defaultValue={cryptogramData?.description}
+            defaultValue={cipherKeyData?.description}
             name={"description"}
             label={"Description"}
             onChange={(name, value) => handleChange(name, value)}
           />
           <Categories
             defaultValueMainCategory={{
-              id: cryptogramData?.category?.id,
-              value: cryptogramData?.category?.name,
+              id: cipherKeyData?.category?.id,
+              value: cipherKeyData?.category?.name,
             }}
             onChange={(name, value) => handleChange(name, value)}
             errorMessage={errors?.category_id?.[0]}
           />
-          <CryptogramDates
-            defaultAroundDateValue={cryptogramData?.date_around}
-            defaultDateValue={cryptogramData?.date}
+          <CipherKeyDates
+            defaultAroundDateValue={cipherKeyData?.used_around}
+            defaultFromDateValue={cipherKeyData?.used_from}
+            defaultToDateValue={cipherKeyData?.used_to}
+            defautlDateValue={cipherKeyData?.date}
             onChange={(name, value) => handleChange(name, value)}
           />
           <Languages
             defaultValue={{
-              id: cryptogramData?.language?.id,
-              value: cryptogramData?.language?.name,
+              id: cipherKeyData?.language?.id,
+              value: cipherKeyData?.language?.name,
             }}
             onChange={(name, value) => handleChange(name, value)}
             errorMessage={errors?.language_id?.[0]}
           />
           <Locations
             defaultContinentValue={{
-              value: cryptogramData?.location?.continent,
+              value: cipherKeyData?.location?.continent,
             }}
             defaultLocationValue={{
-              value: cryptogramData?.location?.name,
+              value: cipherKeyData?.location?.name,
             }}
             onChange={(name, value) => handleChange(name, value)}
             errorMessage={errors?.continent?.[0]}
@@ -159,40 +154,51 @@ function CreateCryptogramPage() {
           <CustomTextInput
             onChange={(name, value) => handleChange(name, value)}
             name={"used_chars"}
-            defaultValue={cryptogramData?.used_chars}
+            defaultValue={cipherKeyData?.used_chars}
             label={"Used Chars"}
             placeholder={"Used Chars"}
           />
           <Tags
-            defaultValue={cryptogramData?.tags?.map((tag) => ({
+            defaultValue={cipherKeyData?.tags?.map((tag) => ({
               id: tag?.id,
               value: tag?.name,
             }))}
             onChange={(name, value) => handleChange(name, value)}
           />
           <Availability
-            defaultValueAvailability={cryptogramData?.availability}
-            defaultValueArchive={cryptogramData?.folder}
+            defaultValueAvailability={cipherKeyData?.availability}
+            defaultValueArchive={cipherKeyData?.folder}
             onChange={(name, value) => handleChange(name, value)}
             availabilityErrorMessage={errors?.availability?.[0]}
             archiveErrorMessage={errors?.archive?.[0]}
             folderErrorMessage={errors?.folder?.[0]}
             fondErrorMessage={errors?.fond?.[0]}
           />
-          <Solutions
-            defaultValue={cryptogramData?.solution}
+
+          <CustomTextInput
             onChange={(name, value) => handleChange(name, value)}
-            errorMessage={errors?.solution_id}
+            errorMessage={errors?.complete_structure}
+            isRequired={true}
+            defaultValue={cipherKeyData?.complete_structure}
+            name={"complete_structure"}
+            label={"Complete Structure"}
           />
-          <CryptogramUsers
-            defaultSenderValue={cryptogramData?.sender}
-            defaultRecipientValue={cryptogramData?.recipient}
+
+          <CipherKeyUsers
+            defaultValue={cipherKeyData?.users}
             onChange={(name, value) => handleChange(name, value)}
           />
-          <DataGroups
-            defaultValue={cryptogramData?.datagroups}
+
+          <KeyTypes
+            onChange={(name, value) => handleChange(name, value)}
+            defaultValue={cipherKeyData?.key_type}
+            errorMessage={errors?.key_type}
+          />
+
+          <CipherKeyImages
             onChange={(name, value) => handleChange(name, value)}
           />
+
           <div className={"flex flex-row items-center"}>
             <Button type={"submit"} onClick={() => {}}>
               Submit

@@ -12,6 +12,7 @@ const Solutions = ({ defaultValue, onChange, errorMessage }) => {
       <CustomDropdown
         name={"solution_id"}
         isMulti={false}
+        isRequired={true}
         withMeta={false}
         data={solutions}
         value={

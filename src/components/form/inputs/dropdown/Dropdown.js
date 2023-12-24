@@ -9,6 +9,7 @@ import { COLOR_GRAY, resolveColorClasses } from "../Colors";
 
 const CustomDropdown = ({
   label,
+  isRequired,
   name,
   value = undefined,
   layout,
@@ -100,6 +101,7 @@ const CustomDropdown = ({
       <div>
         <div className="mb-2 block">
           <Label value={label} />
+          {isRequired && <span className="ml-1 text-red-500">*</span>}
         </div>
         <Dropdown
           inline={true}
@@ -113,12 +115,14 @@ const CustomDropdown = ({
             >
               {isMulti ? (
                 <BadgeTrigger
+                  isRequired={isRequired}
                   selectedValues={selectedValues}
                   label={label}
                   handleRemove={handleRemove}
                 />
               ) : (
                 <TextFieldTrigger
+                  isRequired={isRequired}
                   selectedValues={selectedValues}
                   label={label}
                   handleRemove={handleRemove}
@@ -184,6 +188,7 @@ const CustomDropdown = ({
 
 CustomDropdown.propTypes = {
   label: PropTypes.string.isRequired,
+  isRequired: PropTypes.bool,
   name: PropTypes.string.isRequired,
   value: PropTypes.object,
   layout: PropTypes.string,

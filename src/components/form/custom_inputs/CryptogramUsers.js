@@ -4,7 +4,11 @@ import { useContext } from "react";
 import { DataContext } from "../../../context/DataContext";
 import PropTypes from "prop-types";
 
-const Users = ({ defaultSenderValue, defaultRecipientValue, onChange }) => {
+const CryptogramUsers = ({
+  defaultSenderValue,
+  defaultRecipientValue,
+  onChange,
+}) => {
   const { persons } = useContext(DataContext);
   return (
     <div className={"flex justify-center gap-6 mb-6"}>
@@ -48,10 +52,10 @@ const Users = ({ defaultSenderValue, defaultRecipientValue, onChange }) => {
   );
 };
 
-Users.propTypes = {
+CryptogramUsers.propTypes = {
   defaultSenderValue: PropTypes.object,
   defaultRecipientValue: PropTypes.object,
   onChange: PropTypes.func.isRequired,
 };
 
-export default Users;
+export default CryptogramUsers;

@@ -37,6 +37,7 @@ const Locations = ({
         <div className={"w-1/3"}>
           <CustomDropdown
             name={"continent"}
+            isRequired={true}
             label={"Continent"}
             value={defaultContinentValue}
             layout={"left"}
@@ -51,6 +52,7 @@ const Locations = ({
         <div className={"w-2/3"}>
           <CustomDropdown
             name={"location_name"}
+            isRequired={true}
             label={"Location"}
             value={defaultLocationValue}
             layout={"right"}

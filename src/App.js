@@ -10,16 +10,22 @@ import CreateCryptogramPage from "pages/CreateCryptogramPage";
 import NoPage from "pages/NoPage";
 import { DataProvider } from "./context/DataContext";
 import CryptogramDetailPage from "./pages/CryptogramDetailPage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import CreateCipherKeyPage from "./pages/CreateCipherKeyPage";
 
 function App() {
   return (
-    <BrowserRouter>
-      <UserProvider>
-        <DataProvider>
-          <AppRoutes />
-        </DataProvider>
-      </UserProvider>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <UserProvider>
+          <DataProvider>
+            <AppRoutes />
+            <ToastContainer />
+          </DataProvider>
+        </UserProvider>
+      </BrowserRouter>
+    </>
   );
 }
 function AppRoutes() {
@@ -34,6 +40,10 @@ function AppRoutes() {
         <Route
           path={"cryptograms/add/:id?"}
           element={<CreateCryptogramPage />}
+        />
+        <Route
+          path={"cipher-keys/add/:id?"}
+          element={<CreateCipherKeyPage />}
         />
         <Route path={"cryptograms/:id"} element={<CryptogramDetailPage />} />
         <Route path={"*"} element={<NoPage />} />

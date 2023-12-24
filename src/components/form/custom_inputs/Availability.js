@@ -104,6 +104,7 @@ const Availability = ({
             <div>
               <CustomTextInput
                 name={"availability"}
+                isRequired={true}
                 onChange={(name, value) => onChange(name, value)}
                 defaultValue={defaultValueAvailability}
                 label={"Other"}
@@ -120,6 +121,7 @@ const Availability = ({
             <CustomDropdown
               name={"archive"}
               isMulti={false}
+              isRequired={true}
               layout={LAYOUT_FULL}
               value={{
                 id: defaultValueArchive?.fond?.archive?.id,
@@ -141,6 +143,7 @@ const Availability = ({
           <div className={"mb-6"}>
             <CustomDropdown
               name={"fond"}
+              isRequired={true}
               isMulti={false}
               layout={LAYOUT_FULL}
               value={{
@@ -163,6 +166,7 @@ const Availability = ({
           <div className={"mb-6"}>
             <CustomDropdown
               name={"folder"}
+              isRequired={true}
               isMulti={false}
               layout={LAYOUT_FULL}
               value={{

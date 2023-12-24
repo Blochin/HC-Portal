@@ -16,6 +16,7 @@ export const DataProvider = ({ children }) => {
   const [persons, setPersons] = useState([]);
   const [solutions, setSolutions] = useState([]);
   const [languages, setLanguages] = useState([]);
+  const [keyTypes, setKeyTypes] = useState([]);
 
   useEffect(() => {
     request
@@ -141,6 +142,13 @@ export const DataProvider = ({ children }) => {
         setLanguages(languages);
       })
       .catch((error) => console.error("Error fetching tags:", error));
+
+    request.get("api/key-types").then((response) => {
+      const keyTypes = response.data.data.map((item) => {
+        return { id: item.id, value: item.name };
+      });
+      setKeyTypes(keyTypes);
+    });
   }, []);
 
   const contextValue = {
@@ -155,6 +163,7 @@ export const DataProvider = ({ children }) => {
     persons,
     solutions,
     languages,
+    keyTypes,
   };
 
   return (

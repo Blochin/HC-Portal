@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { v4 as uuid } from "uuid";
 import React, { useState } from "react";
 
-const ImageUploadDropzone = ({ onSelect, accept }) => {
+const ImageUploadDropzone = ({ defaultValue, onSelect, accept }) => {
   const uniqueId = uuid();
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(defaultValue ? defaultValue : null);
   const handleDragOver = (event) => {
     event.preventDefault();
   };
@@ -72,6 +72,7 @@ const ImageUploadDropzone = ({ onSelect, accept }) => {
 };
 
 ImageUploadDropzone.propTypes = {
+  defaultValue: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
   accept: PropTypes.string,
 };

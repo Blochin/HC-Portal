@@ -15,8 +15,6 @@ const CryptogramDates = ({
     onChange(name, value);
   };
 
-  console.log(defaultDateValue);
-
   const handleChange = (event) => {
     const eventValue = event.target.value;
     setDateType(eventValue);

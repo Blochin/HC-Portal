@@ -5,7 +5,13 @@ import PropTypes from "prop-types";
 import CustomTextInput from "components/form/inputs/TextInput";
 import CustomTextArea from "components/form/inputs/TextArea";
 import ImageUploadDropzone from "components/form/inputs/ImageUploadDropzone";
-import { DATA_TYPE_IMAGE, DATA_TYPE_LINK, DATA_TYPE_TEXT } from "./Types";
+import {
+  DATA_TYPE_IMAGE,
+  DATA_TYPE_LINK,
+  DATA_TYPE_TEXT,
+  IMAGE_BASE64,
+  IMAGE_LINK,
+} from "./Types";
 
 const Data = ({ selectedTab, defaultValue, removeComponent, onChange }) => {
   const resolveSelectedTab = (defaultData) => {
@@ -53,8 +59,17 @@ const Data = ({ selectedTab, defaultValue, removeComponent, onChange }) => {
         ? defaultValue[0].title
         : "",
     type: DATA_TYPE_IMAGE,
-    image: null,
+    [IMAGE_BASE64]:
+      defaultValue && defaultValue[0].type === "image"
+        ? defaultValue[0]?.image_base64
+        : "",
+    [IMAGE_LINK]:
+      defaultValue && defaultValue[0].type === "image"
+        ? defaultValue[0]?.image?.original
+        : "",
   });
+
+  console.log(defaultValue);
 
   const handleTextAreaChange = (name, value) => {
     setTextAreaData({ ...textAreaData, type: DATA_TYPE_TEXT, [name]: value });
@@ -69,7 +84,7 @@ const Data = ({ selectedTab, defaultValue, removeComponent, onChange }) => {
   };
 
   const handleImageUpload = (imageFile) => {
-    setImageData({ ...imageData, [DATA_TYPE_IMAGE]: imageFile });
+    setImageData({ ...imageData, [IMAGE_BASE64]: imageFile });
   };
 
   useEffect(() => {
@@ -126,7 +141,10 @@ const Data = ({ selectedTab, defaultValue, removeComponent, onChange }) => {
             label={"Title"}
             placeholder={"Title"}
           />
-          <ImageUploadDropzone onSelect={handleImageUpload} />
+          <ImageUploadDropzone
+            defaultValue={imageData.image_link}
+            onSelect={handleImageUpload}
+          />
         </Tabs.Item>
         <Tabs.Item active={activeTab === 3} title="Remove" icon={HiTrash}>
           {removeComponent}

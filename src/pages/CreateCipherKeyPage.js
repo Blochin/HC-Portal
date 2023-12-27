@@ -196,6 +196,7 @@ function CreateCryptogramPage() {
           />
 
           <CipherKeyImages
+            defaultValue={cipherKeyData?.images}
             onChange={(name, value) => handleChange(name, value)}
           />
 

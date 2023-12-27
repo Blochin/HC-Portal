@@ -1,6 +1,6 @@
 import CustomDropdown from "../inputs/dropdown/Dropdown";
 import { LAYOUT_FULL } from "../inputs/dropdown/trigger/Layout";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { DataContext } from "../../../context/DataContext";
 import PropTypes from "prop-types";
 
@@ -21,10 +21,6 @@ const CryptogramUsers = ({ defaultValue, onChange }) => {
 
     onChange(name, JSON.stringify(mappedValues));
   };
-
-  useEffect(() => {
-    console.log(defaultValue);
-  }, [defaultValue]);
 
   return (
     <div className={"flex justify-center gap-6 mb-6"}>

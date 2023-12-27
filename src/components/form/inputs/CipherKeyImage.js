@@ -1,19 +1,24 @@
 import ImageUploadDropzone from "./ImageUploadDropzone";
-import { DATA_TYPE_IMAGE } from "./group/Types";
+import { IMAGE_BASE64, IMAGE_LINK } from "./group/Types";
 import { useState } from "react";
 import CustomTextInput from "./TextInput";
 import { ToggleSwitch } from "flowbite-react";
 import PropTypes from "prop-types";
 
-const CipherKeyImage = ({ onChange, removeComponent }) => {
+const CipherKeyImage = ({ defaultValue, onChange, removeComponent }) => {
   const [imageData, setImageData] = useState({
-    structure: null,
-    has_instructions: false,
-    image: null,
+    structure: defaultValue?.structure ? defaultValue.structure : null,
+    has_instructions: defaultValue?.has_instructions
+      ? defaultValue.has_instructions
+      : false,
+    [IMAGE_BASE64]: defaultValue?.image_base64
+      ? defaultValue?.image_base64
+      : null,
+    [IMAGE_LINK]: defaultValue?.image_link ? defaultValue?.image_link : null,
   });
   const handleImageUpload = (imageFile) => {
-    setImageData({ ...imageData, [DATA_TYPE_IMAGE]: imageFile });
-    onChange({ ...imageData, [DATA_TYPE_IMAGE]: imageFile });
+    setImageData({ ...imageData, [IMAGE_BASE64]: imageFile });
+    onChange({ ...imageData, [IMAGE_BASE64]: imageFile });
   };
 
   const handleChange = (name, value) => {
@@ -21,14 +26,20 @@ const CipherKeyImage = ({ onChange, removeComponent }) => {
       ...prevImageData,
       [name]: value,
     }));
+    console.log(imageData);
     onChange({ ...imageData, [name]: value });
   };
+
   return (
     <div className="bg-gray-50 rounded border-2 border-dashed border-gray-300 p-5 mb-6">
-      <ImageUploadDropzone onSelect={handleImageUpload} />
+      <ImageUploadDropzone
+        defaultValue={imageData?.image_link}
+        onSelect={handleImageUpload}
+      />
       <CustomTextInput
         onChange={(name, value) => handleChange(name, value)}
         name={"structure"}
+        defaultValue={imageData?.structure}
         label={"Key Structure Of Image"}
         placeholder={"Key Structure Of Image"}
       />
@@ -45,6 +56,7 @@ const CipherKeyImage = ({ onChange, removeComponent }) => {
 export default CipherKeyImage;
 
 CipherKeyImage.propTypes = {
+  defaultValue: PropTypes.object,
   onChange: PropTypes.func.isRequired,
   removeComponent: PropTypes.node,
 };

@@ -4,6 +4,7 @@ import { Label, TextInput } from "flowbite-react";
 
 const CustomTextInput = ({
   name,
+  size = "md",
   isRequired = false,
   label,
   type = "text",
@@ -33,6 +34,7 @@ const CustomTextInput = ({
           {isRequired && <span className="ml-1 text-red-500">*</span>}
         </div>
         <TextInput
+          sizing={size}
           name={name}
           type={type}
           placeholder={placeholder}
@@ -52,6 +54,7 @@ const CustomTextInput = ({
 
 CustomTextInput.propTypes = {
   name: PropTypes.string.isRequired,
+  size: PropTypes.string,
   isRequired: PropTypes.bool,
   type: PropTypes.string,
   label: PropTypes.string,

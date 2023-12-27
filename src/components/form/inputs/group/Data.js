@@ -18,11 +18,11 @@ const Data = ({ selectedTab, defaultValue, removeComponent, onChange }) => {
     if (!defaultData) {
       return 0;
     }
-    if (defaultData[0].type === "text") {
+    if (defaultData.type === "text") {
       return 0;
-    } else if (defaultData[0].type === "link") {
+    } else if (defaultData.type === "link") {
       return 1;
-    } else if (defaultData[0].type === "image") {
+    } else if (defaultData.type === "image") {
       return 2;
     }
     return 0;
@@ -33,44 +33,29 @@ const Data = ({ selectedTab, defaultValue, removeComponent, onChange }) => {
   );
   const [textAreaData, setTextAreaData] = useState({
     title:
-      defaultValue && defaultValue[0].type === "text"
-        ? defaultValue[0].title
-        : "",
+      defaultValue && defaultValue.type === "text" ? defaultValue.title : "",
     type: DATA_TYPE_TEXT,
-    text:
-      defaultValue && defaultValue[0].type === "text"
-        ? defaultValue[0].text
-        : "",
+    text: defaultValue && defaultValue.type === "text" ? defaultValue.text : "",
   });
   const [linkData, setLinkData] = useState({
     title:
-      defaultValue && defaultValue[0].type === "link"
-        ? defaultValue[0].title
-        : "",
+      defaultValue && defaultValue.type === "link" ? defaultValue.title : "",
     type: DATA_TYPE_LINK,
-    link:
-      defaultValue && defaultValue[0].type === "link"
-        ? defaultValue[0].link
-        : "",
+    link: defaultValue && defaultValue.type === "link" ? defaultValue.link : "",
   });
   const [imageData, setImageData] = useState({
     title:
-      defaultValue && defaultValue[0].type === "image"
-        ? defaultValue[0].title
-        : "",
+      defaultValue && defaultValue.type === "image" ? defaultValue.title : "",
     type: DATA_TYPE_IMAGE,
     [IMAGE_BASE64]:
-      defaultValue && defaultValue[0].type === "image"
-        ? defaultValue[0]?.image_base64
+      defaultValue && defaultValue.type === "image"
+        ? defaultValue?.image_base64
         : "",
     [IMAGE_LINK]:
-      defaultValue && defaultValue[0].type === "image"
-        ? defaultValue[0]?.image?.original
+      defaultValue && defaultValue.type === "image"
+        ? defaultValue?.image?.original
         : "",
   });
-
-  console.log(defaultValue);
-
   const handleTextAreaChange = (name, value) => {
     setTextAreaData({ ...textAreaData, type: DATA_TYPE_TEXT, [name]: value });
   };
@@ -83,8 +68,8 @@ const Data = ({ selectedTab, defaultValue, removeComponent, onChange }) => {
     setImageData({ ...imageData, type: DATA_TYPE_IMAGE, [name]: value });
   };
 
-  const handleImageUpload = (imageFile) => {
-    setImageData({ ...imageData, [IMAGE_BASE64]: imageFile });
+  const handleImageUpload = (name, imageFile) => {
+    setImageData({ ...imageData, [IMAGE_BASE64]: imageFile, title: name });
   };
 
   useEffect(() => {

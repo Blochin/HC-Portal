@@ -8,7 +8,6 @@ import Categories from "../components/form/custom_inputs/Categories";
 import Availability from "../components/form/custom_inputs/Availability";
 import Languages from "../components/form/custom_inputs/Languages";
 import { useEffect, useState } from "react";
-import CryptogramDetailPage from "./CryptogramDetailPage";
 import PropTypes from "prop-types";
 import api from "utils/api";
 import { useNavigate, useParams } from "react-router-dom";
@@ -18,7 +17,8 @@ import CipherKeyDates from "../components/form/custom_inputs/CipherKeyDates";
 import CipherKeyUsers from "../components/form/custom_inputs/CipherKeyUsers";
 import CipherKeyImages from "../components/form/custom_inputs/CipherKeyImages";
 import KeyTypes from "../components/form/custom_inputs/KeyTypes";
-function CreateCryptogramPage() {
+import { toastOptions } from "../components/ToastOptions";
+function CreateCipherKeyPage({ edit = false }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
@@ -60,40 +60,23 @@ function CreateCryptogramPage() {
   }, [id]);
 
   const handleSubmit = () => {
+    const url = edit === true ? `api/cipher-keys/${id}` : "api/cipher-keys";
     setErrors({});
     console.log(notEraseData);
     request
-      .post("api/cipher-keys", formData)
+      .post(url, formData)
       .then((response) => {
-        toast.success(response.data.message, {
-          position: "bottom-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        toast.success(response.data.message, toastOptions);
         console.log("Form submitted successfully", response);
         if (!notEraseData) {
-          navigate(`/dashboard/cryptograms/${response.data.data.id}`);
+          navigate(`/dashboard/cipher-keys/${response.data.data.id}`);
         }
       })
       .catch((error) => {
         if (error.response) {
           setErrors(error.response.data.data);
           console.log(error.response.data.data);
-          toast.error(error.response.data.message, {
-            position: "bottom-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          toast.error(error.response.data.message, toastOptions);
         }
       });
   };
@@ -219,8 +202,8 @@ function CreateCryptogramPage() {
   );
 }
 
-export default CreateCryptogramPage;
+export default CreateCipherKeyPage;
 
-CryptogramDetailPage.propTypes = {
-  id: PropTypes.number,
+CreateCipherKeyPage.propTypes = {
+  edit: PropTypes.bool,
 };

@@ -26,7 +26,7 @@ export const createImageHandler = (
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = () => {
-          resolve({ base64: reader.result, tempURL });
+          resolve({ base64: reader.result, tempURL, fileName: file.name });
         };
         reader.onerror = (error) => {
           URL.revokeObjectURL(tempURL);

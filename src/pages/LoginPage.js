@@ -25,30 +25,34 @@ function LoginPage() {
   };
 
   return (
-    <form
-      className="flex w-full flex-col gap-4 justify-center"
-      onSubmit={handleSubmit}
-    >
-      <div>
-        <div className="mb-2 block">
-          <Label htmlFor="email" value="Your email" />
-        </div>
-        <TextInput
-          id="email"
-          name="email"
-          type="email"
-          placeholder="name@flowbite.com"
-          required
-        />
+    <div className="flex justify-center items-center mt-10">
+      <div className="flex md:w-2/3 w-full p-4 bg-white shadow-2xl border border-gray-100  rounded-lg">
+        <form
+          className="flex w-full flex-col gap-4 justify-center"
+          onSubmit={handleSubmit}
+        >
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="email" value="Your email" />
+            </div>
+            <TextInput
+              id="email"
+              name="email"
+              type="email"
+              placeholder="user@hcportal.eu"
+              required
+            />
+          </div>
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="password" value="Your password" />
+            </div>
+            <TextInput id="password" name="password" type="password" required />
+          </div>
+          <Button type="submit">Submit</Button>
+        </form>
       </div>
-      <div>
-        <div className="mb-2 block">
-          <Label htmlFor="password" value="Your password" />
-        </div>
-        <TextInput id="password" name="password" type="password" required />
-      </div>
-      <Button type="submit">Submit</Button>
-    </form>
+    </div>
   );
 }
 

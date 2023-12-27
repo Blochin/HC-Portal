@@ -17,9 +17,13 @@ export function UserProvider({ children }) {
     }
   }, []);
   const login = (data) => {
-    setUser(data.user);
-    localStorage.setItem("access_token", data.access_token);
-    localStorage.setItem("user", JSON.stringify(data.user));
+    try {
+      setUser(data.user);
+      localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+    } catch (error) {
+      console.error("Error saving user to localStorage", error);
+    }
   };
   const logout = () => {
     setUser(null);

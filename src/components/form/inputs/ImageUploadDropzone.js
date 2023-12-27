@@ -12,7 +12,7 @@ const ImageUploadDropzone = ({ defaultValue, onSelect, accept }) => {
   const readFile = (file) => {
     const reader = new FileReader();
     reader.onload = () => {
-      onSelect(reader.result);
+      onSelect(file.name, reader.result);
       setImage(reader.result);
     };
     reader.readAsDataURL(file);

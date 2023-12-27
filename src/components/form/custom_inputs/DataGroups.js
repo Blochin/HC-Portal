@@ -25,16 +25,16 @@ const DataGroups = ({ defaultValue, onChange }) => {
   const addDataGroup = () => {
     setDataGroupComponents((prevComponents) => [
       ...prevComponents,
-      { id: uuid(), description: "" },
+      { id: uuid() },
     ]);
   };
 
   const addPredefinedGroup = () => {
     setDataGroupComponents((prevComponents) => [
       ...prevComponents,
-      { id: uuid(), description: "", selectedTab: 0 },
-      { id: uuid(), description: "", selectedTab: 1 },
-      { id: uuid(), description: "", selectedTab: 2 },
+      { id: uuid(), selectedTab: 0 },
+      { id: uuid(), selectedTab: 1 },
+      { id: uuid(), selectedTab: 2 },
     ]);
   };
 
@@ -50,16 +50,16 @@ const DataGroups = ({ defaultValue, onChange }) => {
 
   const handleMultipleImages = createImageHandler(
     setDataGroupComponents,
-    ({ base64, tempURL }) => ({
+    ({ base64, tempURL, fileName }) => ({
       id: uuid(),
       data: [
         {
           type: "image",
+          title: fileName,
           [IMAGE_BASE64]: base64,
           image: { original: tempURL },
         },
       ],
-      description: "",
       selectedTab: 2,
     }),
   );

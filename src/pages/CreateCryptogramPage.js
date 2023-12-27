@@ -13,13 +13,14 @@ import Solutions from "../components/form/custom_inputs/Solutions";
 import CryptogramDates from "../components/form/custom_inputs/CryptogramDates";
 import Languages from "../components/form/custom_inputs/Languages";
 import { useEffect, useState } from "react";
-import CryptogramDetailPage from "./CryptogramDetailPage";
 import PropTypes from "prop-types";
 import api from "utils/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Checkbox, Label } from "flowbite-react";
 import { toast } from "react-toastify";
-function CreateCryptogramPage() {
+import { toastOptions } from "../components/ToastOptions";
+
+function CreateCryptogramPage({ edit = false }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
@@ -61,21 +62,12 @@ function CreateCryptogramPage() {
   }, [id]);
 
   const handleSubmit = () => {
+    const url = edit === true ? `api/cryptograms/${id}` : "api/cryptograms";
     setErrors({});
-    console.log(notEraseData);
     request
-      .post("api/cryptograms", formData)
+      .post(url, formData)
       .then((response) => {
-        toast.success(response.data.message, {
-          position: "bottom-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        toast.success(response.data.message, toastOptions);
         console.log("Form submitted successfully", response);
         if (!notEraseData) {
           navigate(`/dashboard/cryptograms/${response.data.data.id}`);
@@ -85,16 +77,7 @@ function CreateCryptogramPage() {
         if (error.response) {
           setErrors(error.response.data.errors);
           console.log(error.response.data.errors);
-          toast.error(error.response.data.message, {
-            position: "bottom-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          toast.error(error.response.data.message, toastOptions);
         }
       });
   };
@@ -214,6 +197,6 @@ function CreateCryptogramPage() {
 
 export default CreateCryptogramPage;
 
-CryptogramDetailPage.propTypes = {
-  id: PropTypes.number,
+CreateCryptogramPage.propTypes = {
+  edit: PropTypes.bool,
 };

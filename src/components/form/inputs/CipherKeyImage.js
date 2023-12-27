@@ -16,7 +16,7 @@ const CipherKeyImage = ({ defaultValue, onChange, removeComponent }) => {
       : null,
     [IMAGE_LINK]: defaultValue?.image_link ? defaultValue?.image_link : null,
   });
-  const handleImageUpload = (imageFile) => {
+  const handleImageUpload = (name, imageFile) => {
     setImageData({ ...imageData, [IMAGE_BASE64]: imageFile });
     onChange({ ...imageData, [IMAGE_BASE64]: imageFile });
   };

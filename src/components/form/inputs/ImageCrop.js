@@ -12,7 +12,7 @@ const ImageCropper = ({ defaultValue = null, name, onSelect }) => {
   const [acceptCroppedImage, setAcceptCroppedImage] = useState(!!defaultValue);
   const cropperRef = useRef(null);
 
-  const handleFileSelect = (file) => {
+  const handleFileSelect = (fileName, file) => {
     setImage(file);
     onSelect(name, file);
   };

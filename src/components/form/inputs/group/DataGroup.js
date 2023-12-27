@@ -12,7 +12,9 @@ const DataGroup = ({
   onChange,
   removeComponent,
 }) => {
-  const [dataComponents, setDataComponents] = useState([{ id: uuid() }]);
+  const [dataComponents, setDataComponents] = useState(
+    defaultValue ? defaultValue : [{ id: uuid() }],
+  );
   const [groupDescription, setGroupDescription] = useState("");
 
   const handleDataChange = (id, newData) => {
@@ -31,9 +33,9 @@ const DataGroup = ({
   };
 
   const removeData = (id) => {
-    setDataComponents((prevComponents) =>
-      prevComponents.filter((comp) => comp.id !== id),
-    );
+    const filteredComponents = dataComponents.filter((comp) => comp.id !== id);
+    onChange(filteredComponents, groupDescription);
+    setDataComponents(filteredComponents);
   };
 
   return (
@@ -49,16 +51,19 @@ const DataGroup = ({
         }}
       />
       <div className="bg-gray-100 rounded border-2 border-dashed border-gray-300 p-5">
-        {dataComponents.map(({ id }) => (
-          <React.Fragment key={id}>
+        {dataComponents.map((component) => (
+          <React.Fragment key={component.id}>
             <div className={"flex w-full justify-center mb-6"}>
               <Data
                 selectedTab={selectedTab}
-                defaultValue={defaultValue}
-                key={id}
-                onChange={(newData) => handleDataChange(id, newData)}
+                defaultValue={component}
+                key={component.id}
+                onChange={(newData) => handleDataChange(component.id, newData)}
                 removeComponent={
-                  <Button color={"red"} onClick={() => removeData(id)}>
+                  <Button
+                    color={"red"}
+                    onClick={() => removeData(component.id)}
+                  >
                     Confirm Remove Data
                   </Button>
                 }

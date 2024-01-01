@@ -1,4 +1,4 @@
-import { parseDate } from "../utils/utils";
+import { parseHumanDate } from "../utils/utils";
 
 export const mapCryptogramData = (item) => {
   let newProperties = {};
@@ -25,14 +25,13 @@ export const mapCryptogramData = (item) => {
       " " +
       item.folder?.fond?.archive?.name;
   }
-  newProperties.users =
-    (item.recipient ? item.recipient.name : "") +
-    (item.recipient && item.sender ? " " : "") +
-    (item.sender ? item.sender.name : "");
+  newProperties.users = [item?.sender?.name, item?.recipient?.name];
 
   newProperties.state = item?.state?.title;
 
-  newProperties.date = item.date ? parseDate(item.date) : item?.date_around;
+  newProperties.date = item.date
+    ? parseHumanDate(item.date)
+    : item?.date_around;
 
   if (item.solution) {
     newProperties.solution = item.solution.name;
@@ -42,6 +41,7 @@ export const mapCryptogramData = (item) => {
 };
 
 export const mapCipherKeyData = (item) => {
+  console.log(item);
   let newProperties = {};
   if (item.category) {
     newProperties.category = item.category.name;
@@ -67,15 +67,19 @@ export const mapCipherKeyData = (item) => {
       item.folder?.fond?.archive?.name;
   }
   newProperties.users =
-    (item.recipient ? item.recipient.name : "") +
-    (item.recipient && item.sender ? " " : "") +
-    (item.sender ? item.sender.name : "");
+    item?.users.length !== 0
+      ? item?.users.map((user) => {
+          return user?.person.name;
+        })
+      : ["Undefined"];
 
   newProperties.state = item?.state?.title;
 
-  newProperties.date = item.used_from
-    ? parseDate(item.used_from)
-    : item?.date_around;
+  newProperties.date = parseFromToDate(
+    item?.used_from,
+    item?.used_to,
+    item?.used_around,
+  );
   newProperties.key_type = item.key_type.name;
   newProperties.thumb = item?.images?.[0]?.url?.thumb;
 
@@ -83,5 +87,21 @@ export const mapCipherKeyData = (item) => {
     newProperties.solution = item.solution.name;
   }
 
+  if (item.complete_structure) {
+    newProperties.structure = item.complete_structure;
+  }
+
   return { ...item, ...newProperties };
+};
+
+const parseFromToDate = (from, to, around) => {
+  if (from && to) {
+    return parseHumanDate(from);
+  }
+  if (from) {
+    parseHumanDate(from);
+  }
+  if (around) {
+    return around;
+  }
 };

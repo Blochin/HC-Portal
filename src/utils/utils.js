@@ -10,6 +10,18 @@ export function parseDate(dateString) {
   return `${year}-${month}-${day}`;
 }
 
+export function parseHumanDate(dateString) {
+  if (dateString === undefined) {
+    return null;
+  }
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+
+  return `${year}.${month}.${day}`;
+}
+
 export const createImageHandler = (
   setComponentsFunction,
   createComponentData,

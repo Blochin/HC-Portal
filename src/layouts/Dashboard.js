@@ -33,6 +33,14 @@ function Dashboard() {
   return (
     <div className="flex h-screen">
       <Sidebar aria-label="Default sidebar example">
+        <Sidebar.Logo
+          className="mr-3 h-6 sm:h-9 invert"
+          href="#"
+          img="/logo.png"
+          imgAlt="Flowbite logo"
+        >
+          <div className={"text-gray-200"}>HC PORTAL</div>
+        </Sidebar.Logo>
         <Sidebar.Items>
           <Sidebar.ItemGroup>
             {user && (

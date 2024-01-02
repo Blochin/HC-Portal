@@ -15,9 +15,9 @@ import CreateCipherKeyPage from "./pages/CreateCipherKeyPage";
 import CipherKeyDetailPage from "./pages/CipherKeyDetailPage";
 import CryptogramListingPage from "./pages/CryptogramListingPage";
 import ReportPage from "pages/ReportPage";
-import { CryptogramProvider } from "./context/CryptogramContext";
 import CipherKeyListingPage from "./pages/CipherKeyListingPage";
-import { CipherKeyProvider } from "./context/CipherKeyContext";
+import MyCryptogramListingPage from "./pages/MyCryptogramListingPage";
+import MyCipherKeyListingPage from "./pages/MyCipherKeyListingPage";
 
 function App() {
   return (
@@ -25,11 +25,7 @@ function App() {
       <BrowserRouter>
         <UserProvider>
           <DataProvider>
-            <CryptogramProvider>
-              <CipherKeyProvider>
-                <AppRoutes />
-              </CipherKeyProvider>
-            </CryptogramProvider>
+            <AppRoutes />
             <ToastContainer />
           </DataProvider>
         </UserProvider>
@@ -44,14 +40,8 @@ function AppRoutes() {
       <Route path={"/register"} element={<RegistrationPage />} />
       <Route path={"/dashboard"} element={<Dashboard />}>
         <Route index element={<WelcomePage />} />
-        <Route
-          path={"cryptograms"}
-          element={<CryptogramListingPage my={false} />}
-        />
-        <Route
-          path={"cryptograms/my"}
-          element={<CryptogramListingPage my={true} />}
-        />
+        <Route path={"cryptograms"} element={<CryptogramListingPage />} />
+        <Route path={"cryptograms/my"} element={<MyCryptogramListingPage />} />
         <Route
           path={"cryptograms/add/:id?"}
           element={<CreateCryptogramPage edit={false} />}
@@ -60,14 +50,8 @@ function AppRoutes() {
           path={"cryptograms/edit/:id"}
           element={<CreateCryptogramPage edit={true} />}
         />
-        <Route
-          path={"cipher-keys"}
-          element={<CipherKeyListingPage my={false} />}
-        />
-        <Route
-          path={"cipher-keys/my"}
-          element={<CipherKeyListingPage my={true} />}
-        />
+        <Route path={"cipher-keys"} element={<CipherKeyListingPage />} />
+        <Route path={"cipher-keys/my"} element={<MyCipherKeyListingPage />} />
         <Route
           path={"cipher-keys/add/:id?"}
           element={<CreateCipherKeyPage edit={false} />}

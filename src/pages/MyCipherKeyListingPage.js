@@ -7,7 +7,8 @@ import CipherKeyRepository from "../repository/CipherKeyRepository";
 
 const CipherKeyListingPage = () => {
   const navigate = useNavigate();
-  const { allCipherKeyHeaders, lessCipherKeyHeaders } = useContext(DataContext);
+  const { myAllCipherKeyHeaders, myLessCipherKeyHeaders } =
+    useContext(DataContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [cipherKeys, setCipherKeys] = useState([]);
@@ -26,7 +27,7 @@ const CipherKeyListingPage = () => {
     const handleSuccess = (data, isInitialLoad) => {
       setCipherKeys(data);
       if (isInitialLoad) {
-        cipherKeyRepository.getAll(
+        cipherKeyRepository.getMy(
           fullLoadCount,
           () => {},
           (fullData) => handleSuccess(fullData, false),
@@ -39,7 +40,7 @@ const CipherKeyListingPage = () => {
       setError(error);
     };
 
-    cipherKeyRepository.getAll(
+    cipherKeyRepository.getMy(
       initialCount,
       handleLoading,
       (data) => handleSuccess(data, true),
@@ -47,6 +48,10 @@ const CipherKeyListingPage = () => {
     );
   }, []);
 
+  const handleEdit = (event, id) => {
+    event.stopPropagation();
+    navigate(`/dashboard/cipher-keys/edit/${id}`);
+  };
   return (
     <>
       {isLoading || error ? (
@@ -54,10 +59,11 @@ const CipherKeyListingPage = () => {
       ) : (
         <div>
           <ListingTable
-            fullHeaders={allCipherKeyHeaders}
-            lessHeaders={lessCipherKeyHeaders}
+            fullHeaders={myAllCipherKeyHeaders}
+            lessHeaders={myLessCipherKeyHeaders}
             data={cipherKeys?.map((item) => mapCipherKeyData(item))}
             handleRowClick={(id) => navigate(`/dashboard/cipher-keys/${id}`)}
+            handleEditClick={(event, id) => handleEdit(event, id)}
           />
         </div>
       )}

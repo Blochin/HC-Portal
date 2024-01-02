@@ -17,7 +17,7 @@ function GeneralStatistics({ statistics }) {
           <TotalComponent
             total={statistics.count.total}
             title={"All"}
-            description="Number of Cipher Keys and Cryptograms"
+            description="Number of Cipher Keys and CryptogramRepository"
             icon={TbAlignBoxBottomCenter}
           />
           <TotalComponent
@@ -29,7 +29,7 @@ function GeneralStatistics({ statistics }) {
           <TotalComponent
             total={statistics.count.cryptograms}
             title={"Cryptograms"}
-            description="Number of Cryptograms"
+            description="Number of CryptogramRepository"
             icon={TbLock}
           />
           <TotalComponent

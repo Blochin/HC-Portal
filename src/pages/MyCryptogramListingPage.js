@@ -2,18 +2,18 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ListingTable from "../components/listing/ListingTable";
 import { DataContext } from "../context/DataContext";
-import { mapCipherKeyData } from "../utils/helpers";
-import CipherKeyRepository from "../repository/CipherKeyRepository";
+import { mapCryptogramData } from "../utils/helpers";
+import CryptogramRepository from "../repository/CryptogramRepository";
 
-const CipherKeyListingPage = () => {
+const CryptogramListingPage = () => {
   const navigate = useNavigate();
-  const { allCipherKeyHeaders, lessCipherKeyHeaders } = useContext(DataContext);
+  const { myAllCryptogramHeaders, myLessCryptogramHeaders } =
+    useContext(DataContext);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [cipherKeys, setCipherKeys] = useState([]);
+  const [cryptograms, setCryptograms] = useState([]);
   const [error, setError] = useState(null);
-
-  const cipherKeyRepository = new CipherKeyRepository();
+  const cryptogramRepository = new CryptogramRepository();
 
   useEffect(() => {
     const initialCount = 50;
@@ -24,9 +24,9 @@ const CipherKeyListingPage = () => {
     };
 
     const handleSuccess = (data, isInitialLoad) => {
-      setCipherKeys(data);
+      setCryptograms(data);
       if (isInitialLoad) {
-        cipherKeyRepository.getAll(
+        cryptogramRepository.getMy(
           fullLoadCount,
           () => {},
           (fullData) => handleSuccess(fullData, false),
@@ -39,7 +39,7 @@ const CipherKeyListingPage = () => {
       setError(error);
     };
 
-    cipherKeyRepository.getAll(
+    cryptogramRepository.getMy(
       initialCount,
       handleLoading,
       (data) => handleSuccess(data, true),
@@ -47,6 +47,13 @@ const CipherKeyListingPage = () => {
     );
   }, []);
 
+  let lessHeaders = myLessCryptogramHeaders;
+  let fullHeaders = myAllCryptogramHeaders;
+
+  const handleEdit = (event, id) => {
+    event.stopPropagation();
+    navigate(`/dashboard/cryptograms/edit/${id}`);
+  };
   return (
     <>
       {isLoading || error ? (
@@ -54,15 +61,15 @@ const CipherKeyListingPage = () => {
       ) : (
         <div>
           <ListingTable
-            fullHeaders={allCipherKeyHeaders}
-            lessHeaders={lessCipherKeyHeaders}
-            data={cipherKeys?.map((item) => mapCipherKeyData(item))}
-            handleRowClick={(id) => navigate(`/dashboard/cipher-keys/${id}`)}
+            fullHeaders={fullHeaders}
+            lessHeaders={lessHeaders}
+            data={cryptograms?.map((item) => mapCryptogramData(item))}
+            handleRowClick={(id) => navigate(`/dashboard/cryptograms/${id}`)}
+            handleEditClick={(event, id) => handleEdit(event, id)}
           />
         </div>
       )}
     </>
   );
 };
-
-export default CipherKeyListingPage;
+export default CryptogramListingPage;

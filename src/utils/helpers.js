@@ -1,4 +1,4 @@
-import { parseHumanDate } from "../utils/utils";
+import { parseHumanDate } from "./utils";
 
 export const mapCryptogramData = (item) => {
   let newProperties = {};

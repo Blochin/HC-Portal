@@ -5,6 +5,7 @@ import CustomPagination from "../Pagination";
 import Dropdown from "../form/inputs/dropdown/Dropdown";
 import CustomCell from "./Cell";
 import CustomHeaderCell from "./HeaderCell";
+import { parseDateFromObject } from "../../utils/utils";
 
 const ListingTable = ({
   fullHeaders,
@@ -69,6 +70,15 @@ const ListingTable = ({
         let valueA = a[sortConfig.key];
         let valueB = b[sortConfig.key];
 
+        console.log(valueA === "object");
+        if (sortConfig.key === "date") {
+          if (typeof valueA == "object") {
+            valueA = parseDateFromObject(valueA);
+          }
+          if (typeof valueB == "object") {
+            valueB = parseDateFromObject(valueB);
+          }
+        }
         let aIsDate = isDate(valueA);
         let bIsDate = isDate(valueB);
 

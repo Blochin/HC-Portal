@@ -1,25 +1,52 @@
+import { format, parseISO } from "date-fns";
+
 export function parseDate(dateString) {
-  if (dateString === undefined) {
+  if (dateString === undefined || dateString === null) {
     return null;
   }
-  const date = new Date(dateString);
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, "0");
-  const day = date.getDate().toString().padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
+  const parsedDate = parseISO(dateString);
+  return format(parsedDate, "yyyy-MM-dd");
 }
 
 export function parseHumanDate(dateString) {
-  if (dateString === undefined) {
+  if (dateString === undefined || dateString === null) {
     return null;
   }
-  const date = new Date(dateString);
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, "0");
-  const day = date.getDate().toString().padStart(2, "0");
+  const parsedDate = parseISO(dateString);
+  return format(parsedDate, "yyyy.MM.dd");
+}
 
-  return `${year}.${month}.${day}`;
+export function parseDateFromString(str) {
+  if (!str) {
+    return null;
+  }
+  const datePattern = /\d{4}.\d{2}.\d{2}/;
+  const match = str?.match(datePattern);
+
+  if (match) {
+    const dateString = match[0];
+    return new Date(dateString);
+  }
+
+  return null;
+}
+export function parseDateFromObject(obj) {
+  if (
+    typeof obj === "object" &&
+    obj?.props &&
+    Array.isArray(obj.props.children)
+  ) {
+    console.log(obj);
+    for (const child of obj.props.children) {
+      if (typeof child === "string") {
+        const date = parseDateFromString(child);
+        if (date) {
+          return date;
+        }
+      }
+    }
+  }
+  return null;
 }
 
 export const createImageHandler = (

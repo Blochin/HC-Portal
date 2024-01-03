@@ -27,6 +27,9 @@ function CryptogramDetailPage() {
   const handleClone = () => {
     navigate(`/dashboard/cryptograms/add/${id}`);
   };
+  const handleEdit = () => {
+    navigate(`/dashboard/cryptograms/edit/${id}`);
+  };
 
   return (
     <div>
@@ -40,6 +43,9 @@ function CryptogramDetailPage() {
             image={cryptogramData.thumb}
             tags={cryptogramData.tags}
             onClone={handleClone}
+            state={cryptogramData.state.title}
+            note={cryptogramData.note}
+            onEdit={handleEdit}
           />
           <Tabs
             color={"light"}

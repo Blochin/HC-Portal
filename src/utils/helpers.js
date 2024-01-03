@@ -96,10 +96,19 @@ export const mapCipherKeyData = (item) => {
 
 const parseFromToDate = (from, to, around) => {
   if (from && to) {
-    return parseHumanDate(from);
+    return (
+      <div>
+        {"From " + parseHumanDate(from)}
+        <br />
+        {"To " + parseHumanDate(to)}
+      </div>
+    );
   }
   if (from) {
-    parseHumanDate(from);
+    return "From " + parseHumanDate(from);
+  }
+  if (to) {
+    return "To " + parseHumanDate(from);
   }
   if (around) {
     return around;

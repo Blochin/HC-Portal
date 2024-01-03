@@ -28,6 +28,10 @@ function CryptogramDetailPage() {
     navigate(`/dashboard/cipher-keys/add/${id}`);
   };
 
+  const handleEdit = () => {
+    navigate(`/dashboard/cipher-keys/edit/${id}`);
+  };
+
   return (
     <div>
       {isLoading ? (
@@ -40,6 +44,9 @@ function CryptogramDetailPage() {
             image={cipherKeyData?.images?.[0]?.url.thumb}
             tags={cipherKeyData.tags}
             onClone={handleClone}
+            state={cipherKeyData.state.title}
+            note={cipherKeyData.note}
+            onEdit={handleEdit}
           />
           <Tabs
             color={"light"}

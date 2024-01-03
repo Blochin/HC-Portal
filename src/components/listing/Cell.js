@@ -43,7 +43,7 @@ function renderTableCell(header, item, onClick) {
     case "state":
       return (
         <div className={"flex-row flex justify-between items-center"}>
-          <Badge color={"light"} className={"w-max"}>
+          <Badge color={setColor(item[header])} className={"w-max"}>
             {item[header]}
           </Badge>
           <Button size={"xs"} className={"w-max"} onClick={onClick}>
@@ -57,5 +57,24 @@ function renderTableCell(header, item, onClick) {
       return item[header];
   }
 }
+
+const setColor = (value) => {
+  switch (value) {
+    case "Approved":
+      return "success";
+
+    case "Rejected":
+      return "failure";
+
+    case "Revise":
+      return "warning";
+
+    case "Awaiting":
+      return "info";
+
+    default:
+      return "light";
+  }
+};
 
 export default CustomCell;

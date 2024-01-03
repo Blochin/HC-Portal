@@ -1,8 +1,19 @@
 import PropTypes from "prop-types";
 import { Badge, Button } from "flowbite-react";
+import CustomAlert from "./CustomAlert";
 
 // eslint-disable-next-line no-unused-vars
-const Header = ({ className, image, title, tags, onClone, onExport }) => {
+const Header = ({
+  className,
+  image,
+  title,
+  tags,
+  onClone,
+  onExport,
+  state,
+  onEdit,
+  note,
+}) => {
   return (
     <div className={className}>
       <div className="bg-gray-300 p-5">
@@ -11,6 +22,7 @@ const Header = ({ className, image, title, tags, onClone, onExport }) => {
             <img src={image} alt={title} className="max-w-full" />
           </div>
           <div className="flex flex-col w-full justify-center">
+            <CustomAlert state={state} onEdit={onEdit} note={note} />
             <div className="mb-6">
               <div className="text-xl font-semibold">{title}</div>
               <div className="flex flex-row gap-2 mb-4">
@@ -43,6 +55,9 @@ Header.propTypes = {
   tags: PropTypes.array.isRequired,
   onClone: PropTypes.func,
   onExport: PropTypes.func,
+  state: PropTypes.string,
+  onEdit: PropTypes.func,
+  note: PropTypes.string,
 };
 
 export default Header;

@@ -12,6 +12,7 @@
     "autoprefixer": "^10.4.16",
     "axios": "^1.6.2",
     "cropperjs": "^1.6.1",
+    "date-fns": "^3.0.6",
     "flowbite": "^2.1.1",
     "flowbite-react": "^0.7.0",
     "postcss": "^8.4.31",

@@ -113,7 +113,6 @@ function CreateCipherKeyPage({ edit = false }) {
             defaultAroundDateValue={cipherKeyData?.used_around}
             defaultFromDateValue={cipherKeyData?.used_from}
             defaultToDateValue={cipherKeyData?.used_to}
-            defautlDateValue={cipherKeyData?.date}
             onChange={(name, value) => handleChange(name, value)}
           />
           <Languages

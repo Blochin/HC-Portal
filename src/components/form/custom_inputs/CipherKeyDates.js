@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { parseDate } from "../../../utils/utils";
 const RADIO_FROM_TO = "from_to";
 const RADIO_EXACT_DATE = "date";
-const RADIO_AROUND_DATE = "date_around";
+const RADIO_AROUND_DATE = "used_around";
 const CipherKeyDates = ({
   defaultFromDateValue,
   defaultToDateValue,
@@ -21,7 +21,7 @@ const CipherKeyDates = ({
   const handleChange = (event) => {
     const eventValue = event.target.value;
     setDateType(eventValue);
-    onChange("date_around", null);
+    onChange("used_around", null);
     onChange("used_from", null);
     onChange("used_to", null);
   };
@@ -51,6 +51,10 @@ const CipherKeyDates = ({
       defaultAroundDateValue,
     );
   }, [defaultFromDateValue, defaultToDateValue, defaultAroundDateValue]);
+
+  console.log(defaultFromDateValue);
+  console.log(defaultToDateValue);
+  console.log(defaultAroundDateValue);
 
   return (
     <div className={"flex flex-col"}>
@@ -107,10 +111,10 @@ const CipherKeyDates = ({
             </div>
           </div>
         )}
-        {dateType === "date_around" && (
+        {dateType === "used_around" && (
           <div className={"w-full"}>
             <CustomTextInput
-              name={"date_around"}
+              name={"used_around"}
               defaultValue={defaultAroundDateValue}
               label={"Date Around"}
               onChange={(name, value) => handleDate(name, value)}

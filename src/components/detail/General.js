@@ -60,9 +60,17 @@ const General = ({ data }) => {
           {data?.date_around && (
             <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
               <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                Date
+                Date Around
               </Table.Cell>
               <Table.Cell>{data.date_around}</Table.Cell>
+            </Table.Row>
+          )}
+          {data?.used_around && (
+            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                Used Around
+              </Table.Cell>
+              <Table.Cell>{data.used_around}</Table.Cell>
             </Table.Row>
           )}
           {data?.language.name && (

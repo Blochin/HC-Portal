@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import { Badge, Button } from "flowbite-react";
 import CustomAlert from "./CustomAlert";
+import { useEffect, useState } from "react";
+import { useUser } from "../../context/UserContext";
 
 // eslint-disable-next-line no-unused-vars
 const Header = ({
@@ -9,11 +11,20 @@ const Header = ({
   title,
   tags,
   onClone,
-  onExport,
   state,
   onEdit,
   note,
+  createdBy,
 }) => {
+  const [displayNote, setDisplayNote] = useState(false);
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (createdBy?.id === user?.id && user?.id) {
+      setDisplayNote(true);
+    }
+  });
+
   return (
     <div className={className}>
       <div className="bg-gray-300 p-5">
@@ -22,7 +33,15 @@ const Header = ({
             <img src={image} alt={title} className="max-w-full" />
           </div>
           <div className="flex flex-col w-full justify-center">
-            <CustomAlert state={state} onEdit={onEdit} note={note} />
+            {displayNote && (
+              <CustomAlert
+                state={state}
+                onEdit={onEdit}
+                note={note}
+                heading={null}
+              />
+            )}
+
             <div className="mb-6">
               <div className="text-xl font-semibold">{title}</div>
               <div className="flex flex-row gap-2 mb-4">
@@ -58,6 +77,7 @@ Header.propTypes = {
   state: PropTypes.string,
   onEdit: PropTypes.func,
   note: PropTypes.string,
+  createdBy: PropTypes.object,
 };
 
 export default Header;

@@ -47,6 +47,7 @@ function CryptogramDetailPage() {
             state={cipherKeyData.state.title}
             note={cipherKeyData.note}
             onEdit={handleEdit}
+            createdBy={cipherKeyData.created_by}
           />
           <Tabs
             color={"light"}

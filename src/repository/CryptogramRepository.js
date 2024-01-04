@@ -51,8 +51,31 @@ class CryptogramRepository extends Repository {
     }
   }
 
-  get() {
-    super.get();
+  get(id, onLoading, onSuccess, onError) {
+    //todo based on created_by, categorize entity to correct array
+    onLoading(true);
+    const cryptogram =
+      this.myCryptograms.find((cryptogram) => cryptogram.id === id) ||
+      this.cryptograms.find((cryptogram) => cryptogram.id === id);
+    if (cryptogram) {
+      onLoading(false);
+      onSuccess(cryptogram);
+    } else {
+      api
+        .get(`api/cryptograms/${id}`)
+        .then((response) => {
+          const data = response?.data?.data;
+          if (data) {
+            onLoading(false);
+            onSuccess(data);
+          } else {
+            onError("Cryptogram not found");
+          }
+        })
+        .catch((error) => {
+          onError(error);
+        });
+    }
   }
   set() {
     super.set();

@@ -6,7 +6,7 @@ import { HiArchive, HiDocumentDuplicate, HiDocumentText } from "react-icons/hi";
 import { Tabs } from "flowbite-react";
 import Groups from "../components/detail/Groups";
 import Description from "../components/detail/Description";
-import CryptogramRepository from "../repository/CryptogramRepository";
+import { useRepository } from "../context/RepositoryContext";
 
 function CryptogramDetailPage() {
   const { id } = useParams();
@@ -14,7 +14,7 @@ function CryptogramDetailPage() {
   const [cryptogramData, setCryptogramData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
-  const cryptogramRepository = new CryptogramRepository();
+  const { cryptogramRepository } = useRepository();
 
   useEffect(() => {
     cryptogramRepository.get(

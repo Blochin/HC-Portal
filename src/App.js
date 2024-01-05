@@ -18,16 +18,19 @@ import ReportPage from "pages/ReportPage";
 import CipherKeyListingPage from "./pages/CipherKeyListingPage";
 import MyCryptogramListingPage from "./pages/MyCryptogramListingPage";
 import MyCipherKeyListingPage from "./pages/MyCipherKeyListingPage";
+import { RepositoryProvider } from "./context/RepositoryContext";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <UserProvider>
-          <DataProvider>
-            <AppRoutes />
-            <ToastContainer />
-          </DataProvider>
+          <RepositoryProvider>
+            <DataProvider>
+              <AppRoutes />
+              <ToastContainer />
+            </DataProvider>
+          </RepositoryProvider>
         </UserProvider>
       </BrowserRouter>
     </>

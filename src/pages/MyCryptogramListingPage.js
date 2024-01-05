@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import ListingTable from "../components/listing/ListingTable";
 import { DataContext } from "../context/DataContext";
 import { mapCryptogramData } from "../utils/helpers";
-import CryptogramRepository from "../repository/CryptogramRepository";
+import { useRepository } from "../context/RepositoryContext";
+import { ALL, INIT } from "../repository/Repository";
 
 const CryptogramListingPage = () => {
   const navigate = useNavigate();
@@ -13,14 +14,18 @@ const CryptogramListingPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [cryptograms, setCryptograms] = useState([]);
   const [error, setError] = useState(null);
-  const cryptogramRepository = new CryptogramRepository();
+  const { cryptogramRepository } = useRepository();
 
   useEffect(() => {
-    const initialCount = 50;
-    const fullLoadCount = 9999;
+    const initialCount = INIT;
+    const fullLoadCount = ALL;
 
     const handleLoading = (loading) => {
       setIsLoading(loading);
+    };
+
+    const handleError = (error) => {
+      setError(error);
     };
 
     const handleSuccess = (data, isInitialLoad) => {
@@ -33,10 +38,6 @@ const CryptogramListingPage = () => {
           handleError,
         );
       }
-    };
-
-    const handleError = (error) => {
-      setError(error);
     };
 
     cryptogramRepository.getMy(

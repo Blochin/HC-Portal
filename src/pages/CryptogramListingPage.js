@@ -4,7 +4,7 @@ import ListingTable from "../components/listing/ListingTable";
 import { DataContext } from "../context/DataContext";
 import { mapCryptogramData } from "../utils/helpers";
 import { useRepository } from "../context/RepositoryContext";
-import { ALL, INIT } from "../repository/CryptogramRepository";
+import { ALL, INIT } from "../repository/Repository";
 
 // eslint-disable-next-line no-unused-vars
 const CryptogramListingPage = () => {

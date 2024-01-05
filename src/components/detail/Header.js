@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
 import { Badge, Button } from "flowbite-react";
 import CustomAlert from "./CustomAlert";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUser } from "../../context/UserContext";
+import CustomGallery from "./CustomGallery";
 
 // eslint-disable-next-line no-unused-vars
 const Header = ({
@@ -15,8 +16,10 @@ const Header = ({
   onEdit,
   note,
   createdBy,
+  galleryData,
 }) => {
   const [displayNote, setDisplayNote] = useState(false);
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const { user } = useUser();
 
   useEffect(() => {
@@ -24,6 +27,11 @@ const Header = ({
       setDisplayNote(true);
     }
   });
+  console.log(galleryData);
+  const handleGalleryClick = () => {
+    setIsGalleryOpen(!isGalleryOpen);
+    console.log(isGalleryOpen);
+  };
 
   return (
     <div className={className}>
@@ -39,6 +47,7 @@ const Header = ({
                 onEdit={onEdit}
                 note={note}
                 heading={null}
+                text={""}
               />
             )}
 
@@ -58,11 +67,21 @@ const Header = ({
                   Clone
                 </Button>
                 <Button size={"xs"}>Export PDF</Button>
+                <Button size={"xs"} onClick={handleGalleryClick}>
+                  Gallery
+                </Button>
               </div>
             </div>
           </div>
         </div>
       </div>
+      {isGalleryOpen && (
+        <CustomGallery
+          data={galleryData}
+          isGalleryOpen={isGalleryOpen}
+          setIsGalleryOpen={setIsGalleryOpen}
+        />
+      )}
     </div>
   );
 };
@@ -78,6 +97,7 @@ Header.propTypes = {
   onEdit: PropTypes.func,
   note: PropTypes.string,
   createdBy: PropTypes.object,
+  galleryData: PropTypes.object,
 };
 
 export default Header;

@@ -1,5 +1,4 @@
 import Form from "components/form/Form";
-import request from "utils/api";
 import Locations from "components/form/custom_inputs/Locations";
 import Tags from "components/form/custom_inputs/Tags";
 import Thumbnail from "components/form/custom_inputs/Thumbnail";
@@ -14,12 +13,13 @@ import CryptogramDates from "../components/form/custom_inputs/CryptogramDates";
 import Languages from "../components/form/custom_inputs/Languages";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import api from "utils/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Checkbox, Label } from "flowbite-react";
 import { toast } from "react-toastify";
 import { toastOptions } from "../components/ToastOptions";
+import { useRepository } from "../context/RepositoryContext";
 
+// eslint-disable-next-line no-unused-vars
 function CreateCryptogramPage({ edit = false }) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -28,6 +28,7 @@ function CreateCryptogramPage({ edit = false }) {
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
   const [notEraseData, setNotEraseData] = useState(false);
+  const { cryptogramRepository } = useRepository();
 
   const handleEraseData = () => {
     setNotEraseData(!notEraseData);
@@ -49,37 +50,47 @@ function CreateCryptogramPage({ edit = false }) {
       setIsLoading(false);
       return;
     }
-    api
-      .get(`api/cryptograms/${id}`)
-      .then((responseData) => {
-        console.log(responseData.data.data);
-        setCryptogramData(responseData.data.data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+    cryptogramRepository.get(
+      id,
+      (isLoading) => setIsLoading(isLoading),
+      (data) => setCryptogramData(data),
+      () => {},
+    );
   }, [id]);
 
   const handleSubmit = () => {
-    const url = edit === true ? `api/cryptograms/${id}` : "api/cryptograms";
     setErrors({});
-    request
-      .post(url, formData)
-      .then((response) => {
-        toast.success(response.data.message, toastOptions);
-        console.log("Form submitted successfully", response);
-        if (!notEraseData) {
-          navigate(`/dashboard/cryptograms/${response.data.data.id}`);
-        }
-      })
-      .catch((error) => {
-        if (error.response) {
-          setErrors(error.response.data.errors);
-          console.log(error.response.data.errors);
-          toast.error(error.response.data.message, toastOptions);
-        }
-      });
+
+    if (edit) {
+      cryptogramRepository.edit(
+        id,
+        formData,
+        () => {},
+        (data, message) => {
+          toast.success(message, toastOptions);
+          navigate(`/dashboard/cryptograms/${data.id}`);
+        },
+        (errors, message) => {
+          setErrors(errors);
+          toast.error(message, toastOptions);
+        },
+      );
+    } else {
+      cryptogramRepository.set(
+        formData,
+        () => {},
+        (data, message) => {
+          toast.success(message, toastOptions);
+          if (!notEraseData) {
+            navigate(`/dashboard/cryptograms/${data.id}`);
+          }
+        },
+        (errors, message) => {
+          setErrors(errors);
+          toast.error(message, toastOptions);
+        },
+      );
+    }
   };
   return (
     <>
@@ -176,18 +187,22 @@ function CreateCryptogramPage({ edit = false }) {
             defaultValue={cryptogramData?.datagroups}
             onChange={(name, value) => handleChange(name, value)}
           />
-          <div className={"flex flex-row items-center"}>
+          <div className={"flex flex-row items-center justify-between"}>
             <Button type={"submit"} onClick={() => {}}>
               Submit
             </Button>
-            <Label
-              className={"ml-2 mr-1"}
-              value={"Do not erase data after submit"}
-            />
-            <Checkbox
-              checked={notEraseData}
-              onClick={handleEraseData}
-            ></Checkbox>
+            {!edit && (
+              <div>
+                <Label
+                  className={"ml-2 mr-1"}
+                  value={"Do not erase data after submit"}
+                />
+                <Checkbox
+                  checked={notEraseData}
+                  onClick={handleEraseData}
+                ></Checkbox>
+              </div>
+            )}
           </div>
         </Form>
       )}

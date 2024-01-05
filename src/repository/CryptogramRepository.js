@@ -1,8 +1,6 @@
-import Repository from "./Repository";
+import Repository, { ALL } from "./Repository";
 import api from "../utils/api";
 
-export const ALL = 9999;
-export const INIT = 25;
 class CryptogramRepository extends Repository {
   constructor() {
     super();
@@ -18,18 +16,19 @@ class CryptogramRepository extends Repository {
       api
         .get(`api/cryptograms?detailed=1${perPage}`)
         .then((response) => {
-          const data = response?.data?.data?.data;
-          if (data) {
-            this.cryptograms = data;
-            if (count >= ALL) {
-              this.loadedAll = true;
-            }
-            onLoading(false);
-            onSuccess(this.cryptograms);
+          this.cryptograms = response?.data?.data?.data;
+          if (count >= ALL) {
+            this.loadedAll = true;
           }
+        })
+        .then(() => {
+          onSuccess(this.cryptograms);
         })
         .catch((error) => {
           onError(error);
+        })
+        .finally(() => {
+          onLoading(false);
         });
     } else {
       onLoading(false);
@@ -45,18 +44,19 @@ class CryptogramRepository extends Repository {
       api
         .get(`api/cryptograms/my?detailed=1${perPage}`)
         .then((response) => {
-          const data = response?.data?.data?.data;
-          if (data) {
-            this.myCryptograms = data;
-            if (count >= ALL) {
-              this.loadedMyAll = true;
-            }
-            onLoading(false);
-            onSuccess(this.myCryptograms);
+          this.myCryptograms = response?.data?.data?.data;
+          if (count >= ALL) {
+            this.loadedMyAll = true;
           }
+        })
+        .then(() => {
+          onSuccess(this.myCryptograms);
         })
         .catch((error) => {
           onError(error);
+        })
+        .finally(() => {
+          onLoading(false);
         });
     } else {
       onLoading(false);
@@ -77,29 +77,67 @@ class CryptogramRepository extends Repository {
         .get(`api/cryptograms/${id}`)
         .then((response) => {
           const data = response?.data?.data;
-          if (data) {
-            // todo check if created_by is sent only if belong to owner
-            if (!data.created_by) {
-              this.cryptograms.concat(data);
-            } else {
-              this.myCryptograms.concat(data);
-            }
-            onLoading(false);
-            onSuccess(data);
+          if (!data.created_by) {
+            this.cryptograms = this.cryptograms.concat(data);
           } else {
-            onError("Cryptogram not found");
+            this.myCryptograms = this.myCryptograms.concat(data);
           }
+          return data;
+        })
+        .then((data) => {
+          onSuccess(data);
         })
         .catch((error) => {
           onError(error);
+        })
+        .finally(() => {
+          onLoading(false);
         });
     }
   }
-  set() {
-    super.set();
+  set(data, onLoading, onSuccess, onError) {
+    onLoading(true);
+    api
+      .post("api/cryptograms", data)
+      .then((response) => {
+        this.myCryptograms = this.myCryptograms.concat(data);
+        return response;
+      })
+      .then((response) => {
+        onSuccess(response.data.data, response.data.message);
+      })
+      .catch((error) => {
+        onError(error?.response?.data?.errors, error?.response?.data?.message);
+      })
+      .finally(() => {
+        onLoading(false);
+      });
   }
-  edit() {
-    super.edit();
+  edit(id, data, onLoading, onSuccess, onError) {
+    onLoading(true);
+    api
+      .post(`api/cryptograms/${id}`, data)
+      .then((response) => {
+        this.myCryptograms = this.myCryptograms.filter(
+          (cryptogram) => cryptogram.id !== parseInt(id),
+        );
+        this.myCryptograms = this.myCryptograms.concat(data);
+        return response;
+      })
+      .then((response) => {
+        onSuccess(response.data.data, response.data.message);
+      })
+      .catch((error) => {
+        if (error.response) {
+          onError(
+            error?.response?.data?.errors,
+            error?.response?.data?.message,
+          );
+        }
+      })
+      .finally(() => {
+        onLoading(false);
+      });
   }
 }
 

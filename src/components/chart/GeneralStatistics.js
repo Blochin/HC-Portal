@@ -13,7 +13,7 @@ function GeneralStatistics({ statistics }) {
     <div>
       <div>
         <h2>General Statistics</h2>
-        <div className={"grid grid-col gap-2"}>
+        <div className={"flex-wrap"}>
           <TotalComponent
             total={statistics.count.total}
             title={"All"}

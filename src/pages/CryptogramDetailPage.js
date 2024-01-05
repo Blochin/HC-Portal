@@ -14,6 +14,7 @@ function CryptogramDetailPage() {
   const [cryptogramData, setCryptogramData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
+  const [galleryData, setGalleryData] = useState(null);
   const { cryptogramRepository } = useRepository();
 
   useEffect(() => {
@@ -25,11 +26,27 @@ function CryptogramDetailPage() {
     );
   }, [id]);
 
+  useEffect(() => {
+    handleGallery();
+  }, [cryptogramData]);
+
   const handleClone = () => {
     navigate(`/dashboard/cryptograms/add/${id}`);
   };
   const handleEdit = () => {
     navigate(`/dashboard/cryptograms/edit/${id}`);
+  };
+
+  const handleGallery = () => {
+    const data = cryptogramData?.datagroups?.flatMap((group) => {
+      return group.data
+        .filter((item) => item.type === "image")
+        .map((imageItem) => ({
+          url: imageItem.image.original,
+          meta: [],
+        }));
+    });
+    setGalleryData(data);
   };
 
   return (
@@ -48,6 +65,7 @@ function CryptogramDetailPage() {
             note={cryptogramData.note}
             onEdit={handleEdit}
             createdBy={cryptogramData.created_by}
+            galleryData={galleryData}
           />
           <Tabs
             color={"light"}

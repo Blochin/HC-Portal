@@ -1,3 +1,5 @@
+export const ALL = 9999;
+export const INIT = 25;
 class Repository {
   getAll() {
     throw new Error("getAll method must be implemented in derived classes");

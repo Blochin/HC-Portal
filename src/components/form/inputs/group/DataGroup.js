@@ -15,7 +15,7 @@ const DataGroup = ({
   const [dataComponents, setDataComponents] = useState(
     defaultValue ? defaultValue : [{ id: uuid() }],
   );
-  const [groupDescription, setGroupDescription] = useState("");
+  const [groupDescription, setGroupDescription] = useState(description);
 
   const handleDataChange = (id, newData) => {
     setDataComponents((prevComponents) => {
@@ -41,7 +41,7 @@ const DataGroup = ({
   return (
     <div className="bg-gray-50 rounded border-2 border-dashed border-gray-300 p-5 mb-6">
       <CustomTextInput
-        defaultValue={description ? description : ""}
+        defaultValue={groupDescription}
         name="description"
         label={"Group Description"}
         placeholder="Group Description"

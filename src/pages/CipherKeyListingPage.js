@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import ListingTable from "../components/listing/ListingTable";
 import { DataContext } from "../context/DataContext";
 import { mapCipherKeyData } from "../utils/helpers";
-import CipherKeyRepository from "../repository/CipherKeyRepository";
+import { useRepository } from "../context/RepositoryContext";
+import { ALL, INIT } from "../repository/Repository";
 
 const CipherKeyListingPage = () => {
   const navigate = useNavigate();
@@ -13,11 +14,11 @@ const CipherKeyListingPage = () => {
   const [cipherKeys, setCipherKeys] = useState([]);
   const [error, setError] = useState(null);
 
-  const cipherKeyRepository = new CipherKeyRepository();
+  const { cipherKeyRepository } = useRepository();
 
   useEffect(() => {
-    const initialCount = 50;
-    const fullLoadCount = 9999;
+    const initialCount = INIT;
+    const fullLoadCount = ALL;
 
     const handleLoading = (loading) => {
       setIsLoading(loading);

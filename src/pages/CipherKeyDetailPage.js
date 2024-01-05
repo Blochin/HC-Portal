@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../utils/api";
 import Header from "../components/detail/Header";
 import General from "../components/detail/General";
 import { HiArchive, HiDocumentDuplicate, HiDocumentText } from "react-icons/hi";
 import { Tabs } from "flowbite-react";
 import Description from "../components/detail/Description";
 import CipherKeyImages from "../components/detail/CipherKeyImages";
+import { useRepository } from "../context/RepositoryContext";
 
 function CryptogramDetailPage() {
   const { id } = useParams();
@@ -14,15 +14,22 @@ function CryptogramDetailPage() {
   const [cipherKeyData, setCipherKeyData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
+  const [galleryData, setGalleryData] = useState(null);
+
+  const { cipherKeyRepository } = useRepository();
 
   useEffect(() => {
-    const url = `api/cipher-keys/${id}`;
-    api.get(url).then((response) => {
-      setCipherKeyData(response.data.data);
-      setIsLoading(false);
-      console.log(response.data.data);
-    });
+    cipherKeyRepository.get(
+      id,
+      (isLoading) => setIsLoading(isLoading),
+      (data) => setCipherKeyData(data),
+      () => {},
+    );
   }, [id]);
+
+  useEffect(() => {
+    handleGallery();
+  }, [cipherKeyData]);
 
   const handleClone = () => {
     navigate(`/dashboard/cipher-keys/add/${id}`);
@@ -30,6 +37,29 @@ function CryptogramDetailPage() {
 
   const handleEdit = () => {
     navigate(`/dashboard/cipher-keys/edit/${id}`);
+  };
+  const handleGallery = () => {
+    const data = cipherKeyData?.images?.map((item) => {
+      const meta = [];
+
+      // Mapping the "structure" key
+      meta.push({
+        key: "Structure",
+        data: item.structure || "No",
+      });
+
+      // Mapping the "has_instructions" key
+      meta.push({
+        key: "Instructions",
+        data: item.has_instructions ? "Yes" : "No",
+      });
+
+      return {
+        url: item.url.thumb,
+        meta,
+      };
+    });
+    setGalleryData(data);
   };
 
   return (
@@ -48,6 +78,7 @@ function CryptogramDetailPage() {
             note={cipherKeyData.note}
             onEdit={handleEdit}
             createdBy={cipherKeyData.created_by}
+            galleryData={galleryData}
           />
           <Tabs
             color={"light"}

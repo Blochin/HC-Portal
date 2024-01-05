@@ -1,5 +1,4 @@
 import Form from "components/form/Form";
-import request from "utils/api";
 import Locations from "components/form/custom_inputs/Locations";
 import Tags from "components/form/custom_inputs/Tags";
 import RichtextEditor from "components/form/inputs/RichtextEditor";
@@ -9,7 +8,6 @@ import Availability from "../components/form/custom_inputs/Availability";
 import Languages from "../components/form/custom_inputs/Languages";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import api from "utils/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Checkbox, Label } from "flowbite-react";
 import { toast } from "react-toastify";
@@ -18,6 +16,7 @@ import CipherKeyUsers from "../components/form/custom_inputs/CipherKeyUsers";
 import CipherKeyImages from "../components/form/custom_inputs/CipherKeyImages";
 import KeyTypes from "../components/form/custom_inputs/KeyTypes";
 import { toastOptions } from "../components/ToastOptions";
+import { useRepository } from "../context/RepositoryContext";
 function CreateCipherKeyPage({ edit = false }) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -26,6 +25,7 @@ function CreateCipherKeyPage({ edit = false }) {
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
   const [notEraseData, setNotEraseData] = useState(false);
+  const { cipherKeyRepository } = useRepository();
 
   const handleEraseData = () => {
     setNotEraseData(!notEraseData);
@@ -47,38 +47,47 @@ function CreateCipherKeyPage({ edit = false }) {
       setIsLoading(false);
       return;
     }
-    api
-      .get(`api/cipher-keys/${id}`)
-      .then((responseData) => {
-        console.log(responseData.data.data);
-        setCipherKeyData(responseData.data.data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+    cipherKeyRepository.get(
+      id,
+      (isLoading) => setIsLoading(isLoading),
+      (data) => setCipherKeyData(data),
+      () => {},
+    );
   }, [id]);
 
   const handleSubmit = () => {
-    const url = edit === true ? `api/cipher-keys/${id}` : "api/cipher-keys";
     setErrors({});
-    console.log(notEraseData);
-    request
-      .post(url, formData)
-      .then((response) => {
-        toast.success(response.data.message, toastOptions);
-        console.log("Form submitted successfully", response);
-        if (!notEraseData) {
-          navigate(`/dashboard/cipher-keys/${response.data.data.id}`);
-        }
-      })
-      .catch((error) => {
-        if (error.response) {
-          setErrors(error.response.data.data);
-          console.log(error.response.data.data);
-          toast.error(error.response.data.message, toastOptions);
-        }
-      });
+
+    if (edit) {
+      cipherKeyRepository.edit(
+        id,
+        formData,
+        () => {},
+        (data, message) => {
+          toast.success(message, toastOptions);
+          navigate(`/dashboard/cipher-keys/${data.id}`);
+        },
+        (errors, message) => {
+          setErrors(errors);
+          toast.error(message, toastOptions);
+        },
+      );
+    } else {
+      cipherKeyRepository.set(
+        formData,
+        () => {},
+        (data, message) => {
+          toast.success(message, toastOptions);
+          if (!notEraseData) {
+            navigate(`/dashboard/cipher-keys/${data.id}`);
+          }
+        },
+        (errors, message) => {
+          setErrors(errors);
+          toast.error(message, toastOptions);
+        },
+      );
+    }
   };
   return (
     <>
@@ -182,18 +191,22 @@ function CreateCipherKeyPage({ edit = false }) {
             onChange={(name, value) => handleChange(name, value)}
           />
 
-          <div className={"flex flex-row items-center"}>
+          <div className={"flex flex-row items-center justify-between"}>
             <Button type={"submit"} onClick={() => {}}>
               Submit
             </Button>
-            <Label
-              className={"ml-2 mr-1"}
-              value={"Do not erase data after submit"}
-            />
-            <Checkbox
-              checked={notEraseData}
-              onClick={handleEraseData}
-            ></Checkbox>
+            {!edit && (
+              <div>
+                <Label
+                  className={"ml-2 mr-1"}
+                  value={"Do not erase data after submit"}
+                />
+                <Checkbox
+                  checked={notEraseData}
+                  onClick={handleEraseData}
+                ></Checkbox>
+              </div>
+            )}
           </div>
         </Form>
       )}

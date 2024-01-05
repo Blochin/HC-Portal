@@ -69,7 +69,11 @@ const Data = ({ selectedTab, defaultValue, removeComponent, onChange }) => {
   };
 
   const handleImageUpload = (name, imageFile) => {
-    setImageData({ ...imageData, [IMAGE_BASE64]: imageFile, title: name });
+    if (!imageData.title) {
+      setImageData({ ...imageData, [IMAGE_BASE64]: imageFile, title: name });
+    } else {
+      setImageData({ ...imageData, [IMAGE_BASE64]: imageFile });
+    }
   };
 
   useEffect(() => {

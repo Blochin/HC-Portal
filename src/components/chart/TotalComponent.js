@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 
 const TotalComponent = ({ total, title, description, icon: Icon }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div className="bg-white p-4 rounded shadow relative">
+    <div className="mb-2 rounded shadow">
+      <div className="bg-white p-4 relative">
         <h3 className="text-l mb-2 font-bold text-gray-700">{title}</h3>
         <div className="flex flex-col mb-2">
           <span className="text-sm text-gray-700 mr-2">{total}</span>

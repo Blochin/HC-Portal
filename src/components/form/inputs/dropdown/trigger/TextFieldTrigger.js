@@ -10,10 +10,12 @@ const TextFieldTrigger = ({ selectedValues, label, handleRemove }) => (
     ) : (
       <div className="flex justify-center gap-0.5 items-center">
         <span>{selectedValues[0]?.value}</span>
-        <HiX
-          className={"hover:cursor-pointer"}
-          onClick={(event) => handleRemove(selectedValues[0], event)}
-        />
+        {handleRemove && (
+          <HiX
+            className={"hover:cursor-pointer"}
+            onClick={(event) => handleRemove(selectedValues[0], event)}
+          />
+        )}
       </div>
     )}
   </>
@@ -22,7 +24,7 @@ const TextFieldTrigger = ({ selectedValues, label, handleRemove }) => (
 TextFieldTrigger.propTypes = {
   selectedValues: PropTypes.array.isRequired,
   label: PropTypes.string.isRequired,
-  handleRemove: PropTypes.func.isRequired,
+  handleRemove: PropTypes.func,
 };
 
 export default TextFieldTrigger;

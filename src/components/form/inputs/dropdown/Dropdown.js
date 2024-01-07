@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Checkbox, Dropdown, Label, TextInput } from "flowbite-react";
-import { HiArrowDown, HiSearch } from "react-icons/hi";
+import { HiChevronDown, HiSearch } from "react-icons/hi";
 import { resolveLayoutClass } from "./trigger/Layout";
 import BadgeTrigger from "./trigger/BadgeTrigger";
 import TextFieldTrigger from "./trigger/TextFieldTrigger";
 import { COLOR_GRAY, resolveColorClasses } from "../Colors";
 
 const CustomDropdown = ({
-  label,
+  label = null,
   isRequired,
   name,
   value = undefined,
@@ -20,6 +20,7 @@ const CustomDropdown = ({
   onSelect,
   color = COLOR_GRAY,
   className,
+  canRemove = true,
 }) => {
   const resolveDefaultSelectedValues = (value, isMulti) => {
     if (isMulti) {
@@ -99,10 +100,13 @@ const CustomDropdown = ({
   return (
     <div className={`${className} flex flex-col gap-4`}>
       <div>
-        <div className="mb-2 block">
-          <Label value={label} />
-          {isRequired && <span className="ml-1 text-red-500">*</span>}
-        </div>
+        {label && (
+          <div className="mb-2 block">
+            <Label value={label} />
+            {isRequired && <span className="ml-1 text-red-500">*</span>}
+          </div>
+        )}
+
         <Dropdown
           inline={true}
           color={"light"}
@@ -118,18 +122,18 @@ const CustomDropdown = ({
                   isRequired={isRequired}
                   selectedValues={selectedValues}
                   label={label}
-                  handleRemove={handleRemove}
+                  handleRemove={canRemove ? handleRemove : null}
                 />
               ) : (
                 <TextFieldTrigger
                   isRequired={isRequired}
                   selectedValues={selectedValues}
                   label={label}
-                  handleRemove={handleRemove}
+                  handleRemove={canRemove ? handleRemove : null}
                 />
               )}
               <span>
-                <HiArrowDown />
+                <HiChevronDown size={16} />
               </span>
             </div>
           )}
@@ -187,7 +191,7 @@ const CustomDropdown = ({
 };
 
 CustomDropdown.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   isRequired: PropTypes.bool,
   name: PropTypes.string.isRequired,
   value: PropTypes.object,
@@ -200,6 +204,7 @@ CustomDropdown.propTypes = {
   onSelect: PropTypes.func.isRequired,
   color: PropTypes.string,
   className: PropTypes.string,
+  canRemove: PropTypes.bool,
 };
 
 export default CustomDropdown;

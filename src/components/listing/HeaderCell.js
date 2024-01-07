@@ -1,6 +1,5 @@
 import { Table } from "flowbite-react";
 import PropTypes from "prop-types";
-import CustomTextInput from "../form/inputs/TextInput";
 import { HiArrowDown, HiArrowUp } from "react-icons/hi";
 import { HiArrowsUpDown } from "react-icons/hi2";
 
@@ -26,14 +25,6 @@ function renderHeaderCell(header, onFilterChange, onSort, sortConfig) {
     default:
       return (
         <div className={"w-48 flex flex-col items-start"}>
-          <CustomTextInput
-            size={"sm"}
-            type="text"
-            defaultValue={""}
-            name={header}
-            placeholder={`${header}`}
-            onChange={(name, value) => onFilterChange(name, value)}
-          />
           <div
             onClick={() => onSort(header)}
             className="flex items-center cursor-pointer"

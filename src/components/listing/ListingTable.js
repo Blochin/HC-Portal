@@ -1,11 +1,13 @@
 import PropTypes from "prop-types";
-import { Table, ToggleSwitch } from "flowbite-react";
+import { Button, Table } from "flowbite-react";
 import { useEffect, useMemo, useState } from "react";
 import CustomPagination from "../Pagination";
 import Dropdown from "../form/inputs/dropdown/Dropdown";
 import CustomCell from "./Cell";
 import CustomHeaderCell from "./HeaderCell";
 import { parseDateFromObject } from "../../utils/utils";
+import Filters from "./Filters";
+import { HiOutlineFunnel } from "react-icons/hi2";
 
 const ListingTable = ({
   fullHeaders,
@@ -32,8 +34,11 @@ const ListingTable = ({
 
   const handleFilterChange = (key, value) => {
     if (value === "") {
-      setFilters([]);
-      return;
+      if (filters.length === 0) {
+        setFilters([]);
+        return;
+      }
+      setFilters(filters);
     }
     setFilters({
       ...filters,
@@ -70,7 +75,6 @@ const ListingTable = ({
         let valueA = a[sortConfig.key];
         let valueB = b[sortConfig.key];
 
-        console.log(valueA === "object");
         if (sortConfig.key === "date") {
           if (typeof valueA == "object") {
             valueA = parseDateFromObject(valueA);
@@ -121,9 +125,9 @@ const ListingTable = ({
     }
   }, [filteredData, perPage]);
 
-  const handleHeaders = (value) => {
-    setAddFilters(value);
-    if (value === true) {
+  const handleHeaders = () => {
+    setAddFilters(!addFilters);
+    if (!addFilters === true) {
       setCopyHeaders(fullHeaders);
     } else {
       setCopyHeaders(lessHeaders);
@@ -138,35 +142,50 @@ const ListingTable = ({
     <div>
       {!hideSearchBar && (
         <div className={"flex flex-row justify-between items-center"}>
-          <div className={"w-32 mb-6"}>
+          <div></div>
+        </div>
+      )}
+
+      <Filters
+        headers={fullHeaders.map((item) => ({
+          value: item,
+          is_checked: copyHeaders.includes(item),
+        }))}
+        onSelectHeaders={(headers) =>
+          setCopyHeaders(headers.map((item) => item.value))
+        }
+        onFilterChange={(key, value) => handleFilterChange(key, value)}
+        data={data}
+        pagination={
+          <div className={"w-32"}>
             <Dropdown
               isMulti={false}
               withMeta={false}
               value={{ value: perPage }}
               data={perPageOptions}
               name={"per_page"}
-              label={"Per Page"}
               canAddNew={false}
+              canRemove={false}
               onSelect={(name, value) =>
                 setPerPage(value?.value ? parseInt(value.value) : perPage)
               }
             />
           </div>
-          <div>
-            <ToggleSwitch
-              label={"Add Filters"}
-              checked={addFilters}
-              onChange={handleHeaders}
-            />
-          </div>
-        </div>
-      )}
-
-      <div
-        className={
-          "overflow-x-auto border-2 border-dashed border-gray-300 rounded-lg"
         }
-      >
+        fullHeaders={
+          <Button
+            label={"Add Filters"}
+            color={"gray"}
+            checked={addFilters}
+            onClick={handleHeaders}
+          >
+            <HiOutlineFunnel className={"mr-1"} />
+            {!addFilters ? "Full Filters" : "Less Filters"}
+          </Button>
+        }
+      />
+
+      <div className={"overflow-x-auto shadow-lg"}>
         <Table striped hoverable>
           <Table.Head>
             {copyHeaders?.map((header) => (

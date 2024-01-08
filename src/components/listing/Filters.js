@@ -77,7 +77,11 @@ const Filters = ({
 
       <div className={"mt-3 flex flex-row gap-5 items-center justify-between"}>
         <div className={"w-1/2"}>
-          <FloatingLabel variant="standard" label="Global Filter" />
+          <FloatingLabel
+            variant="standard"
+            onChange={(event) => onFilterChange("global", event.target.value)}
+            label="Global Filter"
+          />
         </div>
         <div
           className={"flex flex-row items-center justify-between w-full gap-2"}

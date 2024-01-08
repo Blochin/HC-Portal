@@ -47,11 +47,34 @@ const ListingTable = ({
   };
 
   const filteredData = useMemo(() => {
-    return data?.filter((item) =>
-      Object.entries(filters).every(([key, value]) =>
-        item[key]?.toString()?.toLowerCase()?.includes(value?.toLowerCase()),
-      ),
-    );
+    return data?.filter((item) => {
+      if (Object.keys(filters).length === 0) {
+        return true;
+      }
+
+      let globalSearch = "";
+
+      if (Object.prototype.hasOwnProperty.call(filters, "global")) {
+        globalSearch = filters["global"].toLowerCase();
+      }
+
+      return (
+        Object.entries(filters).every(([key, value]) => {
+          if (key === "global") {
+            return true;
+          }
+
+          return item[key]
+            ?.toString()
+            ?.toLowerCase()
+            ?.includes(value?.toLowerCase());
+        }) &&
+        (Object.values(item).some(
+          (val) => val && val.toString().toLowerCase().includes(globalSearch),
+        ) ||
+          globalSearch === "")
+      );
+    });
   }, [data, filters]);
 
   const handleSort = (key) => {
@@ -131,6 +154,7 @@ const ListingTable = ({
       setCopyHeaders(fullHeaders);
     } else {
       setCopyHeaders(lessHeaders);
+      setFilters({});
     }
   };
 

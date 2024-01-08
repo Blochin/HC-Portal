@@ -64,18 +64,24 @@ const ListingTable = ({
             return true;
           }
 
-          return item[key]
-            ?.toString()
-            ?.toLowerCase()
-            ?.includes(value?.toLowerCase());
+          if (copyHeaders.includes(key)) {
+            return item[key]
+              ?.toString()
+              ?.toLowerCase()
+              ?.includes(value?.toLowerCase());
+          }
+          return true;
         }) &&
-        (Object.values(item).some(
-          (val) => val && val.toString().toLowerCase().includes(globalSearch),
+        (Object.keys(item).some(
+          (key) =>
+            copyHeaders.includes(key) &&
+            item[key] &&
+            item[key].toString().toLowerCase().includes(globalSearch),
         ) ||
           globalSearch === "")
       );
     });
-  }, [data, filters]);
+  }, [data, filters, copyHeaders]);
 
   const handleSort = (key) => {
     let direction = "ascending";
@@ -218,7 +224,6 @@ const ListingTable = ({
                 header={header}
                 sortConfig={sortConfig}
                 onSort={handleSort}
-                onFilterChange={handleFilterChange}
               />
             ))}
           </Table.Head>

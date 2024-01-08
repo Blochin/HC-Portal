@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import { HiArrowDown, HiArrowUp } from "react-icons/hi";
 import { HiArrowsUpDown } from "react-icons/hi2";
 
-const CustomHeaderCell = ({ header, onFilterChange, onSort, sortConfig }) => {
+const CustomHeaderCell = ({ header, onSort, sortConfig }) => {
   return (
     <Table.HeadCell className={"text-start"}>
-      {renderHeaderCell(header, onFilterChange, onSort, sortConfig)}
+      {renderHeaderCell(header, onSort, sortConfig)}
     </Table.HeadCell>
   );
 };
@@ -18,7 +18,7 @@ CustomHeaderCell.propTypes = {
   sortConfig: PropTypes.object,
 };
 
-function renderHeaderCell(header, onFilterChange, onSort, sortConfig) {
+function renderHeaderCell(header, onSort, sortConfig) {
   switch (header) {
     case "edit":
       return null;

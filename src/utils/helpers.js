@@ -41,7 +41,6 @@ export const mapCryptogramData = (item) => {
 };
 
 export const mapCipherKeyData = (item) => {
-  console.log(item);
   let newProperties = {};
   if (item.category) {
     newProperties.category = item.category.name;

@@ -18,6 +18,7 @@ import { Button, Checkbox, Label } from "flowbite-react";
 import { toast } from "react-toastify";
 import { toastOptions } from "../components/ToastOptions";
 import { useRepository } from "../context/RepositoryContext";
+import PairCryptogram from "../components/form/custom_inputs/PairCryptogram";
 
 // eslint-disable-next-line no-unused-vars
 function CreateCryptogramPage({ edit = false }) {
@@ -182,6 +183,10 @@ function CreateCryptogramPage({ edit = false }) {
             defaultSenderValue={cryptogramData?.sender}
             defaultRecipientValue={cryptogramData?.recipient}
             onChange={(name, value) => handleChange(name, value)}
+          />
+          <PairCryptogram
+            defaultValue={cryptogramData?.cipher_key_id}
+            onSelect={(name, value) => handleChange(name, value)}
           />
           <DataGroups
             defaultValue={cryptogramData?.datagroups}

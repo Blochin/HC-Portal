@@ -42,13 +42,11 @@ function CryptogramDetailPage() {
     const data = cipherKeyData?.images?.map((item) => {
       const meta = [];
 
-      // Mapping the "structure" key
       meta.push({
         key: "Structure",
         data: item.structure || "No",
       });
 
-      // Mapping the "has_instructions" key
       meta.push({
         key: "Instructions",
         data: item.has_instructions ? "Yes" : "No",

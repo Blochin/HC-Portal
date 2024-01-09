@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const TextFieldTrigger = ({ selectedValues, label, handleRemove }) => (
   <>
-    {selectedValues.length === 0 ? (
+    {!selectedValues || selectedValues?.length === 0 ? (
       <Label className={"text-gray-500"}>{label}</Label>
     ) : (
       <div className="flex justify-center gap-0.5 items-center">

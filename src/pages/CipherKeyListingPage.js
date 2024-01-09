@@ -1,53 +1,15 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ListingTable from "../components/listing/ListingTable";
 import { DataContext } from "../context/DataContext";
 import { mapCipherKeyData } from "../utils/helpers";
-import { useRepository } from "../context/RepositoryContext";
-import { ALL, INIT } from "../repository/Repository";
+import useCipherKeys from "../hooks/useCipherKeys";
 
 const CipherKeyListingPage = () => {
   const navigate = useNavigate();
+
   const { allCipherKeyHeaders, lessCipherKeyHeaders } = useContext(DataContext);
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [cipherKeys, setCipherKeys] = useState([]);
-  const [error, setError] = useState(null);
-
-  const { cipherKeyRepository } = useRepository();
-
-  useEffect(() => {
-    const initialCount = INIT;
-    const fullLoadCount = ALL;
-
-    const handleLoading = (loading) => {
-      setIsLoading(loading);
-    };
-
-    const handleSuccess = (data, isInitialLoad) => {
-      setCipherKeys(data);
-      if (isInitialLoad) {
-        cipherKeyRepository.getAll(
-          fullLoadCount,
-          () => {},
-          (fullData) => handleSuccess(fullData, false),
-          handleError,
-        );
-      }
-    };
-
-    const handleError = (error) => {
-      setError(error);
-    };
-
-    cipherKeyRepository.getAll(
-      initialCount,
-      handleLoading,
-      (data) => handleSuccess(data, true),
-      handleError,
-    );
-  }, []);
-
+  const { isLoading, cipherKeys, error } = useCipherKeys(false);
   return (
     <>
       {isLoading || error ? (

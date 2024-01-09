@@ -75,7 +75,7 @@ const Header = ({
           </div>
         </div>
       </div>
-      {isGalleryOpen && (
+      {isGalleryOpen && galleryData.length > 0 && (
         <CustomGallery
           data={galleryData}
           isGalleryOpen={isGalleryOpen}

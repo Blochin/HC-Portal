@@ -1,8 +1,43 @@
 import { Badge, Table } from "flowbite-react";
 import PropTypes from "prop-types";
 import { parseDate } from "../../utils/utils";
+import { useEffect, useState } from "react";
+import { useRepository } from "../../context/RepositoryContext";
+import { useNavigate } from "react-router-dom";
 
 const General = ({ data }) => {
+  const navigate = useNavigate();
+  const { cipherKeyRepository, cryptogramRepository } = useRepository();
+  const [paired, setPaired] = useState(null);
+  useEffect(() => {
+    if (data?.cipher_key_id) {
+      cipherKeyRepository.get(
+        data?.cipher_key_id,
+        () => {},
+        (data) => {
+          setPaired(data);
+        },
+        () => {},
+      );
+    }
+    if (data?.cryptograms_id) {
+      const cryptograms = [];
+      data?.cryptograms_id.forEach((id) => {
+        cryptogramRepository.get(
+          id,
+          () => {},
+          (cryptogram) => {
+            cryptograms.push(cryptogram);
+            if (cryptograms.length === data?.cryptograms_id?.length) {
+              setPaired(cryptograms);
+            }
+          },
+          () => {},
+        );
+      });
+    }
+  }, [data]);
+
   return (
     <div className="overflow-x-auto">
       <Table striped>
@@ -11,6 +46,51 @@ const General = ({ data }) => {
           <Table.HeadCell>Value</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
+          {data?.cipher_key_id && (
+            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                Paired Cipher Key
+              </Table.Cell>
+              <Table.Cell>
+                <div className={"flex flex-wrap gap1"}>
+                  <Badge
+                    className={"cursor-pointer"}
+                    onClick={() =>
+                      navigate(`/dashboard/cipher-keys/${paired?.id}`)
+                    }
+                    color={"green"}
+                  >
+                    {paired?.name}
+                  </Badge>
+                </div>
+              </Table.Cell>
+            </Table.Row>
+          )}
+
+          {data?.cryptograms_id && (
+            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                Paired Cryptograms
+              </Table.Cell>
+              <Table.Cell>
+                <div className={"flex flex-wrap gap-1"}>
+                  {paired?.map((cryptogram, index) => (
+                    <Badge
+                      key={index}
+                      className={"cursor-pointer"}
+                      onClick={() =>
+                        navigate(`/dashboard/cryptograms/${cryptogram?.id}`)
+                      }
+                      color={"green"}
+                    >
+                      {cryptogram?.name}
+                    </Badge>
+                  ))}
+                </div>
+              </Table.Cell>
+            </Table.Row>
+          )}
+
           <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
               Main Category

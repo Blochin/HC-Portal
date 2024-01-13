@@ -52,10 +52,6 @@ const CipherKeyDates = ({
     );
   }, [defaultFromDateValue, defaultToDateValue, defaultAroundDateValue]);
 
-  console.log(defaultFromDateValue);
-  console.log(defaultToDateValue);
-  console.log(defaultAroundDateValue);
-
   return (
     <div className={"flex flex-col"}>
       <fieldset className="flex flex-row gap-4 mb-6">

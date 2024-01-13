@@ -17,6 +17,7 @@ import CipherKeyImages from "../components/form/custom_inputs/CipherKeyImages";
 import KeyTypes from "../components/form/custom_inputs/KeyTypes";
 import { toastOptions } from "../components/ToastOptions";
 import { useRepository } from "../context/RepositoryContext";
+import PairCryptograms from "../components/form/custom_inputs/PairCryptograms";
 function CreateCipherKeyPage({ edit = false }) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -186,6 +187,10 @@ function CreateCipherKeyPage({ edit = false }) {
             errorMessage={errors?.key_type}
           />
 
+          <PairCryptograms
+            onSelect={(name, value) => handleChange(name, value)}
+            defaultValue={cipherKeyData?.cryptograms_id}
+          />
           <CipherKeyImages
             defaultValue={cipherKeyData?.images}
             onChange={(name, value) => handleChange(name, value)}

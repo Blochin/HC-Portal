@@ -9,7 +9,7 @@ import useCipherKeys from "../../../hooks/useCipherKeys";
 import { useRepository } from "../../../context/RepositoryContext";
 import PropTypes from "prop-types";
 
-const PairCryptogram = ({ defaultValue, onSelect }) => {
+const PairCipherKey = ({ defaultValue, onSelect }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCipherKey, setSelectedCipherKey] = useState(null);
   const { allCipherKeyHeaders, lessCipherKeyHeaders } = useContext(DataContext);
@@ -18,6 +18,11 @@ const PairCryptogram = ({ defaultValue, onSelect }) => {
 
   const handleModal = (value) => {
     setModalOpen(value);
+  };
+
+  const handleRemove = (value, event) => {
+    event.stopPropagation();
+    setSelectedCipherKey(null);
   };
 
   const handleRowClick = (id) => {
@@ -60,13 +65,14 @@ const PairCryptogram = ({ defaultValue, onSelect }) => {
   return (
     <div className={"mb-6"}>
       <div className="mb-2 block">
-        <Label value={"Label"} />
+        <Label value={"Pair Cipher Key"} />
       </div>
       <div
         onClick={() => handleModal(true)}
-        className={`flex items-center justify-start bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
+        className={`flex items-center justify-between bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
       >
         <TextFieldTrigger
+          handleRemove={(value, event) => handleRemove(value, event)}
           selectedValues={selectedCipherKey}
           label={"Pair Cryptograms"}
         />
@@ -96,8 +102,8 @@ const PairCryptogram = ({ defaultValue, onSelect }) => {
   );
 };
 
-PairCryptogram.propTypes = {
+PairCipherKey.propTypes = {
   defaultValue: PropTypes.number,
   onSelect: PropTypes.func.isRequired,
 };
-export default PairCryptogram;
+export default PairCipherKey;

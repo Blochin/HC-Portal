@@ -57,14 +57,10 @@ function CryptogramDetailPage() {
         <div>
           <Header
             className={"mb-6"}
-            title={cryptogramData.name}
             image={cryptogramData.thumb}
-            tags={cryptogramData.tags}
-            onClone={handleClone}
-            state={cryptogramData.state.title}
-            note={cryptogramData.note}
+            data={cryptogramData}
             onEdit={handleEdit}
-            createdBy={cryptogramData.created_by}
+            onClone={handleClone}
             galleryData={galleryData}
           />
           <Tabs

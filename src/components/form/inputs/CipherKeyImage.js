@@ -26,7 +26,6 @@ const CipherKeyImage = ({ defaultValue, onChange, removeComponent }) => {
       ...prevImageData,
       [name]: value,
     }));
-    console.log(imageData);
     onChange({ ...imageData, [name]: value });
   };
 

@@ -43,7 +43,6 @@ function CreateCryptogramPage({ edit = false }) {
       ...prevFormData,
       [name]: value,
     }));
-    console.log(formData, { [name]: value });
   };
 
   useEffect(() => {

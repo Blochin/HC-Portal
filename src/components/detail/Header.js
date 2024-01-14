@@ -1,36 +1,18 @@
 import PropTypes from "prop-types";
 import { Badge, Dropdown } from "flowbite-react";
 import CustomAlert from "./CustomAlert";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useUser } from "../../context/UserContext";
 import CustomGallery from "./CustomGallery";
 import { HiDotsVertical } from "react-icons/hi";
 
-// eslint-disable-next-line no-unused-vars
-const Header = ({
-  className,
-  image,
-  title,
-  tags,
-  onClone,
-  state,
-  onEdit,
-  note,
-  createdBy,
-  galleryData,
-}) => {
-  const [displayNote, setDisplayNote] = useState(false);
+const Header = ({ data, image, className, onClone, onEdit, galleryData }) => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const { user } = useUser();
+  const isOwner = data?.created_by?.id === user?.id && user?.id;
 
-  useEffect(() => {
-    if (createdBy?.id === user?.id && user?.id) {
-      setDisplayNote(true);
-    }
-  });
   const handleGallery = () => {
     setIsGalleryOpen(!isGalleryOpen);
-    console.log(isGalleryOpen);
   };
 
   return (
@@ -39,16 +21,16 @@ const Header = ({
         <div className="flex flex-col gap-4 justify-start lg:flex-row  lg:items-start">
           <div className={"lg:w-1/2"}>
             <div className="">
-              <img src={image} alt={title} className="object-cover" />
+              <img src={image} alt={data?.name} className="object-cover" />
             </div>
           </div>
           <div className={"lg:w-1/2"}>
             <div className="flex flex-col w-full justify-center">
-              {displayNote && (
+              {isOwner && (
                 <CustomAlert
-                  state={state}
+                  state={data?.state?.title}
                   onEdit={onEdit}
-                  note={note}
+                  note={data?.note}
                   heading={null}
                   text={""}
                 />
@@ -61,17 +43,19 @@ const Header = ({
                       "flex flex-row items-center justify-between border-b pb-1"
                     }
                   >
-                    <span>{title}</span>
+                    <span>{data?.name}</span>
                     {
                       <RenderOptions
+                        onEdit={onEdit}
                         onClone={onClone}
-                        handleGalleryClick={handleGallery}
+                        handleGallery={handleGallery}
+                        createdBy={data?.created_by}
                       />
                     }
                   </div>
                 </div>
                 <div className="flex flex-row gap-2 mb-4">
-                  {tags.map((tag, index) => (
+                  {data?.tags?.map((tag, index) => (
                     <Badge color={"light"} key={index}>
                       {tag.name}
                     </Badge>
@@ -95,8 +79,10 @@ const Header = ({
     </div>
   );
 };
-const RenderOptions = ({ onClone, handleGallery }) => {
+const RenderOptions = ({ onClone, onEdit, handleGallery, createdBy }) => {
   const { user } = useUser();
+  const isOwner = createdBy?.id === user?.id && user?.id;
+
   return (
     <Dropdown
       label={"options"}
@@ -112,6 +98,7 @@ const RenderOptions = ({ onClone, handleGallery }) => {
       )}
     >
       {user && <Dropdown.Item onClick={onClone}>Clone</Dropdown.Item>}
+      {user && isOwner && <Dropdown.Item onClick={onEdit}>Edit</Dropdown.Item>}
       <Dropdown.Item>Export PDF</Dropdown.Item>
       <Dropdown.Item onClick={handleGallery}>Gallery</Dropdown.Item>
     </Dropdown>
@@ -120,20 +107,18 @@ const RenderOptions = ({ onClone, handleGallery }) => {
 
 RenderOptions.propTypes = {
   onClone: PropTypes.func,
+  onEdit: PropTypes.func,
   handleGallery: PropTypes.func,
+  createdBy: PropTypes.object,
 };
 
 Header.propTypes = {
+  data: PropTypes.object,
+  image: PropTypes.string,
   className: PropTypes.array,
-  image: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  tags: PropTypes.array.isRequired,
   onClone: PropTypes.func,
   onExport: PropTypes.func,
-  state: PropTypes.string,
   onEdit: PropTypes.func,
-  note: PropTypes.string,
-  createdBy: PropTypes.object,
   galleryData: PropTypes.object,
 };
 

@@ -27,11 +27,8 @@ const CustomGallery = ({ data, isGalleryOpen, setIsGalleryOpen }) => {
       title: "",
     };
   });
-  console.log(photos);
-  console.log(photos.length);
   const handleClose = () => {
     setIsGalleryOpen(false);
-    console.log(isGalleryOpen);
   };
 
   return (

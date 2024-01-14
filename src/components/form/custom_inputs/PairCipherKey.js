@@ -43,7 +43,10 @@ const PairCipherKey = ({ defaultValue, onSelect }) => {
   };
 
   useEffect(() => {
-    onSelect("cipher_key_id", selectedCipherKey?.[0]?.id);
+    onSelect(
+      "cipher_key_id",
+      selectedCipherKey?.[0]?.id ? selectedCipherKey?.[0]?.id : null,
+    );
   }, [selectedCipherKey]);
 
   useEffect(() => {

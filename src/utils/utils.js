@@ -36,7 +36,6 @@ export function parseDateFromObject(obj) {
     obj?.props &&
     Array.isArray(obj.props.children)
   ) {
-    console.log(obj);
     for (const child of obj.props.children) {
       if (typeof child === "string") {
         const date = parseDateFromString(child);

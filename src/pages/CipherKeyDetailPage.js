@@ -68,14 +68,10 @@ function CryptogramDetailPage() {
         <div>
           <Header
             className={"mb-6"}
-            title={cipherKeyData.name}
+            data={cipherKeyData}
             image={cipherKeyData?.images?.[0]?.url.thumb}
-            tags={cipherKeyData.tags}
             onClone={handleClone}
-            state={cipherKeyData.state.title}
-            note={cipherKeyData.note}
             onEdit={handleEdit}
-            createdBy={cipherKeyData.created_by}
             galleryData={galleryData}
           />
           <Tabs

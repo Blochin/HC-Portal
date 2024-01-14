@@ -100,7 +100,7 @@ class CryptogramRepository extends Repository {
     api
       .post("api/cryptograms", data)
       .then((response) => {
-        this.myCryptograms = this.myCryptograms.concat(data);
+        this.myCryptograms = this.myCryptograms.concat(response.data.data);
         return response;
       })
       .then((response) => {
@@ -121,7 +121,7 @@ class CryptogramRepository extends Repository {
         this.myCryptograms = this.myCryptograms.filter(
           (cryptogram) => cryptogram.id !== parseInt(id),
         );
-        this.myCryptograms = this.myCryptograms.concat(data);
+        this.myCryptograms = this.myCryptograms.concat(response.data.data);
         return response;
       })
       .then((response) => {

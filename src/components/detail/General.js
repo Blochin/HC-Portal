@@ -46,51 +46,6 @@ const General = ({ data }) => {
           <Table.HeadCell>Value</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {data?.cipher_key_id && (
-            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                Paired Cipher Key
-              </Table.Cell>
-              <Table.Cell>
-                <div className={"flex flex-wrap gap1"}>
-                  <Badge
-                    className={"cursor-pointer"}
-                    onClick={() =>
-                      navigate(`/dashboard/cipher-keys/${paired?.id}`)
-                    }
-                    color={"green"}
-                  >
-                    {paired?.name}
-                  </Badge>
-                </div>
-              </Table.Cell>
-            </Table.Row>
-          )}
-
-          {data?.cryptograms_id && (
-            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                Paired Cryptograms
-              </Table.Cell>
-              <Table.Cell>
-                <div className={"flex flex-wrap gap-1"}>
-                  {paired?.map((cryptogram, index) => (
-                    <Badge
-                      key={index}
-                      className={"cursor-pointer"}
-                      onClick={() =>
-                        navigate(`/dashboard/cryptograms/${cryptogram?.id}`)
-                      }
-                      color={"green"}
-                    >
-                      {cryptogram?.name}
-                    </Badge>
-                  ))}
-                </div>
-              </Table.Cell>
-            </Table.Row>
-          )}
-
           <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
               Main Category
@@ -214,24 +169,48 @@ const General = ({ data }) => {
               <Table.Cell>{data?.availability}</Table.Cell>
             </Table.Row>
           )}
-          {data?.users?.length > 0 && (
-            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                Users
-              </Table.Cell>
-              <Table.Cell className="flex flex-wrap gap-2">
-                {data.users.map((user, index) => (
-                  <Badge
-                    color={user.is_main_user === 1 ? "yellow" : "light"}
-                    key={index}
-                    className="whitespace-nowrap overflow-hidden"
-                  >
-                    {user.person.name}
-                  </Badge>
-                ))}{" "}
-              </Table.Cell>
-            </Table.Row>
-          )}
+          {data?.users?.length > 0 &&
+            data?.users?.some((item) => item.is_main_user) && (
+              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  Main Users
+                </Table.Cell>
+                <Table.Cell className="flex flex-wrap gap-2">
+                  {data.users.map((user, index) => {
+                    return user.is_main_user ? (
+                      <Badge
+                        color={user.is_main_user === 1 ? "yellow" : "light"}
+                        key={`main-${index}`}
+                        className="whitespace-nowrap overflow-hidden"
+                      >
+                        {user.person.name}
+                      </Badge>
+                    ) : null;
+                  })}
+                </Table.Cell>
+              </Table.Row>
+            )}
+          {data?.users?.length > 0 &&
+            data?.users?.some((item) => !item.is_main_user) && (
+              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  Users
+                </Table.Cell>
+                <Table.Cell className="flex flex-wrap gap-2">
+                  {data.users.map((user, index) => {
+                    return !user.is_main_user ? (
+                      <Badge
+                        color={user.is_main_user === 1 ? "yellow" : "light"}
+                        key={`common-${index}`}
+                        className="whitespace-nowrap overflow-hidden"
+                      >
+                        {user.person.name}
+                      </Badge>
+                    ) : null;
+                  })}
+                </Table.Cell>
+              </Table.Row>
+            )}
           {data?.sender?.name && (
             <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
               <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
@@ -254,6 +233,50 @@ const General = ({ data }) => {
                 Complete Structure
               </Table.Cell>
               <Table.Cell>{data.complete_structure}</Table.Cell>
+            </Table.Row>
+          )}
+          {data?.cipher_key_id && paired && (
+            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                Paired Cipher Key
+              </Table.Cell>
+              <Table.Cell>
+                <div className={"flex flex-wrap gap1"}>
+                  <Badge
+                    className={"cursor-pointer"}
+                    onClick={() =>
+                      navigate(`/dashboard/cipher-keys/${paired?.id}`)
+                    }
+                    color={"green"}
+                  >
+                    {paired?.name}
+                  </Badge>
+                </div>
+              </Table.Cell>
+            </Table.Row>
+          )}
+
+          {data?.cryptograms_id && paired && (
+            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                Paired Cryptograms
+              </Table.Cell>
+              <Table.Cell>
+                <div className={"flex flex-wrap gap-1"}>
+                  {paired?.map((cryptogram, index) => (
+                    <Badge
+                      key={index}
+                      className={"cursor-pointer"}
+                      onClick={() =>
+                        navigate(`/dashboard/cryptograms/${cryptogram?.id}`)
+                      }
+                      color={"green"}
+                    >
+                      {cryptogram?.name}
+                    </Badge>
+                  ))}
+                </div>
+              </Table.Cell>
             </Table.Row>
           )}
         </Table.Body>

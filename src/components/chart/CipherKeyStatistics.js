@@ -5,7 +5,6 @@ import CipherKeyChart from "./CipherKeyChart";
 import CipherOneChart from "./CipherOneChart";
 
 function CipherKeyStatistics({ statistics }) {
-  console.log(statistics);
   return (
     <div>
       <div>

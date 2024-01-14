@@ -100,14 +100,13 @@ class CipherKeyRepository extends Repository {
     api
       .post("api/cipher-keys", data)
       .then((response) => {
-        this.myCipherKeys = this.myCipherKeys.concat(data);
+        this.myCipherKeys = this.myCipherKeys.concat(response.data.data);
         return response;
       })
       .then((response) => {
         onSuccess(response.data.data, response.data.message);
       })
       .catch((error) => {
-        console.log(error);
         onError(error?.response?.data?.data, error?.response?.data?.message);
       })
       .finally(() => {
@@ -122,7 +121,8 @@ class CipherKeyRepository extends Repository {
         this.myCipherKeys = this.myCipherKeys.filter(
           (cipherKey) => cipherKey.id !== parseInt(id),
         );
-        this.myCipherKeys = this.myCipherKeys.concat(data);
+        console.log(response);
+        this.myCipherKeys = this.myCipherKeys.concat(response.data.data);
         return response;
       })
       .then((response) => {

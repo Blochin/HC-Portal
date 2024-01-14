@@ -66,9 +66,9 @@ export const mapCipherKeyData = (item) => {
       item.folder?.fond?.archive?.name;
   }
   newProperties.users =
-    item?.users.length !== 0
-      ? item?.users.map((user) => {
-          return user?.person.name;
+    item?.users?.length !== 0
+      ? item?.users?.map((user) => {
+          return user?.person?.name;
         })
       : ["Undefined"];
 

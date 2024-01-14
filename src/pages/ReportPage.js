@@ -16,7 +16,6 @@ function ReportPage() {
     api.get(url).then((response) => {
       setStatistics(response.data.data);
       setIsLoading(false);
-      console.log(response.data.data);
     });
   }, []);
 

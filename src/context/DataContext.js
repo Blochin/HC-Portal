@@ -19,14 +19,37 @@ export const DataProvider = ({ children }) => {
   const [languages, setLanguages] = useState([]);
   const [keyTypes, setKeyTypes] = useState([]);
 
-  const [allCryptogramHeaders, setAllCryptogramHeaders] = useState([]);
-  const [myAllCryptogramHeaders, setMyAllCryptogramHeaders] = useState([]);
-  const [allCipherKeyHeaders, setAllCipherKeyHeaders] = useState([]);
-  const [myAllCipherKeyHeaders, setMyAllCipherKeyHeaders] = useState([]);
-  const [lessCryptogramHeaders, setLessCryptogramHeaders] = useState([]);
-  const [myLessCryptogramHeaders, setMyLessCryptogramHeaders] = useState([]);
-  const [lessCipherKeyHeaders, setLessCipherKeyHeaders] = useState([]);
-  const [myLessCipherKeyHeaders, setMyLessCipherKeyHeaders] = useState([]);
+  const [allCryptogramHeaders] = useState([
+    "name",
+    "category",
+    "availability",
+    "location",
+    "language",
+    "date",
+    "solution",
+    "users",
+  ]);
+  const [myAllCryptogramHeaders] = useState([...allCryptogramHeaders, "state"]);
+  const [allCipherKeyHeaders] = useState([
+    "name",
+    "category",
+    "used_chars",
+    "structure",
+    "availability",
+    "language",
+    "date",
+    "location",
+    "users",
+  ]);
+  const [myAllCipherKeyHeaders] = useState([...allCipherKeyHeaders, "state"]);
+
+  const [lessCryptogramHeaders] = useState(["name", "language", "date"]);
+  const [myLessCryptogramHeaders] = useState([
+    ...lessCryptogramHeaders,
+    "state",
+  ]);
+  const [lessCipherKeyHeaders] = useState(["name", "language", "date"]);
+  const [myLessCipherKeyHeaders] = useState([...lessCipherKeyHeaders, "state"]);
 
   const { user } = useUser();
 
@@ -117,19 +140,6 @@ export const DataProvider = ({ children }) => {
       setContinents(continents);
     });
   }, [user]);
-
-  useEffect(() => {
-    request.get("api/table-headers").then((response) => {
-      setAllCryptogramHeaders(response.data.all_cryptogram_headers);
-      setMyAllCryptogramHeaders(response.data.my_all_cryptogram_headers);
-      setAllCipherKeyHeaders(response.data.all_cipher_key_headers);
-      setMyAllCipherKeyHeaders(response.data.my_all_cipher_key_headers);
-      setLessCryptogramHeaders(response.data.less_cryptogram_headers);
-      setMyLessCryptogramHeaders(response.data.my_less_cryptogram_headers);
-      setLessCipherKeyHeaders(response.data.less_cipher_key_headers);
-      setMyLessCipherKeyHeaders(response.data.my_less_cipher_key_headers);
-    });
-  }, []);
 
   const contextValue = {
     continents,

@@ -83,7 +83,9 @@ function LoginPage() {
                 id={fieldName}
                 name={fieldName}
                 type={fieldName === "password" ? "password" : "email"}
-                placeholder={`user@hcportal.eu`}
+                placeholder={
+                  fieldName === "password" ? "password" : "user@hcportal.eu"
+                }
                 value={formData[fieldName]}
                 onChange={handleInputChange}
                 required

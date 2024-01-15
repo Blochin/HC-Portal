@@ -25,7 +25,6 @@ function ReportPage() {
         <div>Loading...</div>
       ) : (
         <div>
-          <h1>Report Page</h1>
           <Tabs
             color={"light"}
             aria-label="Default tabs"

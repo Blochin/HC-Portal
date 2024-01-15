@@ -50,6 +50,7 @@ const Header = ({ data, image, className, onClone, onEdit, galleryData }) => {
                         onClone={onClone}
                         handleGallery={handleGallery}
                         createdBy={data?.created_by}
+                        state={data?.state?.title}
                       />
                     }
                   </div>
@@ -79,7 +80,13 @@ const Header = ({ data, image, className, onClone, onEdit, galleryData }) => {
     </div>
   );
 };
-const RenderOptions = ({ onClone, onEdit, handleGallery, createdBy }) => {
+const RenderOptions = ({
+  onClone,
+  onEdit,
+  handleGallery,
+  createdBy,
+  state,
+}) => {
   const { user } = useUser();
   const isOwner = createdBy?.id === user?.id && user?.id;
 
@@ -98,7 +105,9 @@ const RenderOptions = ({ onClone, onEdit, handleGallery, createdBy }) => {
       )}
     >
       {user && <Dropdown.Item onClick={onClone}>Clone</Dropdown.Item>}
-      {user && isOwner && <Dropdown.Item onClick={onEdit}>Edit</Dropdown.Item>}
+      {user && isOwner && state !== "Rejected" && (
+        <Dropdown.Item onClick={onEdit}>Edit</Dropdown.Item>
+      )}
       <Dropdown.Item>Export PDF</Dropdown.Item>
       <Dropdown.Item onClick={handleGallery}>Gallery</Dropdown.Item>
     </Dropdown>
@@ -110,6 +119,7 @@ RenderOptions.propTypes = {
   onEdit: PropTypes.func,
   handleGallery: PropTypes.func,
   createdBy: PropTypes.object,
+  state: PropTypes.string,
 };
 
 Header.propTypes = {

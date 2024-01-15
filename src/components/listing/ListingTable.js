@@ -33,6 +33,7 @@ const ListingTable = ({
   ];
 
   const handleFilterChange = (key, value) => {
+    setCurrentPage(1);
     if (value === "") {
       if (filters.length === 0) {
         setFilters([]);
@@ -44,6 +45,15 @@ const ListingTable = ({
       ...filters,
       [key]: value,
     });
+  };
+
+  const handleSort = (key) => {
+    setCurrentPage(1);
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
   };
 
   const filteredData = useMemo(() => {
@@ -82,14 +92,6 @@ const ListingTable = ({
       );
     });
   }, [data, filters, copyHeaders]);
-
-  const handleSort = (key) => {
-    let direction = "ascending";
-    if (sortConfig.key === key && sortConfig.direction === "ascending") {
-      direction = "descending";
-    }
-    setSortConfig({ key, direction });
-  };
 
   const sortedAndFilteredData = useMemo(() => {
     let sortableItems = [...(filteredData || [])];

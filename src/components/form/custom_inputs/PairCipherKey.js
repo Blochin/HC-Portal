@@ -15,6 +15,11 @@ const PairCipherKey = ({ defaultValue, onSelect }) => {
   const { allCipherKeyHeaders, lessCipherKeyHeaders } = useContext(DataContext);
   const { cipherKeyRepository } = useRepository();
   const { isLoading, cipherKeys, error } = useCipherKeys(false);
+  const {
+    isLoading: isLoadingMy,
+    cipherKeys: cipherKeysMy,
+    error: errorMy,
+  } = useCipherKeys(true);
 
   const handleModal = (value) => {
     setModalOpen(value);
@@ -84,13 +89,16 @@ const PairCipherKey = ({ defaultValue, onSelect }) => {
       <Modal show={modalOpen} size={"6xl"} onClose={() => handleModal(false)}>
         <Modal.Header>Small modal</Modal.Header>
         <Modal.Body>
-          {isLoading || error ? (
+          {(isLoading && isLoadingMy) || (error && errorMy) ? (
             <div>Loading</div>
           ) : (
             <ListingTable
               fullHeaders={allCipherKeyHeaders}
               lessHeaders={lessCipherKeyHeaders}
-              data={cipherKeys?.map((item) => mapCipherKeyData(item))}
+              data={[
+                ...cipherKeysMy.map((item) => mapCipherKeyData(item)),
+                ...(cipherKeys?.map((item) => mapCipherKeyData(item)) || []),
+              ]}
               handleRowClick={(id) => handleRowClick(id)}
             />
           )}

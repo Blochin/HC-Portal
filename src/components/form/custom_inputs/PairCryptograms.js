@@ -16,6 +16,11 @@ const PairCryptograms = ({ defaultValue, onSelect }) => {
     useContext(DataContext);
   const { cryptogramRepository } = useRepository();
   const { isLoading, cryptograms, error } = useCryptograms(false);
+  const {
+    isLoading: isLoadingMy,
+    cryptograms: cryptogramsMy,
+    error: errorMy,
+  } = useCryptograms(true);
 
   const handleModal = (value) => {
     setModalOpen(value);
@@ -107,13 +112,16 @@ const PairCryptograms = ({ defaultValue, onSelect }) => {
       <Modal show={modalOpen} size={"6xl"} onClose={() => handleModal(false)}>
         <Modal.Header>Small modal</Modal.Header>
         <Modal.Body>
-          {isLoading || error ? (
+          {(isLoading && isLoadingMy) || (error && errorMy) ? (
             <div>Loading</div>
           ) : (
             <ListingTable
               fullHeaders={allCryptogramHeaders}
               lessHeaders={lessCryptogramHeaders}
-              data={cryptograms?.map((item) => mapCryptogramData(item))}
+              data={[
+                ...cryptogramsMy.map((item) => mapCryptogramData(item)),
+                ...(cryptograms?.map((item) => mapCryptogramData(item)) || []),
+              ]}
               handleRowClick={(id) => handleRowClick(id)}
             />
           )}

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Data from "components/form/inputs/group/Data";
 import { Button } from "flowbite-react";
 import PropTypes from "prop-types";
 import { v4 as uuid } from "uuid";
 import CustomTextInput from "components/form/inputs/TextInput";
+import { createImageHandler } from "../../../../utils/utils";
+import { IMAGE_BASE64 } from "./Types";
 
 const DataGroup = ({
   description,
@@ -16,6 +18,7 @@ const DataGroup = ({
     defaultValue ? defaultValue : [{ id: uuid() }],
   );
   const [groupDescription, setGroupDescription] = useState(description);
+  const fileInputRef = useRef(null);
 
   const handleDataChange = (id, newData) => {
     setDataComponents((prevComponents) => {
@@ -23,6 +26,7 @@ const DataGroup = ({
         comp.id === id ? { ...comp, ...newData } : comp,
       );
 
+      console.log(updatedComponents);
       onChange(updatedComponents, groupDescription);
       return updatedComponents;
     });
@@ -36,6 +40,20 @@ const DataGroup = ({
     const filteredComponents = dataComponents.filter((comp) => comp.id !== id);
     onChange(filteredComponents, groupDescription);
     setDataComponents(filteredComponents);
+  };
+
+  const handleMultipleImages = createImageHandler(
+    setDataComponents,
+    ({ base64, tempURL, fileName }) => ({
+      id: uuid(),
+      type: "image",
+      title: fileName,
+      [IMAGE_BASE64]: base64,
+      image: { original: tempURL },
+    }),
+  );
+  const openFileSelector = () => {
+    fileInputRef.current.click();
   };
 
   return (
@@ -72,9 +90,26 @@ const DataGroup = ({
           </React.Fragment>
         ))}
         {removeComponent}
-        <Button color={"green"} onClick={addData}>
-          Add Data
-        </Button>
+        <div className={"flex flex-row justify-between mb-6"}>
+          <div>
+            <Button color={"green"} onClick={addData}>
+              Add Data
+            </Button>
+          </div>
+          <div>
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              style={{ display: "none" }}
+              ref={fileInputRef}
+              onChange={handleMultipleImages}
+            />
+            <Button color="light" onClick={openFileSelector}>
+              Add More Images
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );

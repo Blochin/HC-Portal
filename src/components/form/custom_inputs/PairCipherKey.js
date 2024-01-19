@@ -87,7 +87,7 @@ const PairCipherKey = ({ defaultValue, onSelect }) => {
         <HiCursorClick className={"ms-1.5"} size={16} />
       </div>
       <Modal show={modalOpen} size={"6xl"} onClose={() => handleModal(false)}>
-        <Modal.Header>Small modal</Modal.Header>
+        <Modal.Header>Pair cipher key</Modal.Header>
         <Modal.Body>
           {(isLoading && isLoadingMy) || (error && errorMy) ? (
             <div>Loading</div>

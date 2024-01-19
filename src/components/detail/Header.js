@@ -6,7 +6,15 @@ import { useUser } from "../../context/UserContext";
 import CustomGallery from "./CustomGallery";
 import { HiDotsVertical } from "react-icons/hi";
 
-const Header = ({ data, image, className, onClone, onEdit, galleryData }) => {
+const Header = ({
+  data,
+  image,
+  className,
+  onClone,
+  onEdit,
+  galleryData,
+  onExport,
+}) => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const { user } = useUser();
   const isOwner = data?.created_by?.id === user?.id && user?.id;
@@ -48,6 +56,7 @@ const Header = ({ data, image, className, onClone, onEdit, galleryData }) => {
                       <RenderOptions
                         onEdit={onEdit}
                         onClone={onClone}
+                        onExport={onExport}
                         handleGallery={handleGallery}
                         createdBy={data?.created_by}
                         state={data?.state?.title}
@@ -83,6 +92,7 @@ const Header = ({ data, image, className, onClone, onEdit, galleryData }) => {
 const RenderOptions = ({
   onClone,
   onEdit,
+  onExport,
   handleGallery,
   createdBy,
   state,
@@ -108,7 +118,7 @@ const RenderOptions = ({
       {user && isOwner && state !== "Rejected" && (
         <Dropdown.Item onClick={onEdit}>Edit</Dropdown.Item>
       )}
-      <Dropdown.Item>Export PDF</Dropdown.Item>
+      <Dropdown.Item onClick={onExport}>Export PDF</Dropdown.Item>
       <Dropdown.Item onClick={handleGallery}>Gallery</Dropdown.Item>
     </Dropdown>
   );
@@ -117,6 +127,7 @@ const RenderOptions = ({
 RenderOptions.propTypes = {
   onClone: PropTypes.func,
   onEdit: PropTypes.func,
+  onExport: PropTypes.func,
   handleGallery: PropTypes.func,
   createdBy: PropTypes.object,
   state: PropTypes.string,

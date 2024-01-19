@@ -25,7 +25,7 @@ export const mapCryptogramData = (item) => {
       " " +
       item.folder?.fond?.archive?.name;
   }
-  newProperties.users = [item?.sender?.name, item?.recipient?.name];
+  newProperties.users = parseUsers(item?.sender?.name, item?.recipient?.name);
 
   newProperties.state = item?.state?.title;
 
@@ -70,7 +70,7 @@ export const mapCipherKeyData = (item) => {
       ? item?.users?.map((user) => {
           return user?.person?.name;
         })
-      : ["Undefined"];
+      : ["Unknown"];
 
   newProperties.state = item?.state?.title;
 
@@ -112,4 +112,17 @@ const parseFromToDate = (from, to, around) => {
   if (around) {
     return around;
   }
+};
+
+const parseUsers = (sender, recipient) => {
+  if (sender !== "Unknown" && recipient !== "Unknown") {
+    return [sender, recipient];
+  }
+  if (sender !== "Unknown" && recipient === "Unknown") {
+    return [sender];
+  }
+  if (sender === "Unknown" && recipient !== "Unknown") {
+    return [recipient];
+  }
+  return ["Unknown"];
 };

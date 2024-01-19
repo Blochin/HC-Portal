@@ -53,9 +53,6 @@ const ImageUploadDropzone = ({ defaultValue, onSelect, accept }) => {
               <span className="font-semibold">Click to upload</span> or drag and
               drop
             </p>
-            <p className="text-xs text-gray-500">
-              SVG, PNG, JPG or GIF (MAX. 800x400px)
-            </p>
           </div>
         )}
 

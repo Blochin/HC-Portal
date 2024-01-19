@@ -6,7 +6,7 @@ import CustomTextInput from "components/form/inputs/TextInput";
 import Categories from "../components/form/custom_inputs/Categories";
 import Availability from "../components/form/custom_inputs/Availability";
 import Languages from "../components/form/custom_inputs/Languages";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Checkbox, Label } from "flowbite-react";
@@ -27,6 +27,7 @@ function CreateCipherKeyPage({ edit = false }) {
   const [errors, setErrors] = useState({});
   const [notEraseData, setNotEraseData] = useState(false);
   const { cipherKeyRepository } = useRepository();
+  const toastId = useRef(null);
 
   const handleEraseData = () => {
     setNotEraseData(!notEraseData);
@@ -59,18 +60,30 @@ function CreateCipherKeyPage({ edit = false }) {
   const handleSubmit = () => {
     setErrors({});
 
+    toastId.current = toast("Loading...", {
+      ...toastOptions,
+      autoClose: false,
+    });
     if (edit) {
       cipherKeyRepository.edit(
         id,
         formData,
         () => {},
         (data, message) => {
-          toast.success(message, toastOptions);
+          toast.update(toastId.current, {
+            ...toastOptions,
+            render: message,
+            type: "success",
+          });
           navigate(`/dashboard/cipher-keys/${data.id}`);
         },
         (errors, message) => {
           setErrors(errors);
-          toast.error(message, toastOptions);
+          toast.update(toastId.current, {
+            ...toastOptions,
+            render: message,
+            type: "error",
+          });
         },
       );
     } else {
@@ -78,14 +91,22 @@ function CreateCipherKeyPage({ edit = false }) {
         formData,
         () => {},
         (data, message) => {
-          toast.success(message, toastOptions);
+          toast.update(toastId.current, {
+            ...toastOptions,
+            render: message,
+            type: "success",
+          });
           if (!notEraseData) {
             navigate(`/dashboard/cipher-keys/${data.id}`);
           }
         },
         (errors, message) => {
           setErrors(errors);
-          toast.error(message, toastOptions);
+          toast.update(toastId.current, {
+            ...toastOptions,
+            render: message,
+            type: "error",
+          });
         },
       );
     }
@@ -112,10 +133,23 @@ function CreateCipherKeyPage({ edit = false }) {
             onChange={(name, value) => handleChange(name, value)}
           />
           <Categories
-            defaultValueMainCategory={{
-              id: cipherKeyData?.category?.id,
-              value: cipherKeyData?.category?.name,
-            }}
+            defaultValueMainCategory={
+              cipherKeyData?.sub_category
+                ? {
+                    id: cipherKeyData?.sub_category?.id,
+                    value: cipherKeyData?.sub_category?.name,
+                  }
+                : {
+                    id: cipherKeyData?.category?.id,
+                    value: cipherKeyData?.category?.name,
+                  }
+            }
+            defaultValueSubCategory={
+              cipherKeyData?.sub_category && {
+                id: cipherKeyData?.category?.id,
+                value: cipherKeyData?.category?.name,
+              }
+            }
             onChange={(name, value) => handleChange(name, value)}
             errorMessage={errors?.category_id?.[0]}
           />

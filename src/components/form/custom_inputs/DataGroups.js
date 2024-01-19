@@ -106,7 +106,7 @@ const DataGroups = ({ defaultValue, onChange }) => {
           ref={fileInputRef}
           onChange={handleMultipleImages}
         />
-        <Button color="light" onClick={openFileSelector}>
+        <Button className={"hidden"} color="light" onClick={openFileSelector}>
           Add More Images
         </Button>
       </div>

@@ -46,9 +46,11 @@ function renderTableCell(header, item, onClick) {
           <Badge color={setColor(item[header])} className={"w-max"}>
             {item[header]}
           </Badge>
-          <Button size={"xs"} className={"w-max"} onClick={onClick}>
-            Edit
-          </Button>
+          {item[header] !== "Rejected" && (
+            <Button size={"xs"} className={"w-max"} onClick={onClick}>
+              Edit
+            </Button>
+          )}
         </div>
       );
     case "edit":

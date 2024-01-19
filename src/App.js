@@ -70,6 +70,7 @@ function AppRoutes() {
 
         <Route path={"*"} element={<NoPage />} />
       </Route>
+      <Route path={"*"} element={<NoPage />} />
     </Routes>
   );
 }

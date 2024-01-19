@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import PropTypes from "prop-types";
@@ -22,6 +22,10 @@ const ImageCropper = ({ defaultValue = null, name, onSelect }) => {
     const cropper = imageElement?.cropper;
     setCroppedImage(cropper.getCroppedCanvas().toDataURL());
   };
+
+  useEffect(() => {
+    onSelect("thumbnail_link", defaultValue);
+  }, [defaultValue]);
 
   return (
     <div className="flex-col">
@@ -69,6 +73,7 @@ const ImageCropper = ({ defaultValue = null, name, onSelect }) => {
                 setImage(null);
                 setCroppedImage(null);
                 onSelect(name, null);
+                onSelect("thumbnail_link", null);
               }}
             >
               <span>Deny Thumbnail</span>

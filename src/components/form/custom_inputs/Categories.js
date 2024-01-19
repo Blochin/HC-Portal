@@ -5,7 +5,12 @@ import { LAYOUT_LEFT, LAYOUT_RIGHT } from "../inputs/dropdown/trigger/Layout";
 import PropTypes from "prop-types";
 import { COLOR_FAILURE, COLOR_GRAY } from "../inputs/Colors";
 
-const Categories = ({ defaultValueMainCategory, onChange, errorMessage }) => {
+const Categories = ({
+  defaultValueMainCategory,
+  defaultValueSubCategory,
+  onChange,
+  errorMessage,
+}) => {
   const { categories, subCategories } = useContext(DataContext);
   const [filteredSubCategories, setFilteredSubcategories] = useState([]);
 
@@ -51,7 +56,7 @@ const Categories = ({ defaultValueMainCategory, onChange, errorMessage }) => {
           <CustomDropdown
             name={"subcategory_id"}
             label={"Sub Category"}
-            value={""}
+            value={defaultValueSubCategory}
             layout={LAYOUT_RIGHT}
             canAddNew={false}
             isMulti={false}
@@ -73,6 +78,7 @@ const Categories = ({ defaultValueMainCategory, onChange, errorMessage }) => {
 
 Categories.propTypes = {
   defaultValueMainCategory: PropTypes.string,
+  defaultValueSubCategory: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
 };

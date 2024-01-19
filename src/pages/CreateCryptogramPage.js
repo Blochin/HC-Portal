@@ -11,7 +11,7 @@ import CryptogramUsers from "../components/form/custom_inputs/CryptogramUsers";
 import Solutions from "../components/form/custom_inputs/Solutions";
 import CryptogramDates from "../components/form/custom_inputs/CryptogramDates";
 import Languages from "../components/form/custom_inputs/Languages";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Checkbox, Label } from "flowbite-react";
@@ -30,6 +30,7 @@ function CreateCryptogramPage({ edit = false }) {
   const [errors, setErrors] = useState({});
   const [notEraseData, setNotEraseData] = useState(false);
   const { cryptogramRepository } = useRepository();
+  const toastId = useRef(null);
 
   const handleEraseData = () => {
     setNotEraseData(!notEraseData);
@@ -60,19 +61,30 @@ function CreateCryptogramPage({ edit = false }) {
 
   const handleSubmit = () => {
     setErrors({});
-
+    toastId.current = toast("Loading...", {
+      ...toastOptions,
+      autoClose: false,
+    });
     if (edit) {
       cryptogramRepository.edit(
         id,
         formData,
         () => {},
         (data, message) => {
-          toast.success(message, toastOptions);
+          toast.update(toastId.current, {
+            ...toastOptions,
+            render: message,
+            type: "success",
+          });
           navigate(`/dashboard/cryptograms/${data.id}`);
         },
         (errors, message) => {
           setErrors(errors);
-          toast.error(message, toastOptions);
+          toast.update(toastId.current, {
+            ...toastOptions,
+            render: message,
+            type: "error",
+          });
         },
       );
     } else {
@@ -80,14 +92,22 @@ function CreateCryptogramPage({ edit = false }) {
         formData,
         () => {},
         (data, message) => {
-          toast.success(message, toastOptions);
+          toast.update(toastId.current, {
+            ...toastOptions,
+            render: message,
+            type: "success",
+          });
           if (!notEraseData) {
             navigate(`/dashboard/cryptograms/${data.id}`);
           }
         },
         (errors, message) => {
           setErrors(errors);
-          toast.error(message, toastOptions);
+          toast.update(toastId.current, {
+            ...toastOptions,
+            render: message,
+            type: "error",
+          });
         },
       );
     }
@@ -120,10 +140,23 @@ function CreateCryptogramPage({ edit = false }) {
             onChange={(name, value) => handleChange(name, value)}
           />
           <Categories
-            defaultValueMainCategory={{
-              id: cryptogramData?.category?.id,
-              value: cryptogramData?.category?.name,
-            }}
+            defaultValueMainCategory={
+              cryptogramData?.sub_category
+                ? {
+                    id: cryptogramData?.sub_category?.id,
+                    value: cryptogramData?.sub_category?.name,
+                  }
+                : {
+                    id: cryptogramData?.category?.id,
+                    value: cryptogramData?.category?.name,
+                  }
+            }
+            defaultValueSubCategory={
+              cryptogramData?.sub_category && {
+                id: cryptogramData?.category?.id,
+                value: cryptogramData?.category?.name,
+              }
+            }
             onChange={(name, value) => handleChange(name, value)}
             errorMessage={errors?.category_id?.[0]}
           />

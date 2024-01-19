@@ -3,7 +3,7 @@ import { Accordion } from "flowbite-react";
 
 const CipherKeyImages = ({ images }) => {
   return (
-    <Accordion>
+    <Accordion alwaysOpen={true}>
       {images?.map((image, index) => {
         return (
           <Accordion.Panel key={index}>

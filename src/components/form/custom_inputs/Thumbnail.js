@@ -21,7 +21,7 @@ const Thumbnail = ({ name, defaultValue, urlName, onSelect }) => {
     <div>
       {!url && (
         <ImageCrop
-          //defaultValue={defaultValue}
+          defaultValue={defaultValue}
           name={name}
           onSelect={(name, value) => handleImage(name, value)}
         />
@@ -29,7 +29,7 @@ const Thumbnail = ({ name, defaultValue, urlName, onSelect }) => {
 
       {!image && (
         <CustomTextInput
-          defaultValue={defaultValue}
+          //defaultValue={defaultValue}
           onChange={(name, value) => handleUrl(name, value)}
           name={urlName}
           label={"Thumbnail Url"}

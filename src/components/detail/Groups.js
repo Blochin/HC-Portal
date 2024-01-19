@@ -2,7 +2,7 @@ import { Accordion } from "flowbite-react";
 import PropTypes from "prop-types";
 const Groups = ({ data }) => {
   return (
-    <Accordion>
+    <Accordion alwaysOpen={true}>
       {data.datagroups.map((group, index) => {
         return (
           <Accordion.Panel key={index}>

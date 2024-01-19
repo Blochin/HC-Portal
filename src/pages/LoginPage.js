@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Button, Label, TextInput } from "flowbite-react";
 import request from "utils/api";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
+import { toast } from "react-toastify";
+import { toastOptions } from "../components/ToastOptions";
 
 function LoginPage() {
   const navigate = useNavigate();
   const { login } = useUser();
   const [isRegistration, setIsRegistration] = useState(false);
+  const toastId = useRef(null);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -23,18 +26,37 @@ function LoginPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    toastId.current = toast("Loading...", {
+      ...toastOptions,
+      autoClose: false,
+    });
     try {
       const endpoint = isRegistration ? "api/register" : "api/login";
       const response = await request.post(endpoint, formData);
 
       if (!isRegistration) {
+        toast.update(toastId.current, {
+          ...toastOptions,
+          render: "Submit successfully",
+          type: "success",
+        });
         navigate("/dashboard");
+
         login(response.data.data);
       } else {
+        toast.update(toastId.current, {
+          ...toastOptions,
+          render: "Submit successfully",
+          type: "success",
+        });
         setIsRegistration(false);
       }
     } catch (error) {
+      toast.update(toastId.current, {
+        ...toastOptions,
+        render: "Something happened wrong",
+        type: "error",
+      });
       console.error(error);
     }
   };

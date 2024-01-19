@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/detail/Header";
-import General from "../components/detail/General";
 import { HiArchive, HiDocumentDuplicate, HiDocumentText } from "react-icons/hi";
 import { Tabs } from "flowbite-react";
 import Description from "../components/detail/Description";
 import CipherKeyImages from "../components/detail/CipherKeyImages";
 import { useRepository } from "../context/RepositoryContext";
+import api from "../utils/api";
+import CipherKeyData from "../components/detail/General/CipherKeyData";
 
 function CryptogramDetailPage() {
   const { id } = useParams();
@@ -60,6 +61,23 @@ function CryptogramDetailPage() {
     setGalleryData(data);
   };
 
+  const printPDF = () => {
+    api
+      .get(`api/cipher-keys/export/${id}`, { responseType: "arraybuffer" })
+      .then((response) => {
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "cipher-key-export.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      })
+      .catch((error) => {
+        console.error("Error downloading PDF:", error);
+      });
+  };
+
   return (
     <div>
       {isLoading ? (
@@ -72,6 +90,7 @@ function CryptogramDetailPage() {
             image={cipherKeyData?.images?.[0]?.url.thumb}
             onClone={handleClone}
             onEdit={handleEdit}
+            onExport={printPDF}
             galleryData={galleryData}
           />
           <Tabs
@@ -84,7 +103,7 @@ function CryptogramDetailPage() {
               title="General"
               icon={HiDocumentText}
             >
-              <General data={cipherKeyData} />
+              <CipherKeyData data={cipherKeyData} />
             </Tabs.Item>
 
             <Tabs.Item

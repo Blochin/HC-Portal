@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { Button, Table } from "flowbite-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import CustomPagination from "../Pagination";
 import Dropdown from "../form/inputs/dropdown/Dropdown";
 import CustomCell from "./Cell";
@@ -8,6 +8,8 @@ import CustomHeaderCell from "./HeaderCell";
 import { parseDateFromObject } from "../../utils/utils";
 import Filters from "./Filters";
 import { HiOutlineFunnel } from "react-icons/hi2";
+import useDataFilter from "../../hooks/useDataFilter";
+import useDataSort from "../../hooks/useDataSort";
 
 const ListingTable = ({
   fullHeaders,
@@ -30,6 +32,7 @@ const ListingTable = ({
     { value: "10" },
     { value: "25" },
     { value: "50" },
+    { value: "All" },
   ];
 
   const handleFilterChange = (key, value) => {
@@ -56,97 +59,9 @@ const ListingTable = ({
     setSortConfig({ key, direction });
   };
 
-  const filteredData = useMemo(() => {
-    return data?.filter((item) => {
-      if (Object.keys(filters).length === 0) {
-        return true;
-      }
+  const filteredData = useDataFilter(data, filters, copyHeaders);
 
-      let globalSearch = "";
-
-      if (Object.prototype.hasOwnProperty.call(filters, "global")) {
-        globalSearch = filters["global"].toLowerCase();
-      }
-
-      return (
-        Object.entries(filters).every(([key, value]) => {
-          if (key === "global") {
-            return true;
-          }
-
-          if (copyHeaders.includes(key)) {
-            return item[key]
-              ?.toString()
-              ?.toLowerCase()
-              ?.includes(value?.toLowerCase());
-          }
-          return true;
-        }) &&
-        (Object.keys(item).some(
-          (key) =>
-            copyHeaders.includes(key) &&
-            item[key] &&
-            item[key].toString().toLowerCase().includes(globalSearch),
-        ) ||
-          globalSearch === "")
-      );
-    });
-  }, [data, filters, copyHeaders]);
-
-  const sortedAndFilteredData = useMemo(() => {
-    let sortableItems = [...(filteredData || [])];
-
-    const isDate = (value) => {
-      const date = new Date(value);
-      return date instanceof Date && !isNaN(date);
-    };
-
-    if (sortConfig !== null && sortConfig.key) {
-      sortableItems.sort((a, b) => {
-        let valueA = a[sortConfig.key];
-        let valueB = b[sortConfig.key];
-
-        if (sortConfig.key === "date") {
-          if (typeof valueA == "object") {
-            valueA = parseDateFromObject(valueA);
-          }
-          if (typeof valueB == "object") {
-            valueB = parseDateFromObject(valueB);
-          }
-        }
-        let aIsDate = isDate(valueA);
-        let bIsDate = isDate(valueB);
-
-        if (aIsDate && bIsDate && sortConfig.key === "date") {
-          valueA = new Date(valueA);
-          valueB = new Date(valueB);
-        } else if ((aIsDate || bIsDate) && sortConfig.key === "date") {
-          return aIsDate ? -1 : 1;
-        }
-
-        if (typeof valueA === "string" && typeof valueB === "string") {
-          valueA = valueA
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "");
-          valueB = valueB
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "");
-        }
-
-        if (valueA < valueB) {
-          return sortConfig.direction === "ascending" ? -1 : 1;
-        }
-        if (valueA > valueB) {
-          return sortConfig.direction === "ascending" ? 1 : -1;
-        }
-        return 0;
-      });
-    }
-
-    return sortableItems;
-  }, [filteredData, sortConfig]);
+  const sortedData = useDataSort(data, sortConfig, parseDateFromObject);
 
   useEffect(() => {
     if (filteredData) {
@@ -166,9 +81,21 @@ const ListingTable = ({
     }
   };
 
+  const handlePageChange = (value) => {
+    if (value?.value === "All") {
+      setPerPage(filteredData.length);
+      return;
+    }
+    setPerPage(value?.value ? parseInt(value.value) : perPage);
+  };
+
   useEffect(() => {
     setCopyHeaders(addFilters ? fullHeaders : lessHeaders);
   }, [fullHeaders, lessHeaders, addFilters]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [perPage]);
 
   return (
     <div>
@@ -198,9 +125,9 @@ const ListingTable = ({
               name={"per_page"}
               canAddNew={false}
               canRemove={false}
-              onSelect={(name, value) =>
-                setPerPage(value?.value ? parseInt(value.value) : perPage)
-              }
+              onSelect={(name, value) => {
+                handlePageChange(value);
+              }}
             />
           </div>
         }
@@ -217,7 +144,7 @@ const ListingTable = ({
         }
       />
 
-      <div className={"overflow-x-auto shadow-lg"}>
+      <div className={"overflow-x-scroll  shadow-lg"}>
         <Table striped hoverable>
           <Table.Head>
             {copyHeaders?.map((header) => (
@@ -230,7 +157,7 @@ const ListingTable = ({
             ))}
           </Table.Head>
           <Table.Body className="divide-y">
-            {sortedAndFilteredData
+            {sortedData
               ?.slice(
                 (currentPage - 1) * perPage,
                 (currentPage - 1) * perPage + perPage,

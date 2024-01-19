@@ -32,7 +32,7 @@ const FilterPicker = ({ headers, onSelect }) => {
                 <Table.Cell className="flex items-center">
                   <Checkbox
                     onClick={() => handleSelect(item)}
-                    className={"mr-3"}
+                    className={"cursor-pointer mr-3"}
                     checked={item.is_checked}
                   />
                   <span>{item.value}</span>

@@ -42,7 +42,6 @@ CryptogramChart.propTypes = {
 
 export default CryptogramChart;
 
-// Function to transform data
 const transformData = (data) => {
   return Object.keys(data).map((century) => ({
     title: century,

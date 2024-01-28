@@ -61,7 +61,7 @@ const ListingTable = ({
 
   const filteredData = useDataFilter(data, filters, copyHeaders);
 
-  const sortedData = useDataSort(data, sortConfig, parseDateFromObject);
+  const sortedData = useDataSort(filteredData, sortConfig, parseDateFromObject);
 
   useEffect(() => {
     if (filteredData) {
@@ -82,6 +82,9 @@ const ListingTable = ({
   };
 
   const handlePageChange = (value) => {
+    if (filteredData.length <= 0) {
+      return;
+    }
     if (value?.value === "All") {
       setPerPage(filteredData.length);
       return;

@@ -1,4 +1,3 @@
-// dataSorter.js
 import { useMemo } from "react";
 
 const useDataSort = (data, sortConfig, parseDateFromObject) => {

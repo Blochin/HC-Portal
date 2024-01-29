@@ -155,7 +155,11 @@ const CustomDropdown = ({
                 <div className={"w-full flex justify-between"}>
                   <span>{item.value}</span>
                   {withMeta && (
-                    <span onClick={(event) => handleCheckbox(event, item)}>
+                    <span
+                      className={"flex flex-row items-center gap-1"}
+                      onClick={(event) => handleCheckbox(event, item)}
+                    >
+                      <span>Is Main User</span>
                       <Checkbox checked={item.is_checked || false} />
                     </span>
                   )}

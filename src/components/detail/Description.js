@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 
 const Description = ({ data }) => {
+  // this should be stored in css config.
   const addClassToElements = (html) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
@@ -15,6 +16,18 @@ const Description = ({ data }) => {
 
     Array.from(doc.querySelectorAll("h3")).forEach((element) => {
       element.classList.add("text-2xl");
+    });
+
+    Array.from(doc.querySelectorAll("ul")).forEach((element) => {
+      element.classList.add("list-disc", "pl-4");
+    });
+
+    Array.from(doc.querySelectorAll("ol")).forEach((element) => {
+      element.classList.add("list-decimal", "pl-4");
+    });
+
+    Array.from(doc.querySelectorAll("a")).forEach((element) => {
+      element.classList.add("text-blue-500", "hover:underline");
     });
 
     return doc.documentElement.outerHTML;

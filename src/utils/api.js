@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://diplomovka.site/",
+  baseURL: "https://api.hcportal.eu/",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",

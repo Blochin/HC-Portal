@@ -1,5 +1,4 @@
-import React, { createContext, useContext, useEffect } from "react";
-import { INIT } from "../repository/Repository";
+import React, { createContext, useContext } from "react";
 import CryptogramRepository from "../repository/CryptogramRepository";
 import CipherKeyRepository from "../repository/CipherKeyRepository";
 
@@ -13,36 +12,6 @@ export function useRepository() {
 export function RepositoryProvider({ children }) {
   const cryptogramRepository = new CryptogramRepository();
   const cipherKeyRepository = new CipherKeyRepository();
-
-  useEffect(() => {
-    cryptogramRepository.getAll(
-      INIT,
-      () => {},
-      () => {},
-      () => {},
-    );
-
-    cryptogramRepository.getMy(
-      INIT,
-      () => {},
-      () => {},
-      () => {},
-    );
-
-    cipherKeyRepository.getAll(
-      INIT,
-      () => {},
-      () => {},
-      () => {},
-    );
-
-    cipherKeyRepository.getMy(
-      INIT,
-      () => {},
-      () => {},
-      () => {},
-    );
-  }, []);
 
   return (
     <RepositoryContext.Provider

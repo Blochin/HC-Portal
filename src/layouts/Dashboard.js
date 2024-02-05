@@ -1,6 +1,7 @@
 import { Sidebar } from "flowbite-react";
 import {
   HiArchive,
+  HiDatabase,
   HiDocumentReport,
   HiKey,
   HiLockClosed,
@@ -121,6 +122,16 @@ function Dashboard() {
               </Sidebar.Item>
             )}
           </Sidebar.ItemGroup>
+          {user && user.first_name === "Administrator" && (
+            <Sidebar.ItemGroup>
+              <Sidebar.Item
+                icon={HiDatabase}
+                active={location.pathname === "/dashboard/migration"}
+              >
+                <Link to={"/dashboard/migration"}>Migration</Link>
+              </Sidebar.Item>
+            </Sidebar.ItemGroup>
+          )}
         </Sidebar.Items>
       </Sidebar>
       <div className="flex-grow p-1 md:p-4 overflow-auto">

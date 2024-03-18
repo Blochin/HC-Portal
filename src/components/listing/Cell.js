@@ -18,6 +18,8 @@ CustomCell.propTypes = {
 
 function renderTableCell(header, item, onClick) {
   switch (header) {
+    case "tags":
+      return null;
     case "users":
       return (
         <div className="flex flex-wrap">

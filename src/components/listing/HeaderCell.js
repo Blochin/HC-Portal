@@ -20,6 +20,7 @@ CustomHeaderCell.propTypes = {
 
 function renderHeaderCell(header, onSort, sortConfig) {
   switch (header) {
+    case "tags":
     case "edit":
       return null;
     default:

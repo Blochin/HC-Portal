@@ -29,6 +29,13 @@ export const mapCryptogramData = (item) => {
 
   newProperties.state = item?.state?.title;
 
+  newProperties.tags =
+    item?.tags?.length !== 0
+      ? item?.tags?.map((tag) => {
+          return tag?.name;
+        })
+      : ["Unknown"];
+
   newProperties.date = item.date
     ? parseHumanDate(item.date)
     : item?.date_around;
@@ -81,6 +88,13 @@ export const mapCipherKeyData = (item) => {
   );
   newProperties.key_type = item.key_type.name;
   newProperties.thumb = item?.images?.[0]?.url?.thumb;
+
+  newProperties.tags =
+    item?.tags?.length !== 0
+      ? item?.tags?.map((tag) => {
+          return tag?.name;
+        })
+      : ["Unknown"];
 
   if (item.solution) {
     newProperties.solution = item.solution.name;

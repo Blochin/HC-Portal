@@ -1,10 +1,19 @@
-import { useContext } from "react";
-import { DataContext } from "context/DataContext";
+import { useEffect, useState } from "react";
 import CustomDropdown from "../inputs/dropdown/Dropdown";
 import PropTypes from "prop-types";
+import request from "../../../utils/api";
 
 const Tags = ({ defaultValue, onChange }) => {
-  const { tags } = useContext(DataContext);
+  const [tags, setTags] = useState([]);
+
+  useEffect(() => {
+    request.get("api/tags").then((response) => {
+      const tags = response.data.data.map((item) => {
+        return { value: item.name };
+      });
+      setTags(tags);
+    });
+  }, []);
 
   const handleChange = (name, values) => {
     const mappedValues = values.map((item) => {

@@ -10,6 +10,7 @@ import Filters from "./Filters";
 import { HiOutlineFunnel } from "react-icons/hi2";
 import useDataFilter from "../../hooks/useDataFilter";
 import useDataSort from "../../hooks/useDataSort";
+import Tags from "../form/custom_inputs/Tags";
 
 const ListingTable = ({
   fullHeaders,
@@ -146,6 +147,14 @@ const ListingTable = ({
           </Button>
         }
       />
+
+      {copyHeaders.some((item) => item === "tags") && (
+        <Tags
+          onChange={(name, values) => {
+            handleFilterChange(name, values);
+          }}
+        />
+      )}
 
       <div className={"overflow-x-scroll  shadow-lg"}>
         <Table striped hoverable>

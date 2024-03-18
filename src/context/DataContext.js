@@ -28,6 +28,7 @@ export const DataProvider = ({ children }) => {
     "date",
     "solution",
     "users",
+    "tags",
   ]);
   const [myAllCryptogramHeaders] = useState([...allCryptogramHeaders, "state"]);
   const [allCipherKeyHeaders] = useState([
@@ -40,6 +41,7 @@ export const DataProvider = ({ children }) => {
     "date",
     "location",
     "users",
+    "tags",
   ]);
   const [myAllCipherKeyHeaders] = useState([...allCipherKeyHeaders, "state"]);
 

@@ -178,7 +178,12 @@ const CustomDropdown = ({
               <div className={"w-full flex justify-between"}>
                 <span className={"text-blue-600 text-sm"}>+ Add New</span>
                 {withMeta && (
-                  <span onClick={(event) => event.stopPropagation()}>
+                  <span
+                    onClick={(event) => event.stopPropagation()}
+                    className={"flex flex-row items-center gap-1"}
+                  >
+                    <span>Is Main User</span>
+
                     <Checkbox
                       onChange={handleCheckboxNewValue}
                       checked={checkboxNewValue}

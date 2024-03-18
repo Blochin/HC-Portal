@@ -19,10 +19,16 @@ const useDataFilter = (data, filters, copyHeaders) => {
           }
 
           if (copyHeaders.includes(key)) {
-            return item[key]
-              ?.toString()
-              ?.toLowerCase()
-              ?.includes(value?.toLowerCase());
+            if (Array.isArray(item[key])) {
+              return value.every((filterValue) =>
+                item[key].includes(filterValue),
+              );
+            } else {
+              return item[key]
+                ?.toString()
+                ?.toLowerCase()
+                ?.includes(value?.toLowerCase());
+            }
           }
           return true;
         }) &&

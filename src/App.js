@@ -19,7 +19,6 @@ import CipherKeyListingPage from "./pages/CipherKeyListingPage";
 import MyCryptogramListingPage from "./pages/MyCryptogramListingPage";
 import MyCipherKeyListingPage from "./pages/MyCipherKeyListingPage";
 import { RepositoryProvider } from "./context/RepositoryContext";
-import MigrationPage from "./pages/MigrationPage";
 
 function App() {
   return (
@@ -67,7 +66,6 @@ function AppRoutes() {
         <Route path={"cryptograms/:id"} element={<CryptogramDetailPage />} />
         <Route path={"cipher-keys/:id"} element={<CipherKeyDetailPage />} />
         <Route path={"reports"} element={<ReportPage />} />
-        <Route path={"migration"} element={<MigrationPage />} />
         <Route path={"login"} element={<LoginPage />} />
 
         <Route path={"*"} element={<NoPage />} />

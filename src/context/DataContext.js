@@ -20,7 +20,6 @@ export const DataProvider = ({ children }) => {
   const [keyTypes, setKeyTypes] = useState([]);
 
   const [allCryptogramHeaders] = useState([
-    "id",
     "name",
     "category",
     "used_chars",
@@ -34,7 +33,6 @@ export const DataProvider = ({ children }) => {
   ]);
   const [myAllCryptogramHeaders] = useState([...allCryptogramHeaders, "state"]);
   const [allCipherKeyHeaders] = useState([
-    "id",
     "name",
     "category",
     "used_chars",

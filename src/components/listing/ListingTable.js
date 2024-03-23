@@ -10,7 +10,7 @@ import Filters from "./Filters";
 import { HiOutlineFunnel } from "react-icons/hi2";
 import useDataFilter from "../../hooks/useDataFilter";
 import useDataSort from "../../hooks/useDataSort";
-import Tags from "../form/custom_inputs/Tags";
+import TagsFilter from "./TagsFilter";
 
 const ListingTable = ({
   fullHeaders,
@@ -152,7 +152,7 @@ const ListingTable = ({
       />
 
       {copyHeaders.some((item) => item === "tags") && (
-        <Tags
+        <TagsFilter
           onChange={(name, values) => {
             handleFilterChange(name, values);
           }}

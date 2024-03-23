@@ -123,7 +123,7 @@ function Dashboard() {
           </Sidebar.ItemGroup>
         </Sidebar.Items>
       </Sidebar>
-      <div className="flex-grow p-1 md:p-4 overflow-auto">
+      <div className="w-full p-1 md:p-4 overflow-auto">
         <Outlet />
       </div>
     </div>

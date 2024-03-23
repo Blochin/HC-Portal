@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Checkbox, Dropdown, Label, TextInput } from "flowbite-react";
 import { HiChevronDown, HiSearch } from "react-icons/hi";
-import { resolveLayoutClass } from "./trigger/Layout";
+import { FLOATING_LAYOUT_DEFAULT, resolveLayoutClass } from "./trigger/Layout";
 import BadgeTrigger from "./trigger/BadgeTrigger";
 import TextFieldTrigger from "./trigger/TextFieldTrigger";
 import { COLOR_GRAY, resolveColorClasses } from "../Colors";
@@ -100,7 +100,7 @@ const CustomDropdown = ({
   return (
     <div className={`${className} flex flex-col gap-4`}>
       <div>
-        {label && (
+        {label && layout !== FLOATING_LAYOUT_DEFAULT && (
           <div className="mb-2 block">
             <Label value={label} />
             {isRequired && <span className="ml-1 text-red-500">*</span>}
@@ -115,7 +115,7 @@ const CustomDropdown = ({
           onToggle={() => setDropdownOpen(!dropdownOpen)}
           renderTrigger={() => (
             <div
-              className={`flex items-center justify-between ${colorClass} text-sm ${layoutClass} focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5`}
+              className={`flex items-center justify-between ${colorClass} text-sm ${layoutClass} focus:ring-blue-500 focus:border-blue-500 block w-full `}
             >
               {isMulti ? (
                 <BadgeTrigger

@@ -4,7 +4,6 @@ import {
   HiOutlineAdjustmentsVertical,
   HiOutlineGlobeEuropeAfrica,
   HiOutlineLanguage,
-  HiOutlineMapPin,
   HiOutlineQueueList,
   HiOutlineRectangleGroup,
 } from "react-icons/hi2";
@@ -144,21 +143,8 @@ const CipherKeyData = ({ data }) => {
 
           <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
             <Table.Cell className="flex flex-row items-center whitespace-nowrap font-medium text-gray-900 dark:text-white">
-              <Tooltip content={"Continent"}>
-                <HiOutlineGlobeEuropeAfrica
-                  className={"me-2 border border-gray-400 rounded-full p-0.5"}
-                  size={28}
-                />
-              </Tooltip>
-              Continent
-            </Table.Cell>
-            <Table.Cell>{data.location.continent}</Table.Cell>
-          </Table.Row>
-
-          <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <Table.Cell className="flex flex-row items-center whitespace-nowrap font-medium text-gray-900 dark:text-white">
               <Tooltip content={"Location"}>
-                <HiOutlineMapPin
+                <HiOutlineGlobeEuropeAfrica
                   className={"me-2 border border-gray-400 rounded-full p-0.5"}
                   size={28}
                 />
@@ -166,7 +152,9 @@ const CipherKeyData = ({ data }) => {
               Location
             </Table.Cell>
             <Table.Cell>
-              {data.location.name ? data.location.name : "Unknown"}
+              {data.location.continent +
+                " " +
+                (data?.location?.name ? data?.location?.name : "")}
             </Table.Cell>
           </Table.Row>
           <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -179,9 +167,7 @@ const CipherKeyData = ({ data }) => {
               </Tooltip>
               Used Chars
             </Table.Cell>
-            <Table.Cell>
-              {data.used_chars ? data.used_chars : "Unknown"}
-            </Table.Cell>
+            <Table.Cell>{data.used_chars ? data.used_chars : "N/A"}</Table.Cell>
           </Table.Row>
 
           <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">

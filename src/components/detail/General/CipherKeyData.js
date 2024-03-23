@@ -177,7 +177,7 @@ const CipherKeyData = ({ data }) => {
                   size={28}
                 />
               </Tooltip>
-              Used chars
+              Used Chars
             </Table.Cell>
             <Table.Cell>
               {data.used_chars ? data.used_chars : "Unknown"}
@@ -207,7 +207,7 @@ const CipherKeyData = ({ data }) => {
                   size={28}
                 />
               </Tooltip>
-              Key type
+              Key Type
             </Table.Cell>
             <Table.Cell>
               {data?.key_type?.name ? data.key_type?.name : "Unknown"}

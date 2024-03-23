@@ -38,7 +38,9 @@ export const mapCryptogramData = (item) => {
 
   newProperties.date = item.date
     ? parseHumanDate(item.date)
-    : item?.date_around;
+    : item?.date_around
+      ? item?.date_around
+      : "Unknown";
 
   if (item.solution) {
     newProperties.solution = item.solution.name;
@@ -126,6 +128,7 @@ const parseFromToDate = (from, to, around) => {
   if (around) {
     return around;
   }
+  return "Unknown";
 };
 
 const parseUsers = (sender, recipient) => {

@@ -24,10 +24,13 @@ const useDataFilter = (data, filters, copyHeaders) => {
                 item[key].includes(filterValue),
               );
             } else {
-              return item[key]
-                ?.toString()
-                ?.toLowerCase()
-                ?.includes(value?.toLowerCase());
+              return (
+                value === "" ||
+                item[key]
+                  ?.toString()
+                  ?.toLowerCase()
+                  ?.includes(value?.toLowerCase())
+              );
             }
           }
           return true;

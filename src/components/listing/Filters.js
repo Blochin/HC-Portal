@@ -7,6 +7,7 @@ import {
 } from "react-icons/hi2";
 import { useEffect, useState } from "react";
 import FilterPicker from "./FilterPicker";
+import { formatLabel } from "../../utils/utils";
 
 const Filters = ({
   headers,
@@ -61,7 +62,7 @@ const Filters = ({
       >
         <div className={"flex flex-row"}>
           <h3 className={"font-bold"}>Total Results:</h3>
-          <span className={"text-gray-500 ml-3"}>{data?.length} records</span>
+          <span className={"text-gray-500 ml-3"}>{data?.length} Records</span>
         </div>
         <div className={"flex flex-row gap-2 items-center"}>
           <div>{pagination}</div>
@@ -69,7 +70,7 @@ const Filters = ({
           <div>
             <Button onClick={() => handleOpenModal(true)} color={"gray"}>
               <HiOutlineViewColumns className={"mr-1"} />
-              Manage columns
+              Manage Columns
             </Button>
           </div>
         </div>
@@ -111,7 +112,7 @@ const Filters = ({
                         onFilterChange(header.value, event.target.value)
                       }
                       variant="standard"
-                      label={header.value}
+                      label={formatLabel(header.value)}
                     />
                   </div>
                 );
@@ -142,7 +143,7 @@ const Filters = ({
           />
         </Modal.Body>
         <Modal.Footer className={"flex flex-row justify-betweens"}>
-          <Button onClick={handleSelectedHeaders}>Accept Columns</Button>
+          <Button onClick={handleSelectedHeaders}>Accept Selected</Button>
           <Button color="gray" onClick={() => handleOpenModal(false)}>
             Decline
           </Button>

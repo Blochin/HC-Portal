@@ -2,6 +2,7 @@ import { Table } from "flowbite-react";
 import PropTypes from "prop-types";
 import { HiArrowDown, HiArrowUp } from "react-icons/hi";
 import { HiArrowsUpDown } from "react-icons/hi2";
+import { formatLabel } from "../../utils/utils";
 
 const CustomHeaderCell = ({ header, onSort, sortConfig }) => {
   return (
@@ -30,7 +31,7 @@ function renderHeaderCell(header, onSort, sortConfig) {
             onClick={() => onSort(header)}
             className="flex items-center cursor-pointer"
           >
-            <span>{header}</span>
+            <span>{formatLabel(header)}</span>
             {sortConfig.key === header ? (
               sortConfig.direction === "ascending" ? (
                 <HiArrowUp className={"ml-1"} size={12} />

@@ -8,6 +8,13 @@ export function parseDate(dateString) {
   return format(parsedDate, "yyyy-MM-dd");
 }
 
+export const formatLabel = (string) => {
+  return string
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+
 export function parseHumanDate(dateString) {
   if (dateString === undefined || dateString === null) {
     return null;

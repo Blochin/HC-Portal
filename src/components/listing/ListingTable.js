@@ -24,7 +24,10 @@ const ListingTable = ({
   const [copyHeaders, setCopyHeaders] = useState(lessHeaders);
   const [totalPages, setTotalPages] = useState(0);
   const [filters, setFilters] = useState({});
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const [sortConfig, setSortConfig] = useState({
+    key: "id",
+    direction: "ascending",
+  });
   const [perPage, setPerPage] = useState(10);
   const [addFilters, setAddFilters] = useState(false);
 

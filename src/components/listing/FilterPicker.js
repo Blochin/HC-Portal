@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Checkbox, Table } from "flowbite-react";
 import PropTypes from "prop-types";
+import { formatLabel } from "../../utils/utils";
 
 // eslint-disable-next-line no-unused-vars
 const FilterPicker = ({ headers, onSelect }) => {
@@ -35,7 +36,7 @@ const FilterPicker = ({ headers, onSelect }) => {
                     className={"cursor-pointer mr-3"}
                     checked={item.is_checked}
                   />
-                  <span>{item.value}</span>
+                  <span>{formatLabel(item.value)}</span>
                 </Table.Cell>
               </Table.Row>
             );

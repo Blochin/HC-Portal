@@ -11,13 +11,31 @@ function CustomPagination({ current, onChangeCurrent, totalPages }) {
   };
   return (
     <div className="flex flex-col overflow-x-auto items-center">
-      <Pagination
-        layout={isCollapsed ? "table" : "pagination"}
-        currentPage={current}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-        showIcons
-      />
+      <div className={"flex flex-row justify-center gap-3 items-center"}>
+        <div
+          className={
+            "hidden md:flex text-gray-500  border p-1.5 mt-2 border-gray-300 hover:bg-gray-100 hover:text-gray-700 rounded-lg cursor-pointer"
+          }
+          onClick={() => onChangeCurrent(1)}
+        >
+          First
+        </div>
+        <Pagination
+          layout={isCollapsed ? "table" : "pagination"}
+          currentPage={current}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          showIcons
+        />
+        <div
+          className={
+            "hidden md:flex text-gray-500  border p-1.5 mt-2 border-gray-300 hover:bg-gray-100 hover:text-gray-700 rounded-lg cursor-pointer"
+          }
+          onClick={() => handlePageChange(totalPages)}
+        >
+          Last
+        </div>
+      </div>
       {!isCollapsed && (
         <div>
           <span className={"font-light text-sm"}>Showing</span> {current}{" "}

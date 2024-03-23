@@ -156,7 +156,7 @@ const CryptogramData = ({ data }) => {
                   size={28}
                 />
               </Tooltip>
-              Used chars
+              Used Chars
             </Table.Cell>
             <Table.Cell>
               {data.used_chars ? data.used_chars : "Unknown"}

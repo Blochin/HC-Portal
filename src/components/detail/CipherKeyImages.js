@@ -13,11 +13,11 @@ const CipherKeyImages = ({ images }) => {
                 <div>
                   <h1 className={"font-bold"}>{image.structure}</h1>
                   <p>
-                    Has instructions:{" "}
+                    Has Instructions:{" "}
                     {Boolean(image.has_instructions) === true ? "Yes" : "No"}
                   </p>
                   <p>
-                    Has structure:{" "}
+                    Has Structure:{" "}
                     {Boolean(image.structure) === true ? image.structure : "No"}
                   </p>
                   <img src={image?.url.thumb} />

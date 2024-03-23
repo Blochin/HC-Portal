@@ -32,9 +32,39 @@ const DataGroups = ({ defaultValue, onChange }) => {
   const addPredefinedGroup = () => {
     setDataGroupComponents((prevComponents) => [
       ...prevComponents,
-      { id: uuid(), selectedTab: 0 },
-      { id: uuid(), selectedTab: 1 },
-      { id: uuid(), selectedTab: 2 },
+      {
+        id: uuid(),
+        data: [
+          {
+            type: "link",
+            title: "Links and references",
+          },
+        ],
+        selectedTab: 1,
+        description: "Links and references",
+      },
+      {
+        id: uuid(),
+        data: [
+          {
+            type: "image",
+            title: "Cryptogram image",
+          },
+        ],
+        selectedTab: 2,
+        description: "Cryptogram",
+      },
+      {
+        id: uuid(),
+        data: [
+          {
+            type: "text",
+            title: "Transcription",
+          },
+        ],
+        selectedTab: 0,
+        description: "Transcriptions and solutions",
+      },
     ]);
   };
 
@@ -91,7 +121,7 @@ const DataGroups = ({ defaultValue, onChange }) => {
       ))}
       <div className="w-full flex flex-row justify-between mb-4">
         <Button color="light" onClick={addPredefinedGroup}>
-          Add PredefinedGroups
+          Add Predefined Groups
         </Button>
         <Button color="green" onClick={addDataGroup}>
           Add Data Group

@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import { toastOptions } from "../components/ToastOptions";
 import { useRepository } from "../context/RepositoryContext";
 import PairCipherKey from "../components/form/custom_inputs/PairCipherKey";
+import { validateFormData } from "../utils/utils";
 
 // eslint-disable-next-line no-unused-vars
 function CreateCryptogramPage({ edit = false }) {
@@ -32,13 +33,28 @@ function CreateCryptogramPage({ edit = false }) {
   const { cryptogramRepository } = useRepository();
   const toastId = useRef(null);
 
+  const requiredFields = [
+    "archive",
+    "fond",
+    "folder",
+    "availability",
+    "category_id",
+    "continent",
+    "language_id",
+    "name",
+    "solution_id",
+  ];
+
+  console.log(errors);
   const handleEraseData = () => {
     setNotEraseData(!notEraseData);
   };
   const handleChange = (name, value) => {
     const updatedErrors = { ...errors };
-    updatedErrors[name] = null;
-    setErrors(updatedErrors);
+    if (value !== null) {
+      updatedErrors[name] = null;
+      setErrors(updatedErrors);
+    }
 
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -65,6 +81,18 @@ function CreateCryptogramPage({ edit = false }) {
       ...toastOptions,
       autoClose: false,
     });
+
+    const isValid = validateFormData(
+      formData,
+      requiredFields,
+      setErrors,
+      toastId,
+      toastOptions,
+    );
+    if (!isValid) {
+      return;
+    }
+
     if (edit) {
       cryptogramRepository.edit(
         id,
@@ -113,7 +141,6 @@ function CreateCryptogramPage({ edit = false }) {
     }
   };
 
-  console.log(cryptogramData);
   return (
     <>
       {isLoading ? (

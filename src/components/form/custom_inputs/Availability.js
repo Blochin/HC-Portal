@@ -45,6 +45,9 @@ const Availability = ({
   };
 
   const handleArchive = (name, archive) => {
+    if (archive === undefined) {
+      archive = { value: null };
+    }
     if (archive?.value !== defaultValueArchive?.fond?.archive?.name) {
       fondRef.current.reset();
       folderRef.current.reset();
@@ -61,6 +64,9 @@ const Availability = ({
   };
 
   const handleFond = (name, fond) => {
+    if (fond === undefined) {
+      fond = { value: null };
+    }
     if (fond?.value !== defaultValueArchive?.fond?.name) {
       folderRef.current.reset();
     }

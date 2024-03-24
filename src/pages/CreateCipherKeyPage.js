@@ -18,6 +18,7 @@ import KeyTypes from "../components/form/custom_inputs/KeyTypes";
 import { toastOptions } from "../components/ToastOptions";
 import { useRepository } from "../context/RepositoryContext";
 import PairCryptograms from "../components/form/custom_inputs/PairCryptograms";
+import { validateFormData } from "../utils/utils";
 function CreateCipherKeyPage({ edit = false }) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -29,14 +30,29 @@ function CreateCipherKeyPage({ edit = false }) {
   const { cipherKeyRepository } = useRepository();
   const toastId = useRef(null);
 
+  const requiredFields = [
+    "archive",
+    "fond",
+    "folder",
+    "availability",
+    "category_id",
+    "continent",
+    "language_id",
+    "name",
+    "complete_structure",
+    "key_type",
+    "language_id",
+  ];
+
   const handleEraseData = () => {
     setNotEraseData(!notEraseData);
   };
   const handleChange = (name, value) => {
     const updatedErrors = { ...errors };
-    updatedErrors[name] = null;
-    setErrors(updatedErrors);
-
+    if (value !== null) {
+      updatedErrors[name] = null;
+      setErrors(updatedErrors);
+    }
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
@@ -64,6 +80,18 @@ function CreateCipherKeyPage({ edit = false }) {
       ...toastOptions,
       autoClose: false,
     });
+
+    const isValid = validateFormData(
+      formData,
+      requiredFields,
+      setErrors,
+      toastId,
+      toastOptions,
+    );
+    if (!isValid) {
+      return;
+    }
+
     if (edit) {
       cipherKeyRepository.edit(
         id,
@@ -208,6 +236,7 @@ function CreateCipherKeyPage({ edit = false }) {
             defaultValue={cipherKeyData?.complete_structure}
             name={"complete_structure"}
             label={"Complete Structure"}
+            placeholder={"Complete Structure"}
           />
 
           <CipherKeyUsers

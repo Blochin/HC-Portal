@@ -1,4 +1,5 @@
 import { format, parseISO } from "date-fns";
+import { toast } from "react-toastify";
 
 export function parseDate(dateString) {
   if (dateString === undefined || dateString === null) {
@@ -97,3 +98,46 @@ export const createImageHandler = (
       });
   };
 };
+
+export function validateFormData(
+  formData,
+  requiredFields,
+  setErrors,
+  toastId,
+  toastOptions,
+) {
+  let missingFields = requiredFields.filter((field) => formData[field] == null);
+  let itContainArchive = missingFields.includes("archive");
+  let itContainFolder = missingFields.includes("folder");
+  let itContainFond = missingFields.includes("fond");
+  let itContainAvailability = missingFields.includes("availability");
+
+  missingFields = missingFields.filter((item) => {
+    if (item === "availability") {
+      return itContainArchive || itContainFond || itContainFolder;
+    }
+    if (item === "archive" || item === "fond" || item === "folder") {
+      return itContainAvailability;
+    }
+    return true;
+  });
+
+  console.log(missingFields);
+
+  if (missingFields.length > 0) {
+    const errorMessages = {};
+    missingFields.forEach((field) => {
+      errorMessages[field] = [
+        `The ${field.replace(/_/g, " ")} field is required.`,
+      ];
+    });
+    setErrors(errorMessages);
+    toast.update(toastId.current, {
+      ...toastOptions,
+      render: "The given data was invalidd.",
+      type: "error",
+    });
+    return false;
+  }
+  return true;
+}

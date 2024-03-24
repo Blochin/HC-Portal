@@ -16,6 +16,9 @@ const Categories = ({
   const subcategoryRef = useRef();
 
   const handleCategories = (name, category) => {
+    if (category === undefined) {
+      category = { value: null };
+    }
     if (category?.value !== defaultValueMainCategory?.value) {
       subcategoryRef.current.reset();
     }

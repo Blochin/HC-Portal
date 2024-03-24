@@ -15,6 +15,9 @@ const Locations = ({
   const locationRef = useRef();
 
   const handleLocations = (name, continent) => {
+    if (continent === undefined) {
+      continent = { value: null };
+    }
     if (continent?.value !== defaultContinentValue?.value) {
       locationRef.current.reset();
     }

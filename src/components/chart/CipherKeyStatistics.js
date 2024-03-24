@@ -24,25 +24,30 @@ function CipherKeyStatistics({ statistics }) {
           />
           <TotalComponent
             total={statistics.count.newest}
-            title={"Newest"}
+            title={"Newest Cipher Key"}
             description="Newest Cipher Key"
             icon={TbKey}
           />
           <TotalComponent
             total={statistics.count.oldest}
-            title={"Oldest"}
+            title={"Oldest Cipher Key"}
             description="Oldest Cipher Key"
             icon={TbKey}
           />
         </div>
         <CipherKeyChart
           data={statistics.by_century.centuriesRows}
-          title={"By Centuries"}
+          title={"Used Chars in Cipher Keys By Centuries"}
         />
-        <CipherOneChart data={statistics.by_persons} title={"By Persons"} />
+        <CipherOneChart
+          data={statistics.by_persons}
+          title={"The 10 Most Frequent Names in Cryptograms (Key Users)"}
+          type={"Cipher Key"}
+        />
         <CipherOneChart
           data={statistics.by_symbols.symbols}
-          title={"By Symbols"}
+          title={"Cipher Keys By Used Ciphertext Elements"}
+          type={"Cipher Key"}
         />
       </div>
     </div>

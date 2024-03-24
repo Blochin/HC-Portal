@@ -134,7 +134,7 @@ export function validateFormData(
     setErrors(errorMessages);
     toast.update(toastId.current, {
       ...toastOptions,
-      render: "The given data was invalidd.",
+      render: "The given data was invalid.",
       type: "error",
     });
     return false;

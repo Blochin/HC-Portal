@@ -16,8 +16,8 @@ function GeneralStatistics({ statistics }) {
         <div className={"flex-wrap"}>
           <TotalComponent
             total={statistics.count.total}
-            title={"All"}
-            description="Number of Cipher Keys and CryptogramRepository"
+            title={"All Records"}
+            description="Number of Cryptograms and Cipher Keys"
             icon={TbAlignBoxBottomCenter}
           />
           <TotalComponent
@@ -29,7 +29,7 @@ function GeneralStatistics({ statistics }) {
           <TotalComponent
             total={statistics.count.cryptograms}
             title={"Cryptograms"}
-            description="Number of CryptogramRepository"
+            description="Number of Cryptograms"
             icon={TbLock}
           />
           <TotalComponent
@@ -41,19 +41,19 @@ function GeneralStatistics({ statistics }) {
         </div>
         <GlobalChart
           data={statistics.by_century.centuries}
-          title={"By Centuries"}
+          title={"Cipher Keys and Cryptograms By Centuries"}
         />
         <GlobalChart
           data={statistics.by_continent.continents}
-          title={"By Continents"}
+          title={"Cipher Keys and Cryptograms By Continents"}
         />
         <GlobalChart
           data={statistics.by_language.languages}
-          title={"By Languages"}
+          title={"Cipher Keys and Cryptograms By Languages"}
         />
         <GlobalChart
           data={statistics.by_symbols.symbols}
-          title={"By Symbols"}
+          title={"Cipher Keys and Cryptograms By Symbols"}
         />
       </div>
     </div>

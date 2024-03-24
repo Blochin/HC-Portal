@@ -3,26 +3,27 @@ import PropTypes from "prop-types";
 import { Alert } from "flowbite-react";
 import { HiInformationCircle, HiPencil } from "react-icons/hi";
 
-const CustomAlert = ({ state, onEdit, note }) => {
+const CustomAlert = ({ state, additionalContent, onEdit, note }) => {
   let alertColor;
   let text;
 
   switch (state) {
     case "Approved":
       alertColor = "success";
-      text = "Admin note: Your cryptogram was approved";
+      text = "Admin note: Your cryptogram was approved.";
       break;
     case "Rejected":
       alertColor = "failure";
-      text = "Admin note: Your cryptogram was rejected";
+      text = "Admin note: Your cryptogram was rejected.";
       break;
     case "Revise":
       alertColor = "warning";
-      text = "Admin note: Your cryptogram is being revised";
+      text =
+        "Your cryptogram was revised. You need to correct the entry before accepting. Reviewer comments are available in the edit mode.";
       break;
     case "Awaiting":
       alertColor = "info";
-      text = "Admin note: Your cryptogram is waiting for revision";
+      text = "Admin note: Your cryptogram is waiting for revision.";
       break;
     default:
       alertColor = "default";
@@ -31,7 +32,7 @@ const CustomAlert = ({ state, onEdit, note }) => {
   return (
     <Alert
       additionalContent={
-        <ExampleAdditionalContent
+        <AdditionalContent
           text={text}
           onEdit={onEdit}
           state={state}
@@ -54,7 +55,7 @@ CustomAlert.propTypes = {
   note: PropTypes.string,
 };
 
-function ExampleAdditionalContent({ text, onEdit, state, note }) {
+function AdditionalContent({ text, onEdit, state, note }) {
   return (
     <>
       <div className="mb-4 mt-2 text-sm text-cyan-700 dark:text-cyan-800">
@@ -76,7 +77,7 @@ function ExampleAdditionalContent({ text, onEdit, state, note }) {
   );
 }
 
-ExampleAdditionalContent.propTypes = {
+AdditionalContent.propTypes = {
   text: PropTypes.string.isRequired,
   onEdit: PropTypes.func,
   state: PropTypes.string.isRequired,

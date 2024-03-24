@@ -37,29 +37,35 @@ function CryptogramStatistics({ statistics }) {
           />
           <TotalComponent
             total={statistics.count.newest}
-            title={"Newest"}
+            title={"Newest Cryptogram"}
             description="Newest Cryptogram"
             icon={TbLock}
           />
           <TotalComponent
             total={statistics.count.oldest}
-            title={"Oldest"}
+            title={"Oldest Cryptogram"}
             description="Oldest Cryptogram"
             icon={TbLock}
           />
         </div>
         <CryptogramChart
           data={statistics.by_century.centuriesRows}
-          title={"By Centuries"}
+          title={"Cryptogram Status By Centuries"}
         />
         <CryptogramChart
           data={statistics.by_continent.locationsRows}
-          title={"By Continents"}
+          title={"Cryptograms Status By Continents"}
         />
-        <CipherOneChart data={statistics.by_persons} title={"By Persons"} />
+        <CipherOneChart
+          data={statistics.by_persons}
+          title={
+            "The 10 Most Frequent Names in Cryptograms (Senders/Receivers)"
+          }
+          type={"Cryptogram"}
+        />
         <CryptogramOneChart
           data={statistics.by_symbols.symbols}
-          title={"By Symbols"}
+          title={"Cryptograms By Used Chars"}
         />
       </div>
     </div>

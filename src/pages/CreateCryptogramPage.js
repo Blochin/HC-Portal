@@ -11,7 +11,7 @@ import CryptogramUsers from "../components/form/custom_inputs/CryptogramUsers";
 import Solutions from "../components/form/custom_inputs/Solutions";
 import CryptogramDates from "../components/form/custom_inputs/CryptogramDates";
 import Languages from "../components/form/custom_inputs/Languages";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Checkbox, Label } from "flowbite-react";
@@ -20,6 +20,7 @@ import { toastOptions } from "../components/ToastOptions";
 import { useRepository } from "../context/RepositoryContext";
 import PairCipherKey from "../components/form/custom_inputs/PairCipherKey";
 import { validateFormData } from "../utils/utils";
+import CustomAlert from "../components/detail/CustomAlert";
 
 // eslint-disable-next-line no-unused-vars
 function CreateCryptogramPage({ edit = false }) {
@@ -141,12 +142,24 @@ function CreateCryptogramPage({ edit = false }) {
     }
   };
 
+  console.log(cryptogramData);
   return (
     <>
       {isLoading ? (
         <div>Loading...</div>
       ) : (
         <Form onSubmit={handleSubmit}>
+          {cryptogramData && cryptogramData?.state && (
+            <div className={"mb-6"}>
+              <CustomAlert
+                state={cryptogramData?.state?.title}
+                note={cryptogramData?.note}
+                heading={null}
+                text={""}
+              />
+            </div>
+          )}
+
           <CustomTextInput
             name="name"
             isRequired={true}

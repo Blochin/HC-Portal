@@ -2,6 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { AgChartsReact } from "ag-charts-react";
 
+function renderer({ datum, xKey, yKey, yName }) {
+  const content = datum[yKey] !== undefined ? datum[yKey].toFixed(0) : "0";
+  return {
+    title: datum[xKey],
+    content: `${yName}: ${content}`,
+  };
+}
+
 const CryptogramChart = ({ data, title }) => {
   const transformedData = transformData(data);
   const options = {
@@ -14,38 +22,44 @@ const CryptogramChart = ({ data, title }) => {
       {
         type: "bar",
         xKey: "title",
+        tooltip: { renderer: renderer },
         yKey: "D",
-        yName: "D",
+        yName: "Double Letters",
       },
       {
         type: "bar",
         xKey: "title",
+        tooltip: { renderer: renderer },
         yKey: "G",
-        yName: "G",
+        yName: "String",
       },
       {
         type: "bar",
         xKey: "title",
+        tooltip: { renderer: renderer },
         yKey: "L",
-        yName: "L",
+        yName: "Letters",
       },
       {
         type: "bar",
         xKey: "title",
+        tooltip: { renderer: renderer },
         yKey: "M",
-        yName: "M",
+        yName: "Markups",
       },
       {
         type: "bar",
         xKey: "title",
+        tooltip: { renderer: renderer },
         yKey: "N",
-        yName: "N",
+        yName: "Numbers",
       },
       {
         type: "bar",
         xKey: "title",
+        tooltip: { renderer: renderer },
         yKey: "s",
-        yName: "S",
+        yName: "Symbol",
       },
     ],
   };

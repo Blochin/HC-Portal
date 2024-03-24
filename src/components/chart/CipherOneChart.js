@@ -2,7 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { AgChartsReact } from "ag-charts-react";
 
-const CipherOneChart = ({ data, title }) => {
+function renderer({ datum, xKey, yKey, yName }) {
+  return {
+    title: datum[xKey],
+    content: `${yName}: ${datum[yKey].toFixed(0)}`,
+  };
+}
+
+const CipherOneChart = ({ data, title, type }) => {
   const options = {
     container: document.getElementById("myChart"),
     data,
@@ -13,8 +20,9 @@ const CipherOneChart = ({ data, title }) => {
       {
         type: "bar",
         xKey: "title",
+        tooltip: { renderer: renderer },
         yKey: "cipher_count",
-        yName: "",
+        yName: type,
       },
     ],
   };
@@ -25,6 +33,7 @@ const CipherOneChart = ({ data, title }) => {
 CipherOneChart.propTypes = {
   data: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default CipherOneChart;

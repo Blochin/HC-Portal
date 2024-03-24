@@ -138,7 +138,7 @@ function CryptogramDetailPage() {
               title="Description"
               icon={HiArchive}
             >
-              <Description data={cryptogramData} />
+              <Description data={cryptogramData} truncate={false} />
             </Tabs.Item>
 
             <Tabs.Item

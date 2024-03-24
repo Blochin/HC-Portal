@@ -113,7 +113,7 @@ function CryptogramDetailPage() {
               title="Description"
               icon={HiArchive}
             >
-              <Description data={cipherKeyData} />
+              <Description data={cipherKeyData} truncate={false} />
             </Tabs.Item>
 
             <Tabs.Item

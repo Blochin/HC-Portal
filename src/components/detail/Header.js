@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useUser } from "../../context/UserContext";
 import CustomGallery from "./CustomGallery";
 import { HiDotsVertical } from "react-icons/hi";
+import Description from "./Description";
 
 const Header = ({
   data,
@@ -31,7 +32,11 @@ const Header = ({
         <div className="flex flex-col gap-4 justify-start lg:flex-row  lg:items-start">
           <div className={"lg:w-1/2"}>
             <div className="">
-              <img src={image} alt={data?.name} className="object-cover" />
+              <img
+                src={image}
+                alt={data?.name}
+                className="object-cover w-full lg:w-[50vw]"
+              />
             </div>
           </div>
           <div className={"lg:w-1/2"}>
@@ -84,6 +89,7 @@ const Header = ({
               </div>
               <div>
                 <div className="flex flex-row gap-2"></div>
+                <Description data={data} truncate={true} />
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
+import React from "react";
 import PropTypes from "prop-types";
 
-const Description = ({ data }) => {
+const Description = ({ data, truncate = false }) => {
   // this should be stored in css config.
   const addClassToElements = (html) => {
     const parser = new DOMParser();
@@ -33,12 +34,21 @@ const Description = ({ data }) => {
     return doc.documentElement.outerHTML;
   };
 
+  const truncateDescription = (description) => {
+    if (truncate && description.length > 300) {
+      return description.slice(0, 300) + " ...";
+    }
+    return description;
+  };
+
   return (
     <div>
       <div
         className={"w-full text-2"}
         dangerouslySetInnerHTML={{
-          __html: addClassToElements(data.description ? data.description : ""),
+          __html: addClassToElements(
+            data.description ? truncateDescription(data.description) : "",
+          ),
         }}
       ></div>
     </div>
@@ -46,7 +56,12 @@ const Description = ({ data }) => {
 };
 
 Description.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
+  truncate: PropTypes.bool,
+};
+
+Description.defaultProps = {
+  truncate: true,
 };
 
 export default Description;

@@ -2,6 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { AgChartsReact } from "ag-charts-react";
 
+function renderer({ datum, xKey, yKey, yName }) {
+  return {
+    title: datum[xKey],
+    content: `${yName}: ${datum[yKey].toFixed(0)}`,
+  };
+}
 const GlobalChart = ({ data, title }) => {
   const options = {
     container: document.getElementById("myChart"),
@@ -13,12 +19,14 @@ const GlobalChart = ({ data, title }) => {
       {
         type: "bar",
         xKey: "title",
+        tooltip: { renderer: renderer },
         yKey: "cipher_count",
-        yName: "Cipher",
+        yName: "Cipher Key",
       },
       {
         type: "bar",
         xKey: "title",
+        tooltip: { renderer: renderer },
         yKey: "cryptograms_count",
         yName: "Cryptogram",
       },

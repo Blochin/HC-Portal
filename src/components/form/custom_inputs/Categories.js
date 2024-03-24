@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { DataContext } from "context/DataContext";
 import CustomDropdown from "components/form/inputs/dropdown/Dropdown";
 import { LAYOUT_LEFT, LAYOUT_RIGHT } from "../inputs/dropdown/trigger/Layout";
@@ -13,8 +13,12 @@ const Categories = ({
 }) => {
   const { categories, subCategories } = useContext(DataContext);
   const [filteredSubCategories, setFilteredSubcategories] = useState([]);
+  const subcategoryRef = useRef();
 
   const handleCategories = (name, category) => {
+    if (category?.value !== defaultValueMainCategory?.value) {
+      subcategoryRef.current.reset();
+    }
     if (!category) {
       onChange(name, null);
       setFilteredSubcategories([]);
@@ -54,6 +58,7 @@ const Categories = ({
         </div>
         <div className={"w-2/3"}>
           <CustomDropdown
+            ref={subcategoryRef}
             name={"subcategory_id"}
             label={"Sub Category"}
             value={defaultValueSubCategory}

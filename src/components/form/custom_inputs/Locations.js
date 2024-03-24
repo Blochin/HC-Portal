@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { DataContext } from "context/DataContext";
 import CustomDropdown from "components/form/inputs/dropdown/Dropdown";
 import PropTypes from "prop-types";
@@ -12,7 +12,12 @@ const Locations = ({
 }) => {
   const { continents, locations } = useContext(DataContext);
   const [filteredLocations, setFilteredLocations] = useState([]);
+  const locationRef = useRef();
+
   const handleLocations = (name, continent) => {
+    if (continent?.value !== defaultContinentValue?.value) {
+      locationRef.current.reset();
+    }
     if (!continent) {
       onChange(name, null);
       setFilteredLocations([]);
@@ -51,8 +56,9 @@ const Locations = ({
         </div>
         <div className={"w-2/3"}>
           <CustomDropdown
+            ref={locationRef}
             name={"location_name"}
-            isRequired={true}
+            isRequired={false}
             label={"Location"}
             value={defaultLocationValue}
             layout={"right"}

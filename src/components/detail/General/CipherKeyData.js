@@ -23,10 +23,8 @@ import { useRepository } from "../../../context/RepositoryContext";
 import { useEffect, useState } from "react";
 
 const CipherKeyData = ({ data }) => {
-  // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
   const { cryptogramRepository } = useRepository();
-  // eslint-disable-next-line no-unused-vars
   const [paired, setPaired] = useState(null);
   useEffect(() => {
     if (data?.cryptograms_id) {
@@ -153,8 +151,7 @@ const CipherKeyData = ({ data }) => {
             </Table.Cell>
             <Table.Cell>
               {data.location.continent +
-                " " +
-                (data?.location?.name ? data?.location?.name : "")}
+                (data?.location?.name ? ", " + data?.location?.name : "")}
             </Table.Cell>
           </Table.Row>
           <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">

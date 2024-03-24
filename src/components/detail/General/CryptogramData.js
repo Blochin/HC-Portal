@@ -132,8 +132,7 @@ const CryptogramData = ({ data }) => {
             </Table.Cell>
             <Table.Cell>
               {data.location.continent +
-                " " +
-                (data?.location?.name ? data?.location?.name : "")}
+                (data?.location?.name ? ", " + data?.location?.name : "")}
             </Table.Cell>
           </Table.Row>
           <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">

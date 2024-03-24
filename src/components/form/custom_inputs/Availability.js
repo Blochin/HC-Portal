@@ -1,5 +1,5 @@
 import { Label, Radio } from "flowbite-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import CustomTextInput from "../inputs/TextInput";
 import { DataContext } from "../../../context/DataContext";
 import CustomDropdown from "../inputs/dropdown/Dropdown";
@@ -20,6 +20,9 @@ const Availability = ({
   const { archives, fonds, folders } = useContext(DataContext);
   const [selectedFonds, setSelectedFonds] = useState([]);
   const [selectedFolders, setSelectedFolders] = useState([]);
+  const fondRef = useRef();
+  const folderRef = useRef();
+
   const handleChange = (event) => {
     const eventValue = event.target.value;
     setAvailability(eventValue);
@@ -42,6 +45,10 @@ const Availability = ({
   };
 
   const handleArchive = (name, archive) => {
+    if (archive?.value !== defaultValueArchive?.fond?.archive?.name) {
+      fondRef.current.reset();
+      folderRef.current.reset();
+    }
     if (!archive) {
       setSelectedFonds([]);
       setSelectedFolders([]);
@@ -54,6 +61,9 @@ const Availability = ({
   };
 
   const handleFond = (name, fond) => {
+    if (fond?.value !== defaultValueArchive?.fond?.name) {
+      folderRef.current.reset();
+    }
     if (!fond) {
       onChange(name, null);
       setSelectedFolders([]);
@@ -142,6 +152,7 @@ const Availability = ({
           </div>
           <div className={"mb-6"}>
             <CustomDropdown
+              ref={fondRef}
               name={"fond"}
               isRequired={true}
               isMulti={false}
@@ -165,6 +176,7 @@ const Availability = ({
           </div>
           <div className={"mb-6"}>
             <CustomDropdown
+              ref={folderRef}
               name={"folder"}
               isRequired={true}
               isMulti={false}

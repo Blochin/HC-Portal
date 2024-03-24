@@ -44,7 +44,6 @@ function CreateCryptogramPage({ edit = false }) {
       ...prevFormData,
       [name]: value,
     }));
-    console.log(formData);
   };
 
   useEffect(() => {
@@ -113,6 +112,8 @@ function CreateCryptogramPage({ edit = false }) {
       );
     }
   };
+
+  console.log(cryptogramData);
   return (
     <>
       {isLoading ? (
@@ -178,9 +179,11 @@ function CreateCryptogramPage({ edit = false }) {
             defaultContinentValue={{
               value: cryptogramData?.location?.continent,
             }}
-            defaultLocationValue={{
-              value: cryptogramData?.location?.name,
-            }}
+            defaultLocationValue={
+              cryptogramData?.location?.name && {
+                value: cryptogramData?.location?.name,
+              }
+            }
             onChange={(name, value) => handleChange(name, value)}
             errorMessage={errors?.continent?.[0]}
           />

@@ -12,6 +12,7 @@ import {
   IMAGE_BASE64,
   IMAGE_LINK,
 } from "./Types";
+import { tabsTheme } from "../../../../themes/TabsTheme";
 
 const Data = ({ selectedTab, defaultValue, removeComponent, onChange }) => {
   const resolveSelectedTab = (defaultData) => {
@@ -86,6 +87,7 @@ const Data = ({ selectedTab, defaultValue, removeComponent, onChange }) => {
   return (
     <div className={"w-full"}>
       <Tabs
+        theme={tabsTheme}
         color={"light"}
         aria-label="Default tabs"
         onActiveTabChange={(value) => setActiveTab(value)}

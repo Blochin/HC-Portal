@@ -14,6 +14,7 @@ import { HiBolt } from "react-icons/hi2";
 import api from "../utils/api";
 import { useUser } from "../context/UserContext";
 import useWindowResize from "../hooks/useWindowsResize";
+import { sidebarTheme } from "../themes/SIdebarTheme";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ function Dashboard() {
 
   return (
     <div className="flex h-screen">
-      <Sidebar collapsed={isCollapsed} aria-label="Default sidebar example">
+      <Sidebar collapsed={isCollapsed} theme={sidebarTheme}>
         <Sidebar.Logo
           className="mr-3 w-full h-6 sm:h-9 invert"
           href="#"

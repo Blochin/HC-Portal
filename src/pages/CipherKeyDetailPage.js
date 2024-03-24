@@ -8,6 +8,7 @@ import CipherKeyImages from "../components/detail/CipherKeyImages";
 import { useRepository } from "../context/RepositoryContext";
 import api from "../utils/api";
 import CipherKeyData from "../components/detail/General/CipherKeyData";
+import { tabsTheme } from "../themes/TabsTheme";
 
 function CryptogramDetailPage() {
   const { id } = useParams();
@@ -94,6 +95,7 @@ function CryptogramDetailPage() {
             galleryData={galleryData}
           />
           <Tabs
+            theme={tabsTheme}
             color={"light"}
             aria-label="Default tabs"
             onActiveTabChange={(value) => setActiveTab(value)}
@@ -107,18 +109,19 @@ function CryptogramDetailPage() {
             </Tabs.Item>
 
             <Tabs.Item
-              active={activeTab === 1}
-              title="Attachments"
-              icon={HiDocumentDuplicate}
-            >
-              <CipherKeyImages images={cipherKeyData?.images} />
-            </Tabs.Item>
-            <Tabs.Item
               active={activeTab === 2}
               title="Description"
               icon={HiArchive}
             >
               <Description data={cipherKeyData} />
+            </Tabs.Item>
+
+            <Tabs.Item
+              active={activeTab === 1}
+              title="Attachments"
+              icon={HiDocumentDuplicate}
+            >
+              <CipherKeyImages images={cipherKeyData?.images} />
             </Tabs.Item>
           </Tabs>
         </div>

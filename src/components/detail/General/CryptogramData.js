@@ -3,6 +3,7 @@ import { Badge, Table, Tooltip } from "flowbite-react";
 import {
   HiOutlineGlobeEuropeAfrica,
   HiOutlineLanguage,
+  HiOutlineNewspaper,
   HiOutlineQueueList,
   HiOutlineRectangleGroup,
 } from "react-icons/hi2";
@@ -48,6 +49,18 @@ const CryptogramData = ({ data }) => {
         <Table.Body className="divide-y">
           <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
             <Table.Cell className="flex flex-row items-center whitespace-nowrap font-medium text-gray-900 dark:text-white">
+              <Tooltip content={"Cryptogram Name"}>
+                <HiOutlineNewspaper
+                  className={"me-2 border border-gray-400 rounded-full p-0.5"}
+                  size={28}
+                />
+              </Tooltip>
+              Cryptogram Name
+            </Table.Cell>
+            <Table.Cell>{data?.name}</Table.Cell>
+          </Table.Row>
+          <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+            <Table.Cell className="flex flex-row items-center whitespace-nowrap font-medium text-gray-900 dark:text-white">
               <Tooltip content={"Main Category"}>
                 <HiOutlineRectangleGroup
                   className={"me-2 border border-gray-400 rounded-full p-0.5"}
@@ -63,20 +76,22 @@ const CryptogramData = ({ data }) => {
             </Table.Cell>
           </Table.Row>
 
-          <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <Table.Cell className="flex flex-row items-center whitespace-nowrap font-medium text-gray-900 dark:text-white">
-              <Tooltip content={"Sub Category"}>
-                <HiOutlineUserGroup
-                  className={"me-2 border border-gray-400 rounded-full p-0.5"}
-                  size={28}
-                />
-              </Tooltip>
-              Sub Category
-            </Table.Cell>
-            <Table.Cell>
-              {data?.sub_category ? data?.category?.name : "Unknown"}
-            </Table.Cell>
-          </Table.Row>
+          {data?.sub_category && (
+            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <Table.Cell className="flex flex-row items-center whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                <Tooltip content={"Sub Category"}>
+                  <HiOutlineUserGroup
+                    className={"me-2 border border-gray-400 rounded-full p-0.5"}
+                    size={28}
+                  />
+                </Tooltip>
+                Sub Category
+              </Table.Cell>
+              <Table.Cell>
+                {data?.sub_category ? data?.category?.name : "Unknown"}
+              </Table.Cell>
+            </Table.Row>
+          )}
           {data?.date && (
             <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
               <Table.Cell className="flex flex-row items-center whitespace-nowrap font-medium text-gray-900 dark:text-white">
@@ -101,7 +116,7 @@ const CryptogramData = ({ data }) => {
                     size={28}
                   />
                 </Tooltip>
-                Date Around
+                Used Around
               </Table.Cell>
               <Table.Cell>{data.date_around}</Table.Cell>
             </Table.Row>

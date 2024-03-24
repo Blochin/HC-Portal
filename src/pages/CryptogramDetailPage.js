@@ -8,6 +8,7 @@ import Description from "../components/detail/Description";
 import { useRepository } from "../context/RepositoryContext";
 import api from "../utils/api";
 import CryptogramData from "../components/detail/General/CryptogramData";
+import { tabsTheme } from "../themes/TabsTheme";
 
 function CryptogramDetailPage() {
   const { id } = useParams();
@@ -119,6 +120,7 @@ function CryptogramDetailPage() {
             galleryData={galleryData}
           />
           <Tabs
+            theme={tabsTheme}
             color={"light"}
             aria-label="Default tabs"
             onActiveTabChange={(value) => setActiveTab(value)}
@@ -132,18 +134,19 @@ function CryptogramDetailPage() {
             </Tabs.Item>
 
             <Tabs.Item
-              active={activeTab === 1}
-              title="Attachments"
-              icon={HiDocumentDuplicate}
-            >
-              <Groups data={cryptogramData} />
-            </Tabs.Item>
-            <Tabs.Item
               active={activeTab === 2}
               title="Description"
               icon={HiArchive}
             >
               <Description data={cryptogramData} />
+            </Tabs.Item>
+
+            <Tabs.Item
+              active={activeTab === 1}
+              title="Attachments"
+              icon={HiDocumentDuplicate}
+            >
+              <Groups data={cryptogramData} />
             </Tabs.Item>
           </Tabs>
         </div>

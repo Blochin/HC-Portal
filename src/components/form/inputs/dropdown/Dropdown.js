@@ -122,6 +122,7 @@ const CustomDropdown = forwardRef(
 
           <Dropdown
             inline={true}
+            className={"overflow-y-auto max-h-48"}
             color={"light"}
             label={label}
             dismissOnClick={true}
@@ -151,7 +152,7 @@ const CustomDropdown = forwardRef(
               </div>
             )}
           >
-            <Dropdown.Header>
+            <Dropdown.Header className={"sticky top-0 bg-white z-10"}>
               <TextInput
                 onKeyDown={(event) => event.stopPropagation()}
                 icon={HiSearch}
@@ -162,7 +163,6 @@ const CustomDropdown = forwardRef(
             </Dropdown.Header>
             {filteredData
               .filter((item) => !selectedValues.includes(item))
-              .slice(0, 15)
               .map((item, index) => (
                 <Dropdown.Item key={index} onClick={() => handleSelect(item)}>
                   <div className={"w-full flex justify-between"}>
@@ -180,31 +180,34 @@ const CustomDropdown = forwardRef(
                 </Dropdown.Item>
               ))}
             {canAddNew && (
-              <Dropdown.Item
-                onClick={() =>
-                  handleSelect({
-                    value: searchQuery,
-                    is_checked: checkboxNewValue,
-                  })
-                }
-              >
-                <div className={"w-full flex justify-between"}>
-                  <span className={"text-blue-600 text-sm"}>+ Add New</span>
-                  {withMeta && (
-                    <span
-                      onClick={(event) => event.stopPropagation()}
-                      className={"flex flex-row items-center gap-1"}
-                    >
-                      <span>Is Main User</span>
+              <>
+                <Dropdown.Divider />
+                <Dropdown.Item
+                  onClick={() =>
+                    handleSelect({
+                      value: searchQuery,
+                      is_checked: checkboxNewValue,
+                    })
+                  }
+                >
+                  <div className={"w-full flex justify-between"}>
+                    <span className={"text-blue-600 text-sm"}>+ Add New</span>
+                    {withMeta && (
+                      <span
+                        onClick={(event) => event.stopPropagation()}
+                        className={"flex flex-row items-center gap-1"}
+                      >
+                        <span>Is Main User</span>
 
-                      <Checkbox
-                        onChange={handleCheckboxNewValue}
-                        checked={checkboxNewValue}
-                      />
-                    </span>
-                  )}
-                </div>
-              </Dropdown.Item>
+                        <Checkbox
+                          onChange={handleCheckboxNewValue}
+                          checked={checkboxNewValue}
+                        />
+                      </span>
+                    )}
+                  </div>
+                </Dropdown.Item>
+              </>
             )}
           </Dropdown>
         </div>

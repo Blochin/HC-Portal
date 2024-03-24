@@ -4,6 +4,7 @@ import {
   HiOutlineAdjustmentsVertical,
   HiOutlineGlobeEuropeAfrica,
   HiOutlineLanguage,
+  HiOutlineNewspaper,
   HiOutlineQueueList,
   HiOutlineRectangleGroup,
 } from "react-icons/hi2";
@@ -54,6 +55,18 @@ const CipherKeyData = ({ data }) => {
         <Table.Body className="divide-y">
           <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
             <Table.Cell className="flex flex-row items-center whitespace-nowrap font-medium text-gray-900 dark:text-white">
+              <Tooltip content={"Cipher Key Name"}>
+                <HiOutlineNewspaper
+                  className={"me-2 border border-gray-400 rounded-full p-0.5"}
+                  size={28}
+                />
+              </Tooltip>
+              Cipher Key Name
+            </Table.Cell>
+            <Table.Cell>{data?.name}</Table.Cell>
+          </Table.Row>
+          <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+            <Table.Cell className="flex flex-row items-center whitespace-nowrap font-medium text-gray-900 dark:text-white">
               <Tooltip content={"Main Category"}>
                 <HiOutlineRectangleGroup
                   className={"me-2 border border-gray-400 rounded-full p-0.5"}
@@ -69,21 +82,22 @@ const CipherKeyData = ({ data }) => {
             </Table.Cell>
           </Table.Row>
 
-          <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <Table.Cell className="flex flex-row items-center whitespace-nowrap font-medium text-gray-900 dark:text-white">
-              <Tooltip content={"Sub Category"}>
-                <HiOutlineUserGroup
-                  className={"me-2 border border-gray-400 rounded-full p-0.5"}
-                  size={28}
-                />
-              </Tooltip>
-              Sub Category
-            </Table.Cell>
-            <Table.Cell>
-              {data?.sub_category ? data?.category?.name : "Unknown"}
-            </Table.Cell>
-          </Table.Row>
-
+          {data?.sub_category && (
+            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <Table.Cell className="flex flex-row items-center whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                <Tooltip content={"Sub Category"}>
+                  <HiOutlineUserGroup
+                    className={"me-2 border border-gray-400 rounded-full p-0.5"}
+                    size={28}
+                  />
+                </Tooltip>
+                Sub Category
+              </Table.Cell>
+              <Table.Cell>
+                {data?.sub_category ? data?.category?.name : "Unknown"}
+              </Table.Cell>
+            </Table.Row>
+          )}
           {data?.used_from && (
             <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
               <Table.Cell className="flex flex-row items-center whitespace-nowrap font-medium text-gray-900 dark:text-white">

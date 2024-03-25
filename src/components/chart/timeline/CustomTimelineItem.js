@@ -1,23 +1,34 @@
 import PropTypes from "prop-types";
 import { Timeline } from "flowbite-react";
-import { HiCalendar } from "react-icons/hi";
+//import { HiCalendar } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-const CustomTimelineItem = ({ data }) => {
+const CustomTimelineItem = ({ data, model }) => {
   const navigate = useNavigate();
   const stripHtmlTags = (htmlString) => {
     const doc = new DOMParser().parseFromString(htmlString, "text/html");
+    if (doc.body.textContent == "null") {
+      return "";
+    }
     return doc.body.textContent || "";
   };
 
   const handleRedirect = () => {
-    navigate(`/dashboard/cryptograms/${data?.id}`);
+    navigate(`/dashboard/${model}/${data?.id}`);
   };
+  console.log(data);
   return (
     <Timeline.Item
       onClick={handleRedirect}
-      className={"border border-gray-200 rounded shadow p-2 cursor-pointer"}
+      className={
+        "ml-11 border border-gray-200 rounded shadow p-2 cursor-pointer"
+      }
     >
-      <Timeline.Point icon={HiCalendar} />
+      <img
+        className={
+          "absolute -left-3 flex h-12 w-12 items-center justify-center rounded-full bg-cyan-200 ring-8 ring-white dark:bg-cyan-900 dark:ring-gray-900"
+        }
+        src={data?.thumb}
+      />
       <Timeline.Content>
         <Timeline.Time>{data?.date}</Timeline.Time>
         <Timeline.Title>{data?.name}</Timeline.Title>
@@ -29,5 +40,6 @@ const CustomTimelineItem = ({ data }) => {
 
 CustomTimelineItem.propTypes = {
   data: PropTypes.object,
+  model: PropTypes.string,
 };
 export default CustomTimelineItem;

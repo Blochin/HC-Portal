@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Alert } from "flowbite-react";
 import { HiInformationCircle, HiPencil } from "react-icons/hi";
 
+// eslint-disable-next-line no-unused-vars,react/prop-types
 const CustomAlert = ({ state, additionalContent, onEdit, note }) => {
   let alertColor;
   let text;

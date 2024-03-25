@@ -22,8 +22,9 @@ export function UserProvider({ children }) {
       }
     });
   }, []);
-  const login = (data) => {
+  const login = (data, email) => {
     try {
+      data.user.email = email;
       setUser(data.user);
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("user", JSON.stringify(data.user));

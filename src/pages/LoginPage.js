@@ -5,11 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import { toast } from "react-toastify";
 import { toastOptions } from "../components/ToastOptions";
+import { HiEye, HiEyeOff } from "react-icons/hi";
 
 function LoginPage() {
   const navigate = useNavigate();
   const { login } = useUser();
   const [isRegistration, setIsRegistration] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const toastId = useRef(null);
 
   const handleInputChange = (event) => {
@@ -17,11 +20,20 @@ function LoginPage() {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  const togglePasswordVisibility = (isConfirmPassword) => {
+    if (isConfirmPassword) {
+      setShowPasswordConfirm((prevState) => !prevState);
+    } else {
+      setShowPassword((prevState) => !prevState);
+    }
+  };
+
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
     email: "",
     password: "",
+    confirm_password: "",
   });
 
   const handleSubmit = async (event) => {
@@ -42,7 +54,7 @@ function LoginPage() {
         });
         navigate("/dashboard");
 
-        login(response.data.data);
+        login(response.data.data, formData["email"]);
       } else {
         toast.update(toastId.current, {
           ...toastOptions,
@@ -52,9 +64,15 @@ function LoginPage() {
         setIsRegistration(false);
       }
     } catch (error) {
+      let text =
+        "You have entered an invalid email address or password, or your account has not been activated.";
+      if (isRegistration) {
+        text =
+          "Registration failed. Please contact the system administrator: admin@hcportal.eu";
+      }
       toast.update(toastId.current, {
         ...toastOptions,
-        render: "Something happened wrong",
+        render: text,
         type: "error",
       });
       console.error(error);
@@ -79,7 +97,7 @@ function LoginPage() {
                   <div className="mb-2 block">
                     <Label
                       htmlFor={fieldName}
-                      value={fieldName.replace("_", " ")}
+                      value={`Your ${fieldName.replace("_", " ")}`}
                     />
                   </div>
                   <TextInput
@@ -96,10 +114,15 @@ function LoginPage() {
             </>
           )}
 
-          {["email", "password"].map((fieldName) => (
+          {["email"].map((fieldName) => (
             <div key={fieldName}>
               <div className="mb-2 block">
-                <Label htmlFor={fieldName} value={`Your ${fieldName}`} />
+                <Label
+                  htmlFor={fieldName}
+                  value={`Your ${fieldName} ${
+                    fieldName === "email" ? "address" : ""
+                  }`}
+                />
               </div>
               <TextInput
                 id={fieldName}
@@ -115,29 +138,93 @@ function LoginPage() {
             </div>
           ))}
 
+          <div key={"password"} className={"relative"}>
+            <div className="mb-2 block">
+              <Label htmlFor={"password"} value={`Your password`} />
+            </div>
+            <TextInput
+              id={"password"}
+              name={"password"}
+              type={showPassword ? "text" : "password"}
+              placeholder={"password"}
+              value={formData["password"]}
+              onChange={handleInputChange}
+              required
+            />
+            {showPassword ? (
+              <HiEyeOff
+                onClick={() => togglePasswordVisibility(false)}
+                className={
+                  "absolute right-3 top-11 text-gray-500 cursor-pointer"
+                }
+              />
+            ) : (
+              <HiEye
+                className={
+                  "absolute right-3 top-11 text-gray-500 cursor-pointer"
+                }
+                onClick={() => togglePasswordVisibility(false)}
+              />
+            )}
+          </div>
+
+          {isRegistration && (
+            <div key={"confirm_password"} className={"relative"}>
+              <div className="mb-2 block">
+                <Label
+                  htmlFor={"confirm_password"}
+                  value={`Your confirm password `}
+                />
+              </div>
+              <TextInput
+                id={"confirm_password"}
+                name={"confirm_password"}
+                type={showPasswordConfirm ? "text" : "password"}
+                placeholder={"password"}
+                value={formData["confirm_password"]}
+                onChange={handleInputChange}
+                required
+              />
+              {showPasswordConfirm ? (
+                <HiEyeOff
+                  onClick={() => togglePasswordVisibility(true)}
+                  className={
+                    "absolute right-3 top-11 text-gray-500 cursor-pointer"
+                  }
+                />
+              ) : (
+                <HiEye
+                  className={
+                    "absolute right-3 top-11 text-gray-500 cursor-pointer"
+                  }
+                  onClick={() => togglePasswordVisibility(true)}
+                />
+              )}
+            </div>
+          )}
+
           <div className={"text-gray-700"}>
             <div>
               {!isRegistration ? (
                 <>
-                  You do not have an account yet? Click on the{" "}
+                  {/* eslint-disable-next-line react/no-unescaped-entities */}
+                  Don't have an account yet?{" "}
                   <span
                     className={"text-blue-500 cursor-pointer"}
                     onClick={() => setIsRegistration(!isRegistration)}
                   >
-                    register
-                  </span>{" "}
-                  button to register
+                    Create one now
+                  </span>
                 </>
               ) : (
                 <>
-                  Already have an account? Click on the{" "}
+                  Already have an account?{" "}
                   <span
                     className={"text-blue-500 cursor-pointer"}
                     onClick={() => setIsRegistration(!isRegistration)}
                   >
-                    login
-                  </span>{" "}
-                  button.
+                    Login
+                  </span>
                 </>
               )}
             </div>

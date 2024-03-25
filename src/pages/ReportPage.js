@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import api from "../utils/api";
+import React, { useContext, useState } from "react";
 import { Tabs } from "flowbite-react";
 import { TbLock, TbKey, TbArchive } from "react-icons/tb";
 import GeneralStatistics from "../components/chart/GeneralStatistics";
@@ -13,13 +12,13 @@ import useDataSort from "../hooks/useDataSort";
 import { parseDateFromObject } from "../utils/utils";
 import { tabsTheme } from "../themes/TabsTheme";
 import useCipherKeys from "../hooks/useCipherKeys";
+import { DataContext } from "../context/DataContext";
 
 function ReportPage() {
-  const [statistics, setStatistics] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
   const { cryptograms } = useCryptograms(false);
   const { cipherKeys } = useCipherKeys(false);
+  const { statistic, loadingStatistic } = useContext(DataContext);
   const sortedCryptograms = useDataSort(
     cryptograms?.map((item) => mapCryptogramData(item)),
     {
@@ -38,17 +37,9 @@ function ReportPage() {
     parseDateFromObject,
   );
 
-  useEffect(() => {
-    const url = `api/statistics`;
-    api.get(url).then((response) => {
-      setStatistics(response.data.data);
-      setIsLoading(false);
-    });
-  }, []);
-
   return (
     <div>
-      {isLoading ? (
+      {loadingStatistic ? (
         <div>Loading...</div>
       ) : (
         <div>
@@ -63,7 +54,7 @@ function ReportPage() {
               title="General Statistics"
               icon={TbArchive}
             >
-              <GeneralStatistics statistics={statistics.global} />
+              <GeneralStatistics statistics={statistic.global} />
             </Tabs.Item>
 
             <Tabs.Item
@@ -71,14 +62,14 @@ function ReportPage() {
               title="Cryptogram Statistics"
               icon={TbLock}
             >
-              <CryptogramStatistics statistics={statistics.cryptograms} />
+              <CryptogramStatistics statistics={statistic.cryptograms} />
             </Tabs.Item>
             <Tabs.Item
               active={activeTab === 2}
               title="Cipher Key Statistics"
               icon={TbKey}
             >
-              <CipherKeyStatistics statistics={statistics.cipher_keys} />
+              <CipherKeyStatistics statistics={statistic.cipher_keys} />
             </Tabs.Item>
             <Tabs.Item
               active={activeTab === 3}

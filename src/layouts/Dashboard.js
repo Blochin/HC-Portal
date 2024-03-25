@@ -1,16 +1,17 @@
-import { Sidebar } from "flowbite-react";
+import { Dropdown, Sidebar } from "flowbite-react";
 import {
   HiArchive,
+  HiChevronDown,
   HiDocumentReport,
+  HiHome,
   HiKey,
   HiLockClosed,
   HiLogin,
-  HiLogout,
   HiOutlineKey,
   HiUsers,
 } from "react-icons/hi";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { HiBolt } from "react-icons/hi2";
+import { HiBolt, HiUser } from "react-icons/hi2";
 import api from "../utils/api";
 import { useUser } from "../context/UserContext";
 import useWindowResize from "../hooks/useWindowsResize";
@@ -39,13 +40,51 @@ function Dashboard() {
       <Sidebar collapsed={isCollapsed} theme={sidebarTheme}>
         <Sidebar.Logo
           className="mr-3 w-full h-6 sm:h-9 invert"
-          href="#"
+          href="https://hcportal.eu/"
           img="/logo.png"
           imgAlt="Flowbite logo"
         >
           <div className={"text-gray-200"}>HC PORTAL</div>
         </Sidebar.Logo>
         <Sidebar.Items>
+          <Sidebar.ItemGroup></Sidebar.ItemGroup>
+          <Sidebar.ItemGroup>
+            {user && (
+              <Sidebar.Item icon={HiUser}>
+                <Dropdown
+                  label={"Settings"}
+                  renderTrigger={() => (
+                    <div
+                      className={
+                        " cursor-pointer flex flex-row justify-between items-center"
+                      }
+                    >
+                      <span>{user.first_name}</span>
+                      <HiChevronDown />
+                    </div>
+                  )}
+                >
+                  <Dropdown.Header>
+                    <span className="block text-sm">
+                      {user.first_name + " " + user.last_name}
+                    </span>
+                    <span className="block truncate text-sm font-medium">
+                      {user.email}
+                    </span>
+                  </Dropdown.Header>
+                  <Dropdown.Item onClick={handleLogout}>
+                    <div className={"cursor-pointer w-full"}>Logout</div>
+                  </Dropdown.Item>
+                </Dropdown>
+              </Sidebar.Item>
+            )}
+            <Sidebar.Item
+              icon={HiHome}
+              active={location.pathname === "/dashboard"}
+            >
+              <Link to={"/dashboard"}>Home</Link>
+            </Sidebar.Item>
+          </Sidebar.ItemGroup>
           <Sidebar.ItemGroup>
             {user && (
               <Sidebar.Item
@@ -55,14 +94,6 @@ function Dashboard() {
                 <Link to={"/dashboard/cryptograms/add"}>Add Cryptogram</Link>
               </Sidebar.Item>
             )}
-
-            <Sidebar.Item
-              icon={HiArchive}
-              active={location.pathname === "/dashboard/cryptograms"}
-            >
-              <Link to={"/dashboard/cryptograms"}>Cryptograms</Link>
-            </Sidebar.Item>
-
             {user && (
               <Sidebar.Item
                 icon={HiUsers}
@@ -71,6 +102,12 @@ function Dashboard() {
                 <Link to={"/dashboard/cryptograms/my"}>My Cryptograms</Link>
               </Sidebar.Item>
             )}
+            <Sidebar.Item
+              icon={HiArchive}
+              active={location.pathname === "/dashboard/cryptograms"}
+            >
+              <Link to={"/dashboard/cryptograms"}>Cryptograms</Link>
+            </Sidebar.Item>
           </Sidebar.ItemGroup>
           <Sidebar.ItemGroup>
             {user && (
@@ -81,13 +118,6 @@ function Dashboard() {
                 <Link to={"/dashboard/cipher-keys/add"}>Add Cipher Key</Link>
               </Sidebar.Item>
             )}
-
-            <Sidebar.Item
-              icon={HiOutlineKey}
-              active={location.pathname === "/dashboard/cipher-keys"}
-            >
-              <Link to={"/dashboard/cipher-keys"}>Cipher Keys</Link>
-            </Sidebar.Item>
             {user && (
               <Sidebar.Item
                 icon={HiBolt}
@@ -96,6 +126,12 @@ function Dashboard() {
                 <Link to={"/dashboard/cipher-keys/my"}>My Cipher Keys</Link>
               </Sidebar.Item>
             )}
+            <Sidebar.Item
+              icon={HiOutlineKey}
+              active={location.pathname === "/dashboard/cipher-keys"}
+            >
+              <Link to={"/dashboard/cipher-keys"}>Cipher Keys</Link>
+            </Sidebar.Item>
           </Sidebar.ItemGroup>
           <Sidebar.ItemGroup>
             <Sidebar.Item
@@ -112,13 +148,6 @@ function Dashboard() {
                 active={location.pathname === "/dashboard/login"}
               >
                 <Link to={"/dashboard/login"}>Login</Link>
-              </Sidebar.Item>
-            )}
-            {user && (
-              <Sidebar.Item icon={HiLogout}>
-                <div onClick={handleLogout} className={"cursor-pointer"}>
-                  Logout
-                </div>
               </Sidebar.Item>
             )}
           </Sidebar.ItemGroup>

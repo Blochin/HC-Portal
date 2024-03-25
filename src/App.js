@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import RegistrationPage from "pages/RegistrationPage";
 import { UserProvider } from "context/UserContext";
 import LandingPage from "pages/LandingPage";
 import LoginPage from "pages/LoginPage";
@@ -40,7 +39,6 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path={"/"} element={<LandingPage />} />
-      <Route path={"/register"} element={<RegistrationPage />} />
       <Route path={"/dashboard"} element={<Dashboard />}>
         <Route index element={<WelcomePage />} />
         <Route path={"cryptograms"} element={<CryptogramListingPage />} />

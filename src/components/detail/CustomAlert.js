@@ -3,30 +3,28 @@ import PropTypes from "prop-types";
 import { Alert } from "flowbite-react";
 import { HiInformationCircle, HiPencil } from "react-icons/hi";
 
-const CustomAlert = ({ state, onEdit, note, children }) => {
+const CustomAlert = ({ state, onEdit, note, model = "entity", children }) => {
   let alertColor;
   let text;
 
   switch (state) {
     case "Approved":
       alertColor = "success";
-      text = "Admin note: Your cryptogram was approved.";
+      text = `Admin note: Your ${model} was approved.`;
       break;
     case "Rejected":
       alertColor = "failure";
-      text = "Admin note: Your cryptogram was rejected.";
+      text = `Admin note: Your ${model} was rejected.`;
       break;
     case "Revise":
       alertColor = "warning";
       children
-        ? (text =
-            "Your cryptogram was revised. You need to correct the entry before accepting.")
-        : (text =
-            "Your cryptogram was revised. You need to correct the entry before accepting. Reviewer comments are available in the edit mode.");
+        ? (text = `Your ${model} was revised. You need to correct the entry before accepting.`)
+        : (text = `Your ${model} was revised. You need to correct the entry before accepting. Reviewer comments are available in the edit mode.`);
       break;
     case "Awaiting":
       alertColor = "info";
-      text = "Admin note: Your cryptogram is waiting for revision.";
+      text = `Admin note: Your ${model} is waiting for revision.`;
       break;
     default:
       alertColor = "default";
@@ -58,6 +56,7 @@ CustomAlert.propTypes = {
   text: PropTypes.string.isRequired,
   onEdit: PropTypes.func,
   note: PropTypes.string,
+  model: PropTypes.string,
   children: PropTypes.node,
 };
 

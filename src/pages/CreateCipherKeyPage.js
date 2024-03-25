@@ -6,7 +6,7 @@ import CustomTextInput from "components/form/inputs/TextInput";
 import Categories from "../components/form/custom_inputs/Categories";
 import Availability from "../components/form/custom_inputs/Availability";
 import Languages from "../components/form/custom_inputs/Languages";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Checkbox, Label } from "flowbite-react";
@@ -19,6 +19,8 @@ import { toastOptions } from "../components/ToastOptions";
 import { useRepository } from "../context/RepositoryContext";
 import PairCryptograms from "../components/form/custom_inputs/PairCryptograms";
 import { validateFormData } from "../utils/utils";
+import CustomAlert from "../components/detail/CustomAlert";
+import CustomTextArea from "../components/form/inputs/TextArea";
 function CreateCipherKeyPage({ edit = false }) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -145,6 +147,23 @@ function CreateCipherKeyPage({ edit = false }) {
         <div>Loading...</div>
       ) : (
         <Form onSubmit={handleSubmit}>
+          {cipherKeyData && cipherKeyData?.state && (
+            <div className={"mb-6"}>
+              <CustomAlert
+                state={cipherKeyData?.state?.title}
+                note={cipherKeyData?.note}
+                heading={null}
+                text={""}
+              >
+                <div className={"w-full"}>
+                  <CustomTextArea
+                    onChange={(name, value) => handleChange(name, value)}
+                    name={"note"}
+                  />
+                </div>
+              </CustomAlert>
+            </div>
+          )}
           <CustomTextInput
             name="name"
             isRequired={true}

@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import request from "utils/api";
 import { useUser } from "./UserContext";
+import api from "../utils/api";
 
 export const DataContext = createContext();
 
@@ -18,6 +19,8 @@ export const DataProvider = ({ children }) => {
   const [solutions, setSolutions] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [keyTypes, setKeyTypes] = useState([]);
+  const [loadingStatistic, setLoadingStatistic] = useState(true);
+  const [statistic, setStatistic] = useState([]);
 
   const [allCryptogramHeaders] = useState([
     "name",
@@ -144,6 +147,14 @@ export const DataProvider = ({ children }) => {
     });
   }, [user]);
 
+  useEffect(() => {
+    const url = `api/statistics`;
+    api.get(url).then((response) => {
+      setStatistic(response.data.data);
+      setLoadingStatistic(false);
+    });
+  }, []);
+
   const contextValue = {
     continents,
     locations,
@@ -165,6 +176,8 @@ export const DataProvider = ({ children }) => {
     myLessCryptogramHeaders,
     lessCipherKeyHeaders,
     myLessCipherKeyHeaders,
+    loadingStatistic,
+    statistic,
   };
 
   return (

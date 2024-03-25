@@ -21,6 +21,7 @@ import { useRepository } from "../context/RepositoryContext";
 import PairCipherKey from "../components/form/custom_inputs/PairCipherKey";
 import { validateFormData } from "../utils/utils";
 import CustomAlert from "../components/detail/CustomAlert";
+import CustomTextArea from "../components/form/inputs/TextArea";
 
 // eslint-disable-next-line no-unused-vars
 function CreateCryptogramPage({ edit = false }) {
@@ -156,7 +157,14 @@ function CreateCryptogramPage({ edit = false }) {
                 note={cryptogramData?.note}
                 heading={null}
                 text={""}
-              />
+              >
+                <div className={"w-full"}>
+                  <CustomTextArea
+                    onChange={(name, value) => handleChange(name, value)}
+                    name={"note"}
+                  />
+                </div>
+              </CustomAlert>
             </div>
           )}
 

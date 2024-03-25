@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 const CustomTextArea = ({
   name,
+  className,
   label,
   placeholder,
   onChange,
@@ -24,7 +25,7 @@ const CustomTextArea = ({
           placeholder={placeholder}
           onChange={(event) => handleChange(event)}
           defaultValue={defaultValue}
-          className={"mb-6"}
+          className={`${className} mb-6`}
         />
       </div>
     </div>
@@ -33,6 +34,7 @@ const CustomTextArea = ({
 
 CustomTextArea.propTypes = {
   name: PropTypes.string.isRequired,
+  className: PropTypes.string,
   label: PropTypes.string,
   placeholder: PropTypes.string,
   onChange: PropTypes.func.isRequired,

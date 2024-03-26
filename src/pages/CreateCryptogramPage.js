@@ -47,7 +47,6 @@ function CreateCryptogramPage({ edit = false }) {
     "solution_id",
   ];
 
-  console.log(errors);
   const handleEraseData = () => {
     setNotEraseData(!notEraseData);
   };
@@ -64,7 +63,46 @@ function CreateCryptogramPage({ edit = false }) {
     }));
   };
 
+  // eslint-disable-next-line no-unused-vars
+  const adjustData = (data, addAction) => {
+    if (!addAction) {
+      return data;
+    }
+    /*
+    const datagroup = data?.datagroups?.map((datagroup) => {
+      const filteredData = datagroup?.data?.map(
+        (group) => group?.type !== "image",
+      );
+      return {
+        ...datagroup,
+        data: filteredData,
+      };
+    });
+     */
+    const datagroup = data?.datagroups?.map((datagroup) => {
+      const modifiedData = datagroup?.data?.map((group) => {
+        if (group?.type === "image") {
+          return {
+            ...group,
+            image: null,
+          };
+        }
+        return group;
+      });
+      return {
+        ...datagroup,
+        data: modifiedData,
+      };
+    });
+    console.log(datagroup);
+    data.datagroups = datagroup;
+    data.state = null;
+    data.thumb = null;
+    return data;
+  };
+
   useEffect(() => {
+    const addAction = window.location.href.includes("add");
     if (id == null) {
       setIsLoading(false);
       return;
@@ -72,7 +110,7 @@ function CreateCryptogramPage({ edit = false }) {
     cryptogramRepository.get(
       id,
       (isLoading) => setIsLoading(isLoading),
-      (data) => setCryptogramData(data),
+      (data) => setCryptogramData(adjustData(data, addAction)),
       () => {},
     );
   }, [id]);
@@ -129,6 +167,8 @@ function CreateCryptogramPage({ edit = false }) {
           });
           if (!notEraseData) {
             navigate(`/dashboard/cryptograms/${data.id}`);
+          } else {
+            navigate(`/dashboard/cryptograms/add/${data.id}`);
           }
         },
         (errors, message) => {
@@ -140,10 +180,13 @@ function CreateCryptogramPage({ edit = false }) {
           });
         },
       );
+      //setFormData((prevFormData) => ({
+      //  ...prevFormData,
+      // groups: null,
+      //}));
     }
   };
 
-  console.log(cryptogramData);
   return (
     <>
       {isLoading ? (

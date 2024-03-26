@@ -60,7 +60,7 @@ function WelcomePage() {
                   className={"rounded-full text-gray-500 p-0.5 bg-gray-100"}
                   size={32}
                 />
-                <h3 className="text-2xl text-center font-bold leading-tight text-gray-900 text-gray-900 dark:text-white">
+                <h3 className="text-2xl text-center font-bold leading-tight text-gray-900 dark:text-white">
                   Database of Cipher Keys
                 </h3>
                 <p className="font-sans text-start text-gray-500 dark:text-gray-400">

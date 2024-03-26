@@ -62,7 +62,17 @@ function CreateCipherKeyPage({ edit = false }) {
     console.log(formData, { [name]: value });
   };
 
+  const adjustData = (data, addAction) => {
+    if (!addAction) {
+      return data;
+    }
+    data.state = null;
+    data.images = null;
+    return data;
+  };
+
   useEffect(() => {
+    const addAction = window.location.href.includes("add");
     if (id == null) {
       setIsLoading(false);
       return;
@@ -70,7 +80,7 @@ function CreateCipherKeyPage({ edit = false }) {
     cipherKeyRepository.get(
       id,
       (isLoading) => setIsLoading(isLoading),
-      (data) => setCipherKeyData(data),
+      (data) => setCipherKeyData(adjustData(data, addAction)),
       () => {},
     );
   }, [id]);

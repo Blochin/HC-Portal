@@ -138,6 +138,8 @@ function CreateCipherKeyPage({ edit = false }) {
           });
           if (!notEraseData) {
             navigate(`/dashboard/cipher-keys/${data.id}`);
+          } else {
+            window.location.href = `/dashboard/cipher-keys/add/${data.id}}`;
           }
         },
         (errors, message) => {

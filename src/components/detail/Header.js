@@ -51,13 +51,15 @@ const Header = ({
                 />
               )}
 
-              <div
-                className={
-                  "py-1.5 px-2 bg-gray-100 w-max rounded mt-2 text-gray-500"
-                }
-              >
-                {data?.solution?.name}
-              </div>
+              {data?.solution && (
+                <div
+                  className={
+                    "py-1.5 px-2 bg-gray-100 w-max rounded mt-2 text-gray-500"
+                  }
+                >
+                  {data?.solution?.name}
+                </div>
+              )}
 
               <div className="mb-6">
                 <div className="text-xl font-sans text-gray-700 py-5">

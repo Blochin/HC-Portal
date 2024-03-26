@@ -84,7 +84,7 @@ function CreateCryptogramPage({ edit = false }) {
         if (group?.type === "image") {
           return {
             ...group,
-            image: null,
+            image: "",
           };
         }
         return group;
@@ -168,7 +168,7 @@ function CreateCryptogramPage({ edit = false }) {
           if (!notEraseData) {
             navigate(`/dashboard/cryptograms/${data.id}`);
           } else {
-            navigate(`/dashboard/cryptograms/add/${data.id}`);
+            window.location.href = `/dashboard/cryptograms/add/${data.id}}`;
           }
         },
         (errors, message) => {

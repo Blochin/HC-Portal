@@ -12,7 +12,7 @@ import {
   HiOutlineKey,
   HiUsers,
 } from "react-icons/hi";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { HiBolt } from "react-icons/hi2";
 import api from "../utils/api";
 import { useUser } from "../context/UserContext";
@@ -39,14 +39,201 @@ function Dashboard() {
       });
   };
 
+  const location = useLocation();
+
+  const isCurrentPage = (url) => {
+    return location.pathname === url;
+  };
+
   const handleSidebar = () => {
     setIsHidden(!isHidden);
+  };
+
+  const renderNavbarMenu = (user) => {
+    return (
+      <>
+        <Link
+          className={`text-gray-700 p-2 ${
+            isCurrentPage("/dashboard") && "bg-gray-200"
+          }`}
+          to={"/dashboard"}
+        >
+          Home
+        </Link>
+        <Link
+          className={`text-gray-700 p-2 ${
+            isCurrentPage("/dashboard/cryptograms") && "bg-gray-200"
+          }`}
+          to={"/dashboard/cryptograms"}
+        >
+          Cryptograms
+        </Link>
+        {user && (
+          <>
+            <Link
+              className={`text-gray-700 p-2 ${
+                isCurrentPage("/dashboard/cryptograms/add") && "bg-gray-200"
+              }`}
+              to={"/dashboard/cryptograms/add"}
+            >
+              Add Cryptograms
+            </Link>
+            <Link
+              className={`text-gray-700 p-2 ${
+                isCurrentPage("/dashboard/cryptograms/my") && "bg-gray-200"
+              }`}
+              to={"/dashboard/cryptograms/my"}
+            >
+              My Cryptograms
+            </Link>
+            <Link
+              className={`text-gray-700 p-2 ${
+                isCurrentPage("/dashboard/cipher-keys/add") && "bg-gray-200"
+              }`}
+              to={"/dashboard/cipher-keys/add"}
+            >
+              Add Cipher Keys
+            </Link>
+            <Link
+              className={`text-gray-700 p-2 ${
+                isCurrentPage("/dashboard/cipher-keys/my") && "bg-gray-200"
+              }`}
+              to={"/dashboard/cipher-keys/my"}
+            >
+              My Cipher Keys
+            </Link>
+          </>
+        )}
+        <Link
+          className={`text-gray-700 p-2 ${
+            isCurrentPage("/dashboard/reports") && "bg-gray-200"
+          }`}
+          to={"/dashboard/reports"}
+        >
+          Reports
+        </Link>
+        {user ? (
+          <div className={"text-gray-700 p-2"} onClick={handleLogout}>
+            Logout
+          </div>
+        ) : (
+          <Link
+            className={`text-gray-700 p-2 ${
+              isCurrentPage("/dashboard/login") && "bg-gray-200"
+            }`}
+            to={"/dashboard/login"}
+          >
+            Login
+          </Link>
+        )}
+      </>
+    );
+  };
+
+  const renderSidebarMenu = (user) => {
+    if (!user) {
+      return (
+        <Sidebar.ItemGroup>
+          <Sidebar.Item
+            icon={HiHome}
+            active={location.pathname === "/dashboard"}
+          >
+            <Link to={"/dashboard"}>Home</Link>
+          </Sidebar.Item>
+          <Sidebar.Item
+            icon={HiLockClosed}
+            active={location.pathname === "/dashboard/cryptograms"}
+          >
+            <Link to={"/dashboard/cryptograms"}>Cryptograms</Link>
+          </Sidebar.Item>
+          <Sidebar.Item
+            icon={HiKey}
+            active={location.pathname === "/dashboard/cipher-keys"}
+          >
+            <Link to={"/dashboard/cipher-keys"}>Cipher Keys</Link>
+          </Sidebar.Item>
+          <Sidebar.Item
+            icon={HiArchive}
+            active={location.pathname === "/dashboard/reports"}
+          >
+            <Link to={"/dashboard/reports"}>Reports</Link>
+          </Sidebar.Item>
+          <Sidebar.Item
+            icon={HiLogin}
+            active={location.pathname === "/dashboard/login"}
+          >
+            <Link to={"/dashboard/login"}>Login</Link>
+          </Sidebar.Item>
+        </Sidebar.ItemGroup>
+      );
+    } else {
+      return (
+        <>
+          <Sidebar.ItemGroup>
+            <Sidebar.Item
+              icon={HiHome}
+              active={location.pathname === "/dashboard"}
+            >
+              <Link to={"/dashboard"}>Home</Link>
+            </Sidebar.Item>
+          </Sidebar.ItemGroup>
+          <Sidebar.ItemGroup>
+            <Sidebar.Item
+              icon={HiLockClosed}
+              active={location.pathname === "/dashboard/cryptograms/add"}
+            >
+              <Link to={"/dashboard/cryptograms/add"}>Add Cryptogram</Link>
+            </Sidebar.Item>
+            <Sidebar.Item
+              icon={HiUsers}
+              active={location.pathname === "/dashboard/cryptograms/my"}
+            >
+              <Link to={"/dashboard/cryptograms/my"}>My Cryptograms</Link>
+            </Sidebar.Item>
+            <Sidebar.Item
+              icon={HiArchive}
+              active={location.pathname === "/dashboard/cryptograms"}
+            >
+              <Link to={"/dashboard/cryptograms"}>Cryptograms</Link>
+            </Sidebar.Item>
+          </Sidebar.ItemGroup>
+          <Sidebar.ItemGroup>
+            <Sidebar.Item
+              icon={HiKey}
+              active={location.pathname === "/dashboard/cipher-keys/add"}
+            >
+              <Link to={"/dashboard/cipher-keys/add"}>Add Cipher Key</Link>
+            </Sidebar.Item>
+            <Sidebar.Item
+              icon={HiOutlineKey}
+              active={location.pathname === "/dashboard/cipher-keys/my"}
+            >
+              <Link to={"/dashboard/cipher-keys/my"}>My Cipher Keys</Link>
+            </Sidebar.Item>
+            <Sidebar.Item
+              icon={HiBolt}
+              active={location.pathname === "/dashboard/cipher-keys"}
+            >
+              <Link to={"/dashboard/cipher-keys"}>Cipher Keys</Link>
+            </Sidebar.Item>
+          </Sidebar.ItemGroup>
+          <Sidebar.ItemGroup>
+            <Sidebar.Item
+              icon={HiDocumentReport}
+              active={location.pathname === "/dashboard/reports"}
+            >
+              <Link to={"/dashboard/reports"}>Reports</Link>
+            </Sidebar.Item>
+          </Sidebar.ItemGroup>
+        </>
+      );
+    }
   };
 
   return (
     <div className={"h-full"}>
       <Navbar
-        className={"bg-gray-50 border-gray-300 border-b sticky top-0 z-10"}
+        className={"bg-gray-50 border-gray-300 border-b sticky  top-0 z-10"}
         fluid
         rounded
       >
@@ -108,14 +295,8 @@ function Dashboard() {
         </div>
 
         {isCollapsed && (
-          <Navbar.Collapse>
-            <Navbar.Link href="#" active>
-              Home
-            </Navbar.Link>
-            <Navbar.Link href="/dashboard">Home</Navbar.Link>
-            <Navbar.Link href="#">Services</Navbar.Link>
-            <Navbar.Link href="#">Pricing</Navbar.Link>
-            <Navbar.Link href="#">Contact</Navbar.Link>
+          <Navbar.Collapse className={"text-center"}>
+            {renderNavbarMenu(user)}
           </Navbar.Collapse>
         )}
       </Navbar>
@@ -125,84 +306,9 @@ function Dashboard() {
           collapsed={isCollapsed || isHidden}
           theme={sidebarTheme}
         >
-          <Sidebar.Items>
-            <Sidebar.ItemGroup>
-              <Sidebar.Item
-                icon={HiHome}
-                active={location.pathname === "/dashboard"}
-              >
-                <Link to={"/dashboard"}>Home</Link>
-              </Sidebar.Item>
-            </Sidebar.ItemGroup>
-            <Sidebar.ItemGroup>
-              {user && (
-                <Sidebar.Item
-                  icon={HiLockClosed}
-                  active={location.pathname === "/dashboard/cryptograms/add"}
-                >
-                  <Link to={"/dashboard/cryptograms/add"}>Add Cryptogram</Link>
-                </Sidebar.Item>
-              )}
-              {user && (
-                <Sidebar.Item
-                  icon={HiUsers}
-                  active={location.pathname === "/dashboard/cryptograms/my"}
-                >
-                  <Link to={"/dashboard/cryptograms/my"}>My Cryptograms</Link>
-                </Sidebar.Item>
-              )}
-              <Sidebar.Item
-                icon={HiArchive}
-                active={location.pathname === "/dashboard/cryptograms"}
-              >
-                <Link to={"/dashboard/cryptograms"}>Cryptograms</Link>
-              </Sidebar.Item>
-            </Sidebar.ItemGroup>
-            <Sidebar.ItemGroup>
-              {user && (
-                <Sidebar.Item
-                  icon={HiKey}
-                  active={location.pathname === "/dashboard/cipher-keys/add"}
-                >
-                  <Link to={"/dashboard/cipher-keys/add"}>Add Cipher Key</Link>
-                </Sidebar.Item>
-              )}
-              {user && (
-                <Sidebar.Item
-                  icon={HiBolt}
-                  active={location.pathname === "/dashboard/cipher-keys/my"}
-                >
-                  <Link to={"/dashboard/cipher-keys/my"}>My Cipher Keys</Link>
-                </Sidebar.Item>
-              )}
-              <Sidebar.Item
-                icon={HiOutlineKey}
-                active={location.pathname === "/dashboard/cipher-keys"}
-              >
-                <Link to={"/dashboard/cipher-keys"}>Cipher Keys</Link>
-              </Sidebar.Item>
-            </Sidebar.ItemGroup>
-            <Sidebar.ItemGroup>
-              <Sidebar.Item
-                icon={HiDocumentReport}
-                active={location.pathname === "/dashboard/reports"}
-              >
-                <Link to={"/dashboard/reports"}>Reports</Link>
-              </Sidebar.Item>
-            </Sidebar.ItemGroup>
-            <Sidebar.ItemGroup>
-              {!user && (
-                <Sidebar.Item
-                  icon={HiLogin}
-                  active={location.pathname === "/dashboard/login"}
-                >
-                  <Link to={"/dashboard/login"}>Login</Link>
-                </Sidebar.Item>
-              )}
-            </Sidebar.ItemGroup>
-          </Sidebar.Items>
+          <Sidebar.Items>{renderSidebarMenu(user)}</Sidebar.Items>
         </Sidebar>
-        <div className=" w-full p-1 md:p-4 overflow-auto">
+        <div className="min-h-screen w-full p-4 overflow-auto">
           <Outlet />
         </div>
       </div>

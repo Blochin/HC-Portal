@@ -24,6 +24,7 @@ const CustomDropdown = forwardRef(
       color = COLOR_GRAY,
       className,
       canRemove = true,
+      tooltip,
     },
     ref,
   ) => {
@@ -114,9 +115,12 @@ const CustomDropdown = forwardRef(
       <div className={`${className} flex flex-col gap-4`}>
         <div>
           {label && layout !== FLOATING_LAYOUT_DEFAULT && (
-            <div className="mb-2 block">
-              <Label value={label} />
-              {isRequired && <span className="ml-1 text-red-500">*</span>}
+            <div className={"mb-2 flex flex-row items-center"}>
+              <div className="block mr-2">
+                <Label value={label} />
+                {isRequired && <span className="ml-1 text-red-500">*</span>}
+              </div>
+              {tooltip}
             </div>
           )}
 
@@ -231,6 +235,7 @@ CustomDropdown.propTypes = {
   color: PropTypes.string,
   className: PropTypes.string,
   canRemove: PropTypes.bool,
+  tooltip: PropTypes.node,
 };
 
 export default CustomDropdown;

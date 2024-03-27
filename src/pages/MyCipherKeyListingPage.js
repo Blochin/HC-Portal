@@ -23,6 +23,7 @@ const CipherKeyListingPage = () => {
       ) : (
         <div>
           <ListingTable
+            model={"cipher_key"}
             fullHeaders={myAllCipherKeyHeaders}
             lessHeaders={myLessCipherKeyHeaders}
             data={cipherKeys?.map((item) => mapCipherKeyData(item))}

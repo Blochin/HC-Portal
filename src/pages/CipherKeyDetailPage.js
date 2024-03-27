@@ -88,7 +88,11 @@ function CryptogramDetailPage() {
           <Header
             className={"mb-6"}
             data={cipherKeyData}
-            image={cipherKeyData?.images?.[0]?.url.thumb}
+            image={
+              cipherKeyData?.images?.[0]?.url.thumb
+                ? cipherKeyData?.images?.[0]?.url.thumb
+                : "/missing_image.jpeg"
+            }
             onClone={handleClone}
             onEdit={handleEdit}
             onExport={printPDF}

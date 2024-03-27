@@ -116,6 +116,7 @@ const PairCryptograms = ({ defaultValue, onSelect }) => {
             <div>Loading</div>
           ) : (
             <ListingTable
+              model={"cryptogram"}
               fullHeaders={allCryptogramHeaders}
               lessHeaders={lessCryptogramHeaders}
               data={[

@@ -37,7 +37,7 @@ function renderTableCell(header, item, onClick) {
         <div className={"flex flex-row items-center"}>
           <img
             className={"w-10 h-10 rounded-full object-fill"}
-            src={item["thumb"]}
+            src={item["thumb"] ? item["thumb"] : "/missing_image.jpeg"}
           />
           <span className={"ml-2"}>{item[header]}</span>
         </div>

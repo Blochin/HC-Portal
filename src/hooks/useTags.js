@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import request from "../utils/api";
 
-const useTags = () => {
+// eslint-disable-next-line no-unused-vars
+const useTags = (model) => {
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
-    request.get("api/tags").then((response) => {
+    request.get("api/tags?type=" + model).then((response) => {
       const tags = response.data.data.map((item) => {
         return { value: item.name };
       });

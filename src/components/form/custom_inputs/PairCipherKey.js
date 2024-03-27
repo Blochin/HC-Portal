@@ -93,6 +93,7 @@ const PairCipherKey = ({ defaultValue, onSelect }) => {
             <div>Loading</div>
           ) : (
             <ListingTable
+              model={"cipher_key"}
               fullHeaders={allCipherKeyHeaders}
               lessHeaders={lessCipherKeyHeaders}
               data={[

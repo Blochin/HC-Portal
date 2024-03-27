@@ -1,0 +1,30 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.ck h2 {
+    @apply text-5xl font-extrabold;
+}
+
+.ck h3 {
+    @apply text-4xl font-bold;
+}
+
+.ck h4 {
+    @apply text-3xl font-bold;
+}
+.ck ul {
+    @apply ml-3 space-y-1 list-disc list-inside
+}
+
+.ck ol {
+    @apply ml-3 space-y-1 list-decimal list-inside
+}
+
+.ck blockquote {
+    @apply text-xl italic font-semibold text-gray-900 border-l-2 border-gray-300 pl-4
+}
+
+.ck a {
+    @apply font-medium text-blue-600 hover:underline
+}

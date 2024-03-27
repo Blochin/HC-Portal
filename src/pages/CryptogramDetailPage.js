@@ -112,7 +112,11 @@ function CryptogramDetailPage() {
         <div>
           <Header
             className={"mb-6"}
-            image={cryptogramData.thumb}
+            image={
+              cryptogramData.thumb
+                ? cryptogramData.thumb
+                : "/missing_image.jpeg"
+            }
             data={cryptogramData}
             onEdit={handleEdit}
             onClone={handleClone}

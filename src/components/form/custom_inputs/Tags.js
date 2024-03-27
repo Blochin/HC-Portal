@@ -2,8 +2,8 @@ import CustomDropdown from "../inputs/dropdown/Dropdown";
 import PropTypes from "prop-types";
 import useTags from "../../../hooks/useTags";
 
-const Tags = ({ defaultValue, onChange }) => {
-  const tags = useTags();
+const Tags = ({ defaultValue, onChange, model }) => {
+  const tags = useTags(model);
 
   const handleChange = (name, values) => {
     const mappedValues = values.map((item) => {
@@ -31,6 +31,7 @@ const Tags = ({ defaultValue, onChange }) => {
 Tags.propTypes = {
   defaultValue: PropTypes.array,
   onChange: PropTypes.func.isRequired,
+  model: PropTypes.string,
 };
 
 export default Tags;

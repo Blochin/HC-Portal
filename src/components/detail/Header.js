@@ -24,22 +24,20 @@ const Header = ({
     setIsGalleryOpen(!isGalleryOpen);
   };
 
-  console.log(data);
-
   return (
     <div className={className}>
       <div className="shadow-2xl border border-gray-100 p-5">
         <div className="flex flex-col gap-4 justify-start lg:flex-row  lg:items-start">
-          <div className={"lg:w-1/2"}>
-            <div className="">
+          <div className={"lg:w-2/5"}>
+            <div>
               <img
                 src={image}
                 alt={data?.name}
-                className="object-cover w-full lg:w-[50vw] lg:h-[47vh]"
+                className="object-cover w-full max-h-[50vh]"
               />
             </div>
           </div>
-          <div className={"lg:w-1/2"}>
+          <div className={"lg:w-3/5"}>
             <div className="flex flex-col w-full justify-center">
               {isOwner && (
                 <CustomAlert

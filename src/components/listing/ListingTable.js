@@ -19,6 +19,7 @@ const ListingTable = ({
   data,
   handleRowClick,
   handleEditClick,
+  model,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [copyHeaders, setCopyHeaders] = useState(lessHeaders);
@@ -156,6 +157,7 @@ const ListingTable = ({
           onChange={(name, values) => {
             handleFilterChange(name, values);
           }}
+          model={model}
         />
       )}
 
@@ -221,4 +223,5 @@ ListingTable.propTypes = {
   handleFilterChange: PropTypes.func,
   currentPage: PropTypes.number,
   perPage: PropTypes.number,
+  model: PropTypes.string,
 };

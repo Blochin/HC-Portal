@@ -22,6 +22,7 @@ const CryptogramListingPage = () => {
       ) : (
         <div>
           <ListingTable
+            model={"cryptogram"}
             fullHeaders={allCryptogramHeaders}
             lessHeaders={lessCryptogramHeaders}
             data={cryptograms?.map((item) => mapCryptogramData(item))}

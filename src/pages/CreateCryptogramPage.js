@@ -14,7 +14,7 @@ import Languages from "../components/form/custom_inputs/Languages";
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Checkbox, Label } from "flowbite-react";
+import { Button, Checkbox, Label, List, Tooltip } from "flowbite-react";
 import { toast } from "react-toastify";
 import { toastOptions } from "../components/ToastOptions";
 import { useRepository } from "../context/RepositoryContext";
@@ -22,6 +22,7 @@ import PairCipherKey from "../components/form/custom_inputs/PairCipherKey";
 import { validateFormData } from "../utils/utils";
 import CustomAlert from "../components/detail/CustomAlert";
 import CustomTextArea from "../components/form/inputs/TextArea";
+import { HiOutlineQuestionMarkCircle } from "react-icons/hi";
 
 // eslint-disable-next-line no-unused-vars
 function CreateCryptogramPage({ edit = false }) {
@@ -284,8 +285,33 @@ function CreateCryptogramPage({ edit = false }) {
             defaultValue={cryptogramData?.used_chars}
             label={"Used Chars"}
             placeholder={"Used Chars"}
+            tooltip={
+              <Tooltip
+                content={
+                  <div>
+                    Used character types, separated with comma.
+                    <br />
+                    Legend:
+                    <List className={"text-gray-400"}>
+                      <List.Item>l - letters</List.Item>
+                      <List.Item>s - symbols</List.Item>
+                      <List.Item>n - numbers</List.Item>
+                      <List.Item>d - double letters (e.g. tt, ll)</List.Item>
+                      <List.Item>m - markups</List.Item>
+                      <List.Item>g - strings</List.Item>
+                    </List>
+                  </div>
+                }
+              >
+                <HiOutlineQuestionMarkCircle
+                  size={20}
+                  className={"text-gray-500"}
+                />
+              </Tooltip>
+            }
           />
           <Tags
+            model={"cryptogram"}
             defaultValue={cryptogramData?.tags?.map((tag) => ({
               id: tag?.id,
               value: tag?.name,

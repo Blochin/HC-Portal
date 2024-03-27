@@ -12,6 +12,7 @@ const CustomTextInput = ({
   onChange,
   defaultValue,
   errorMessage,
+  tooltip,
 }) => {
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -29,9 +30,12 @@ const CustomTextInput = ({
   return (
     <div className="flex flex-col gap-4 mb-6">
       <div>
-        <div className="mb-2 block">
-          <Label value={label} />
-          {isRequired && <span className="ml-1 text-red-500">*</span>}
+        <div className={"mb-2 flex flex-row items-center"}>
+          <div className="block mr-1">
+            <Label value={label} />
+            {isRequired && <span className="ml-1 text-red-500">*</span>}
+          </div>
+          {tooltip}
         </div>
         <TextInput
           sizing={size}
@@ -62,6 +66,7 @@ CustomTextInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   defaultValue: PropTypes.string,
   errorMessage: PropTypes.string,
+  tooltip: PropTypes.node,
 };
 
 export default CustomTextInput;

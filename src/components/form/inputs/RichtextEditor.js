@@ -3,6 +3,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Label } from "flowbite-react";
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
+import "themes/editor-styles.css";
 
 const RichtextEditor = ({ onChange, defaultValue, name, label }) => {
   const editorConfiguration = {
@@ -48,6 +49,7 @@ const RichtextEditor = ({ onChange, defaultValue, name, label }) => {
           editor={ClassicEditor}
           config={editorConfiguration}
           data={defaultValue}
+          contentCss={[`${process.env.PUBLIC_URL}/editor-styles.css`]}
           onChange={(event, editor) => {
             const data = editor.getData();
             handleChange(data);

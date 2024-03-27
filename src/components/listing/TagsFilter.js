@@ -4,8 +4,8 @@ import useTags from "../../hooks/useTags";
 import { COLOR_GRAY_FLOATING } from "../form/inputs/Colors";
 import { FLOATING_LAYOUT_DEFAULT } from "../form/inputs/dropdown/trigger/Layout";
 
-const TagsFilter = ({ defaultValue, onChange }) => {
-  const tags = useTags();
+const TagsFilter = ({ defaultValue, onChange, model }) => {
+  const tags = useTags(model);
 
   const handleChange = (name, values) => {
     const mappedValues = values.map((item) => {
@@ -35,6 +35,7 @@ const TagsFilter = ({ defaultValue, onChange }) => {
 TagsFilter.propTypes = {
   defaultValue: PropTypes.array,
   onChange: PropTypes.func.isRequired,
+  model: PropTypes.string,
 };
 
 export default TagsFilter;

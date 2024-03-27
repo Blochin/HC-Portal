@@ -7,16 +7,16 @@ const Description = ({ data, truncate = false }) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
 
-    Array.from(doc.querySelectorAll("h1")).forEach((element) => {
-      element.classList.add("text-4xl");
-    });
-
     Array.from(doc.querySelectorAll("h2")).forEach((element) => {
-      element.classList.add("text-3xl");
+      element.classList.add("text-5xl", "font-extrabold");
     });
 
     Array.from(doc.querySelectorAll("h3")).forEach((element) => {
-      element.classList.add("text-2xl");
+      element.classList.add("text-4xl", "font-bold");
+    });
+
+    Array.from(doc.querySelectorAll("h4")).forEach((element) => {
+      element.classList.add("text-3xl", "font-bold");
     });
 
     Array.from(doc.querySelectorAll("ul")).forEach((element) => {
@@ -28,7 +28,17 @@ const Description = ({ data, truncate = false }) => {
     });
 
     Array.from(doc.querySelectorAll("a")).forEach((element) => {
-      element.classList.add("text-blue-500", "hover:underline");
+      element.classList.add("text-blue-600", "hover:underline", "font-medium");
+    });
+
+    Array.from(doc.querySelectorAll("blockquote")).forEach((element) => {
+      element.classList.add(
+        "text-xl",
+        "italic",
+        "font-semibold",
+        "text-gray-900",
+        "ml-3",
+      );
     });
 
     return doc.documentElement.outerHTML;
@@ -44,11 +54,9 @@ const Description = ({ data, truncate = false }) => {
   return (
     <div>
       <div
-        className={"w-full text-2"}
+        className={"w-full text-2 ck"}
         dangerouslySetInnerHTML={{
-          __html: addClassToElements(
-            data.description ? truncateDescription(data.description) : "",
-          ),
+          __html: data.description ? truncateDescription(data.description) : "",
         }}
       ></div>
     </div>

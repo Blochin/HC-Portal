@@ -1,6 +1,7 @@
 import { Badge, Button, Table } from "flowbite-react";
 import PropTypes from "prop-types";
 import { v4 as uuid } from "uuid";
+import { truncateDescription } from "../../utils/utils";
 
 const CustomCell = ({ item, header, onClick }) => {
   return (
@@ -22,7 +23,7 @@ function renderTableCell(header, item, onClick) {
       return null;
     case "users":
       return (
-        <div className="flex flex-wrap">
+        <div className="w-max flex flex-wrap">
           {item[header]?.map((user) => {
             return (
               <div key={uuid()} className={"mt-0.5 ml-0.5"}>
@@ -34,7 +35,7 @@ function renderTableCell(header, item, onClick) {
       );
     case "name":
       return (
-        <div className={"flex flex-row items-center"}>
+        <div className={"w-max flex flex-row items-center"}>
           <img
             className={"w-10 h-10 rounded-full object-fill"}
             src={item["thumb"] ? item["thumb"] : "/missing_image.jpeg"}
@@ -44,7 +45,9 @@ function renderTableCell(header, item, onClick) {
       );
     case "state":
       return (
-        <div className={"flex-row flex justify-between items-center"}>
+        <div
+          className={"w-max flex-row flex justify-between gap-2 items-center"}
+        >
           <Badge color={setColor(item[header])} className={"w-max"}>
             {item[header]}
           </Badge>
@@ -58,7 +61,13 @@ function renderTableCell(header, item, onClick) {
     case "edit":
       return null;
     default:
-      return item[header];
+      return (
+        <div className={"w-max"}>
+          {item[header]?.length
+            ? truncateDescription(item[header], 50)
+            : item[header]}
+        </div>
+      );
   }
 }
 

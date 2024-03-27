@@ -26,7 +26,7 @@ function renderHeaderCell(header, onSort, sortConfig) {
       return null;
     default:
       return (
-        <div className={"w-48 flex flex-col items-start"}>
+        <div className={"w-max flex flex-col items-start"}>
           <div
             onClick={() => onSort(header)}
             className="flex items-center cursor-pointer"

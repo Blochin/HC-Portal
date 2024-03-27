@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { truncateDescription } from "../../utils/utils";
 
 const Description = ({ data, truncate = false }) => {
   // this should be stored in css config.
-  const addClassToElements = (html) => {
+  /*const addClassToElements = (html) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
 
@@ -44,19 +45,18 @@ const Description = ({ data, truncate = false }) => {
     return doc.documentElement.outerHTML;
   };
 
-  const truncateDescription = (description) => {
-    if (truncate && description.length > 300) {
-      return description.slice(0, 300) + " ...";
-    }
-    return description;
-  };
+   */
 
   return (
     <div>
       <div
         className={"w-full text-2 ck"}
         dangerouslySetInnerHTML={{
-          __html: data.description ? truncateDescription(data.description) : "",
+          __html: data.description
+            ? truncate
+              ? truncateDescription(data.description, 300)
+              : data.description
+            : "",
         }}
       ></div>
     </div>

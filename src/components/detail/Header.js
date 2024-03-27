@@ -35,7 +35,7 @@ const Header = ({
               <img
                 src={image}
                 alt={data?.name}
-                className="object-cover w-full lg:w-[50vw]"
+                className="object-cover w-full lg:w-[50vw] lg:h-[47vh]"
               />
             </div>
           </div>

@@ -57,8 +57,8 @@ const Groups = ({ data }) => {
         }}
         carousel={{ finite: imgToDisplay?.length <= 1 }}
         render={{
-          buttonPrev: imgToDisplay.length <= 1 ? () => null : undefined,
-          buttonNext: imgToDisplay.length <= 1 ? () => null : undefined,
+          buttonPrev: imgToDisplay?.length <= 1 ? () => null : undefined,
+          buttonNext: imgToDisplay?.length <= 1 ? () => null : undefined,
         }}
         slides={imgToDisplay}
         open={isGalleryOpen}

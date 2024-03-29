@@ -104,7 +104,7 @@ const Header = ({
           </div>
         </div>
       </div>
-      {isGalleryOpen && galleryData.length > 0 && (
+      {isGalleryOpen && galleryData?.length > 0 && (
         <CustomGallery
           data={galleryData}
           isGalleryOpen={isGalleryOpen}
@@ -118,8 +118,8 @@ const Header = ({
         }}
         carousel={{ finite: thumbnailToDisplay?.length <= 1 }}
         render={{
-          buttonPrev: thumbnailToDisplay.length <= 1 ? () => null : undefined,
-          buttonNext: thumbnailToDisplay.length <= 1 ? () => null : undefined,
+          buttonPrev: thumbnailToDisplay?.length <= 1 ? () => null : undefined,
+          buttonNext: thumbnailToDisplay?.length <= 1 ? () => null : undefined,
         }}
         slides={thumbnailToDisplay}
         open={isThumbnailOpen}

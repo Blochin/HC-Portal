@@ -116,6 +116,11 @@ const Header = ({
           scrollToZoom: true,
           maxZoomPixelRatio: 10,
         }}
+        carousel={{ finite: thumbnailToDisplay?.length <= 1 }}
+        render={{
+          buttonPrev: thumbnailToDisplay.length <= 1 ? () => null : undefined,
+          buttonNext: thumbnailToDisplay.length <= 1 ? () => null : undefined,
+        }}
         slides={thumbnailToDisplay}
         open={isThumbnailOpen}
         index={thumbnailToDisplay?.length - 1}

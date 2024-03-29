@@ -93,6 +93,11 @@ const CipherKeyImages = ({ images }) => {
           scrollToZoom: true,
           maxZoomPixelRatio: 10,
         }}
+        carousel={{ finite: imgToDisplay?.length <= 1 }}
+        render={{
+          buttonPrev: imgToDisplay.length <= 1 ? () => null : undefined,
+          buttonNext: imgToDisplay.length <= 1 ? () => null : undefined,
+        }}
         slides={imgToDisplay}
         open={isGalleryOpen}
         index={imgToDisplay?.length - 1}

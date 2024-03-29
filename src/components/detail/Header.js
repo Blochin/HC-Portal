@@ -43,11 +43,17 @@ const Header = ({
                 setIsThumbnailOpen(true);
               }}
             >
-              <img
-                src={image}
-                alt={data?.name}
-                className="object-cover w-full max-h-[50vh]"
-              />
+              <div
+                className={
+                  "group hover:shadow-2xl transition-shadow duration-300"
+                }
+              >
+                <img
+                  src={image}
+                  alt={data?.name}
+                  className="object-cover w-full max-h-[50vh] transition-transform duration-300 transform group-hover:scale-105"
+                />
+              </div>
             </div>
           </div>
           <div className={"lg:w-3/5"}>

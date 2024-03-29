@@ -9,7 +9,7 @@ import Languages from "../components/form/custom_inputs/Languages";
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Checkbox, Label, List, Tooltip } from "flowbite-react";
+import { Button, Checkbox, Label, Tooltip } from "flowbite-react";
 import { toast } from "react-toastify";
 import CipherKeyDates from "../components/form/custom_inputs/CipherKeyDates";
 import CipherKeyUsers from "../components/form/custom_inputs/CipherKeyUsers";
@@ -21,6 +21,8 @@ import PairCryptograms from "../components/form/custom_inputs/PairCryptograms";
 import { validateFormData } from "../utils/utils";
 import CustomAlert from "../components/detail/CustomAlert";
 import CustomTextArea from "../components/form/inputs/TextArea";
+import UsedCharsTooltip from "../components/tooltip/UsedCharsTooltip";
+import CompleteStructureTooltip from "../components/tooltip/CompleteStructureTooltip";
 import { HiOutlineQuestionMarkCircle } from "react-icons/hi";
 function CreateCipherKeyPage({ edit = false }) {
   const { id } = useParams();
@@ -32,6 +34,7 @@ function CreateCipherKeyPage({ edit = false }) {
   const [notEraseData, setNotEraseData] = useState(false);
   const { cipherKeyRepository } = useRepository();
   const toastId = useRef(null);
+  const [thumbnail, setThumbnail] = useState(null);
 
   const requiredFields = [
     "archive",
@@ -85,10 +88,15 @@ function CreateCipherKeyPage({ edit = false }) {
     cipherKeyRepository.get(
       id,
       (isLoading) => setIsLoading(isLoading),
-      (data) => setCipherKeyData(adjustData(data, addAction)),
+      (data) => {
+        setCipherKeyData(adjustData(data, addAction));
+        setThumbnail(data?.images?.[0]?.url?.original);
+      },
       () => {},
     );
   }, [id]);
+
+  console.log(cipherKeyData);
 
   const handleSubmit = () => {
     setErrors({});
@@ -191,6 +199,26 @@ function CreateCipherKeyPage({ edit = false }) {
             onChange={(name, value) => handleChange(name, value)}
             errorMessage={errors?.name?.[0]}
           />
+          <div className={"mb-6"}>
+            <div className={"flex flex-row gap-3"}>
+              <Label className={"mb-2"}>Thumbnail</Label>
+              <Tooltip
+                content={
+                  "Thumbnail is generated form first image attached in form"
+                }
+              >
+                <HiOutlineQuestionMarkCircle
+                  className={"text-gray-500"}
+                  size={20}
+                />
+              </Tooltip>
+            </div>
+            <img
+              src={thumbnail ? thumbnail : "/missing_image.jpeg"}
+              alt="Cropped"
+              className="w-full h-64 p-1 object-contain border-dashed border-2 rounded-lg"
+            />
+          </div>
           <RichtextEditor
             defaultValue={cipherKeyData?.description}
             name={"description"}
@@ -248,30 +276,7 @@ function CreateCipherKeyPage({ edit = false }) {
             defaultValue={cipherKeyData?.used_chars}
             label={"Used Chars"}
             placeholder={"Used Chars"}
-            tooltip={
-              <Tooltip
-                content={
-                  <div>
-                    Used character types, separated with comma.
-                    <br />
-                    Legend:
-                    <List className={"text-gray-400"}>
-                      <List.Item>l - letters</List.Item>
-                      <List.Item>s - symbols</List.Item>
-                      <List.Item>n - numbers</List.Item>
-                      <List.Item>d - double letters (e.g. tt, ll)</List.Item>
-                      <List.Item>m - markups</List.Item>
-                      <List.Item>g - strings</List.Item>
-                    </List>
-                  </div>
-                }
-              >
-                <HiOutlineQuestionMarkCircle
-                  size={20}
-                  className={"text-gray-500"}
-                />
-              </Tooltip>
-            }
+            tooltip={<UsedCharsTooltip />}
           />
           <Tags
             model={"cipher_key"}
@@ -299,43 +304,7 @@ function CreateCipherKeyPage({ edit = false }) {
             name={"complete_structure"}
             label={"Complete Structure"}
             placeholder={"Complete Structure"}
-            tooltip={
-              <Tooltip
-                content={
-                  <div>
-                    Cipher key structure. Combination of P + C + H, separated
-                    with comma. P - plain text element type (by size):
-                    <List className={"text-gray-400"}>
-                      <List.Item>1 - letters</List.Item>
-                      <List.Item>2 - bigrams</List.Item>
-                      <List.Item>3 - trigrams</List.Item>
-                      <List.Item>V - codes (variable length)</List.Item>
-                      <List.Item>0 - nulls</List.Item>
-                      <List.Item>(N - numbers)</List.Item>
-                    </List>
-                    C - cipher text element char type:
-                    <List className={"text-gray-400"}>
-                      <List.Item>l - letters</List.Item>
-                      <List.Item>s - symbols</List.Item>
-                      <List.Item>n - numbers</List.Item>
-                      <List.Item>d - double letters (e.g. tt, ll)</List.Item>
-                      <List.Item>m - markups</List.Item>
-                      <List.Item>g - strings</List.Item>
-                    </List>
-                    H - if homophonic:
-                    <List className={"text-gray-400"}>
-                      <List.Item>p - partially homophonic</List.Item>
-                      <List.Item>f - fully homophonic</List.Item>
-                    </List>
-                  </div>
-                }
-              >
-                <HiOutlineQuestionMarkCircle
-                  size={20}
-                  className={"text-gray-500"}
-                />
-              </Tooltip>
-            }
+            tooltip={<CompleteStructureTooltip />}
           />
 
           <CipherKeyUsers
@@ -355,6 +324,11 @@ function CreateCipherKeyPage({ edit = false }) {
           />
           <CipherKeyImages
             defaultValue={cipherKeyData?.images}
+            getThumbnail={(thumbnail) => {
+              if (thumbnail !== null) {
+                setThumbnail(thumbnail);
+              }
+            }}
             onChange={(name, value) => handleChange(name, value)}
           />
 

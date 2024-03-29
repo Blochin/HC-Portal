@@ -53,7 +53,7 @@ function GeneralStatistics({ statistics }) {
         />
         <GlobalChart
           data={statistics.by_symbols.symbols}
-          title={"Cipher Keys and Cryptograms By Symbols"}
+          title={"Cipher Keys and Cryptograms By Used Chars"}
         />
       </div>
     </div>

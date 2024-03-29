@@ -263,7 +263,7 @@ function Dashboard() {
           )}
           <Navbar.Brand href="https://hcportal.eu/">
             <img
-              className="mr-3 w-full h-6 sm:h-9 invert"
+              className="mr-3 w-9 h-9  sm:w-10 sm:h-10 invert"
               src="/logo.png"
               alt="Flowbite React Logo"
             />

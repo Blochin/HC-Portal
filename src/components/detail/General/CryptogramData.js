@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Badge, List, Table, Tooltip } from "flowbite-react";
+import { Badge, Table, Tooltip } from "flowbite-react";
 import {
   HiOutlineGlobeEuropeAfrica,
   HiOutlineLanguage,
@@ -14,7 +14,6 @@ import {
   HiOutlineKey,
   HiOutlineLibrary,
   HiOutlineOfficeBuilding,
-  HiOutlineQuestionMarkCircle,
   HiOutlineUser,
   HiOutlineUserGroup,
 } from "react-icons/hi";
@@ -22,6 +21,7 @@ import { parseDate } from "../../../utils/utils";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRepository } from "../../../context/RepositoryContext";
+import UsedCharsTooltip from "../../tooltip/UsedCharsTooltip";
 
 const CryptogramData = ({ data }) => {
   const navigate = useNavigate();
@@ -156,28 +156,7 @@ const CryptogramData = ({ data }) => {
                 />
               </Tooltip>
               Used Chars
-              <Tooltip
-                content={
-                  <div>
-                    Used character types, separated with comma.
-                    <br />
-                    Legend:
-                    <List className={"text-gray-400"}>
-                      <List.Item>l - letters</List.Item>
-                      <List.Item>s - symbols</List.Item>
-                      <List.Item>n - numbers</List.Item>
-                      <List.Item>d - double letters (e.g. tt, ll)</List.Item>
-                      <List.Item>m - markups</List.Item>
-                      <List.Item>g - strings</List.Item>
-                    </List>
-                  </div>
-                }
-              >
-                <HiOutlineQuestionMarkCircle
-                  size={20}
-                  className={"text-gray-500 ml-2"}
-                />
-              </Tooltip>
+              <UsedCharsTooltip />
             </Table.Cell>
             <Table.Cell>{data.used_chars ? data.used_chars : "N/A"}</Table.Cell>
           </Table.Row>

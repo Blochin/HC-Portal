@@ -12,10 +12,10 @@ export const mapCryptogramData = (item) => {
     newProperties.language = item.language.name;
   }
   if (item.location) {
-    newProperties.location =
-      item.location.continent + " " + item.location.name
-        ? item.location.continent
-        : "";
+    newProperties.location = parseLocation(
+      item?.location?.continent,
+      item?.location?.name,
+    );
   }
   if (item.availability_type === "archive") {
     newProperties.availability =
@@ -61,10 +61,10 @@ export const mapCipherKeyData = (item) => {
     newProperties.language = item.language.name;
   }
   if (item.location) {
-    newProperties.location =
-      item.location.continent + " " + item.location.name
-        ? item.location.continent
-        : "";
+    newProperties.location = parseLocation(
+      item?.location?.continent,
+      item?.location?.name,
+    );
   }
   if (item.availability_type === "archive") {
     newProperties.availability =
@@ -142,4 +142,15 @@ const parseUsers = (sender, recipient) => {
     return [recipient];
   }
   return ["Unknown"];
+};
+
+const parseLocation = (continent, place) => {
+  if (continent && place) {
+    return continent + " " + place;
+  } else if (continent && !place) {
+    return continent;
+  } else if (!continent) {
+    return "";
+  }
+  return " ";
 };

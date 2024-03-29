@@ -7,7 +7,7 @@ import { v4 as uuid } from "uuid";
 import { IMAGE_BASE64, IMAGE_LINK } from "../inputs/group/Types";
 import { createImageHandler } from "../../../utils/utils";
 
-const CipherKeyImages = ({ onChange, defaultValue }) => {
+const CipherKeyImages = ({ onChange, getThumbnail, defaultValue }) => {
   const fileInputRef = useRef(null);
   const [imagesComponents, setImagesComponents] = useState(
     defaultValue
@@ -36,6 +36,10 @@ const CipherKeyImages = ({ onChange, defaultValue }) => {
       ),
     );
   };
+
+  useEffect(() => {
+    getThumbnail(imagesComponents?.[0]?.[IMAGE_BASE64]);
+  }, [imagesComponents]);
 
   const addImageComponent = () => {
     setImagesComponents((prevComponents) => [
@@ -129,5 +133,6 @@ export default CipherKeyImages;
 
 CipherKeyImages.propTypes = {
   onChange: PropTypes.func.isRequired,
+  getThumbnail: PropTypes.func,
   defaultValue: PropTypes.arrayOf(PropTypes.object), // Adjusted PropTypes
 };

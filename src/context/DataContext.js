@@ -44,6 +44,7 @@ export const DataProvider = ({ children }) => {
     "language",
     "date",
     "location",
+    "key_type",
     "users",
     "tags",
   ]);

@@ -13,16 +13,26 @@ const useDataFilter = (data, filters, copyHeaders) => {
       }
 
       return (
-        Object.entries(filters).every(([key, value]) => {
+        Object.entries(filters)?.every(([key, value]) => {
           if (key === "global") {
             return true;
           }
 
           if (copyHeaders.includes(key)) {
             if (Array.isArray(item[key])) {
-              return value.every((filterValue) =>
-                item[key].includes(filterValue),
-              );
+              if (Array.isArray(value)) {
+                return value.every((filterValue) =>
+                  item[key].includes(filterValue),
+                );
+              } else {
+                return (
+                  value === "" ||
+                  item[key]
+                    ?.toString()
+                    ?.toLowerCase()
+                    ?.includes(value?.toLowerCase())
+                );
+              }
             } else {
               return (
                 value === "" ||

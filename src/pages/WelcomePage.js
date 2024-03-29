@@ -51,8 +51,8 @@ function WelcomePage() {
                   are solved only partially. Solved cryptograms cover{" "}
                   <b>{statistic.global.by_language.languages.length - 1}</b>{" "}
                   different languages. You can explore the database using the{" "}
-                  <b>**Cryptograms**</b> menu option. For statistics, visit the{" "}
-                  <b>**Reports**</b> menu option.
+                  <b>Cryptograms</b> menu option. For statistics, visit the{" "}
+                  <b>Reports</b> menu option.
                 </p>
               </div>
               <div className="space-y-4 border border-gray-100 rounded shadow p-3 flex flex-col items-center">
@@ -77,9 +77,9 @@ function WelcomePage() {
                     {" "}
                     {statistic.cipher_keys.count.oldest}
                   </b>
-                  . You can explore the database using the{" "}
-                  <b>**Cipher Keys**</b> menu option. For statistics, visit the{" "}
-                  <b>**Reports**</b> menu option.
+                  . You can explore the database using the <b>Cipher Keys</b>{" "}
+                  menu option. For statistics, visit the <b>Reports</b> menu
+                  option.
                 </p>
               </div>
 

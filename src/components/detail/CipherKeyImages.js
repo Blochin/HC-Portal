@@ -76,11 +76,19 @@ const CipherKeyImages = ({ images }) => {
                     </div>
                   )}
 
-                  <img
-                    className={"cursor-pointer"}
-                    onClick={() => handleGallery(image?.url.large)}
-                    src={image?.url.thumb}
-                  />
+                  <div
+                    className={
+                      "mt-3 w-max group hover:shadow-2xl transition-shadow duration-300"
+                    }
+                  >
+                    <img
+                      className={
+                        "cursor-pointer transition-transform duration-300 transform group-hover:scale-105"
+                      }
+                      onClick={() => handleGallery(image?.url.large)}
+                      src={image?.url.thumb}
+                    />
+                  </div>
                 </div>
                 <div className={"border-b-2 mt-4 mb-2"}></div>
               </div>

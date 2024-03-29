@@ -44,12 +44,6 @@ function renderTableCell(header, model, item, onClick) {
             src={item["thumb"] ? item["thumb"] : "/missing_image.jpeg"}
           />
           <div className={"hover:underline ml-2 flex flex-col"}>
-            <Link
-              className={"hover:underline"}
-              to={`/dashboard/${apiModel}/${item["id"]}`}
-            >
-              <div>#{item["id"]}</div>{" "}
-            </Link>
             <span>
               <Link
                 className={"hover:underline"}

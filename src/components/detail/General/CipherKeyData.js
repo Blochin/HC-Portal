@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Badge, List, Table, Tooltip } from "flowbite-react";
+import { Badge, Table, Tooltip } from "flowbite-react";
 import {
   HiOutlineAdjustmentsVertical,
   HiOutlineGlobeEuropeAfrica,
@@ -15,7 +15,6 @@ import {
   HiOutlineLibrary,
   HiOutlineLockClosed,
   HiOutlineOfficeBuilding,
-  HiOutlineQuestionMarkCircle,
   HiOutlineUser,
   HiOutlineUserGroup,
 } from "react-icons/hi";
@@ -23,6 +22,9 @@ import { parseDate } from "../../../utils/utils";
 import { useNavigate } from "react-router-dom";
 import { useRepository } from "../../../context/RepositoryContext";
 import React, { useEffect, useState } from "react";
+import UsedCharsTooltip from "../../tooltip/UsedCharsTooltip";
+import CompleteStructureTooltip from "../../tooltip/CompleteStructureTooltip";
+import KeyTypeTooltip from "../../tooltip/KeyTypeTooltip";
 
 const CipherKeyData = ({ data }) => {
   const navigate = useNavigate();
@@ -174,28 +176,7 @@ const CipherKeyData = ({ data }) => {
                 />
               </Tooltip>
               Used Chars
-              <Tooltip
-                content={
-                  <div>
-                    Used character types, separated with comma.
-                    <br />
-                    Legend:
-                    <List className={"text-gray-400"}>
-                      <List.Item>l - letters</List.Item>
-                      <List.Item>s - symbols</List.Item>
-                      <List.Item>n - numbers</List.Item>
-                      <List.Item>d - double letters (e.g. tt, ll)</List.Item>
-                      <List.Item>m - markups</List.Item>
-                      <List.Item>g - strings</List.Item>
-                    </List>
-                  </div>
-                }
-              >
-                <HiOutlineQuestionMarkCircle
-                  size={20}
-                  className={"text-gray-500 ml-2"}
-                />
-              </Tooltip>
+              <UsedCharsTooltip />
             </Table.Cell>
             <Table.Cell>{data.used_chars ? data.used_chars : "N/A"}</Table.Cell>
           </Table.Row>
@@ -209,41 +190,7 @@ const CipherKeyData = ({ data }) => {
                 />
               </Tooltip>
               Complete Structure
-              <Tooltip
-                content={
-                  <div>
-                    Cipher key structure. Combination of P + C + H, separated
-                    with comma. P - plain text element type (by size):
-                    <List className={"text-gray-400"}>
-                      <List.Item>1 - letters</List.Item>
-                      <List.Item>2 - bigrams</List.Item>
-                      <List.Item>3 - trigrams</List.Item>
-                      <List.Item>V - codes (variable length)</List.Item>
-                      <List.Item>0 - nulls</List.Item>
-                      <List.Item>(N - numbers)</List.Item>
-                    </List>
-                    C - cipher text element char type:
-                    <List className={"text-gray-400"}>
-                      <List.Item>l - letters</List.Item>
-                      <List.Item>s - symbols</List.Item>
-                      <List.Item>n - numbers</List.Item>
-                      <List.Item>d - double letters (e.g. tt, ll)</List.Item>
-                      <List.Item>m - markups</List.Item>
-                      <List.Item>g - strings</List.Item>
-                    </List>
-                    H - if homophonic:
-                    <List className={"text-gray-400"}>
-                      <List.Item>p - partially homophonic</List.Item>
-                      <List.Item>f - fully homophonic</List.Item>
-                    </List>
-                  </div>
-                }
-              >
-                <HiOutlineQuestionMarkCircle
-                  size={20}
-                  className={"text-gray-500 ml-2"}
-                />
-              </Tooltip>
+              <CompleteStructureTooltip />
             </Table.Cell>
             <Table.Cell>
               {data?.complete_structure ? data.complete_structure : "Unknown"}
@@ -259,23 +206,7 @@ const CipherKeyData = ({ data }) => {
                 />
               </Tooltip>
               Key Type
-              <Tooltip
-                content={
-                  <div>
-                    Key Type:
-                    <List className={"text-gray-400"}>
-                      <List.Item>e - Encryption</List.Item>
-                      <List.Item>d - Decryption</List.Item>
-                      <List.Item>e/d - Encryption/Decryption</List.Item>
-                    </List>
-                  </div>
-                }
-              >
-                <HiOutlineQuestionMarkCircle
-                  size={20}
-                  className={"text-gray-500 ml-2"}
-                />
-              </Tooltip>
+              <KeyTypeTooltip />
             </Table.Cell>
             <Table.Cell>
               {data?.key_type?.name ? data.key_type?.name : "Unknown"}

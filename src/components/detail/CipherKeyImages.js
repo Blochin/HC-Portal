@@ -1,10 +1,24 @@
 import PropTypes from "prop-types";
 import { Accordion, List, Tooltip } from "flowbite-react";
-import React from "react";
+import React, { useState } from "react";
 import { HiOutlineQuestionMarkCircle } from "react-icons/hi";
+import Lightbox from "yet-another-react-lightbox";
+import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 const CipherKeyImages = ({ images }) => {
-  console.log();
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [imgToDisplay, setImgToDisplay] = useState(null);
+
+  const handleClose = () => {
+    setIsGalleryOpen(false);
+  };
+
+  const handleGallery = (img) => {
+    setIsGalleryOpen(true);
+    setImgToDisplay([{ src: img }]);
+  };
+
   return (
     <Accordion alwaysOpen={true}>
       {images?.map((image, index) => {
@@ -62,7 +76,11 @@ const CipherKeyImages = ({ images }) => {
                     </div>
                   )}
 
-                  <img src={image?.url.thumb} />
+                  <img
+                    className={"cursor-pointer"}
+                    onClick={() => handleGallery(image?.url.large)}
+                    src={image?.url.thumb}
+                  />
                 </div>
                 <div className={"border-b-2 mt-4 mb-2"}></div>
               </div>
@@ -70,6 +88,17 @@ const CipherKeyImages = ({ images }) => {
           </Accordion.Panel>
         );
       })}
+      <Lightbox
+        zoom={{
+          scrollToZoom: true,
+          maxZoomPixelRatio: 10,
+        }}
+        slides={imgToDisplay}
+        open={isGalleryOpen}
+        index={imgToDisplay?.length - 1}
+        close={handleClose}
+        plugins={[Fullscreen, Zoom]}
+      />
     </Accordion>
   );
 };

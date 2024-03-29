@@ -68,6 +68,14 @@ function Dashboard() {
         >
           Cryptograms
         </Link>
+        <Link
+          className={`text-gray-700 p-2 ${
+            isCurrentPage("/dashboard/cipher-keys") && "bg-gray-200"
+          }`}
+          to={"/dashboard/cipher-keys"}
+        >
+          Cipher Keys
+        </Link>
         {user && (
           <>
             <Link

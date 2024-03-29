@@ -64,10 +64,11 @@ function CreateCryptogramPage({ edit = false }) {
     }));
   };
 
-  // eslint-disable-next-line no-unused-vars
   const adjustData = (data, addAction) => {
+    const copyData = { ...data };
+
     if (!addAction) {
-      return data;
+      return copyData;
     }
     /*
     const datagroup = data?.datagroups?.map((datagroup) => {
@@ -80,7 +81,7 @@ function CreateCryptogramPage({ edit = false }) {
       };
     });
      */
-    const datagroup = data?.datagroups?.map((datagroup) => {
+    const datagroup = copyData?.datagroups?.map((datagroup) => {
       const modifiedData = datagroup?.data?.map((group) => {
         if (group?.type === "image") {
           return {
@@ -96,10 +97,10 @@ function CreateCryptogramPage({ edit = false }) {
       };
     });
     console.log(datagroup);
-    data.datagroups = datagroup;
-    data.state = null;
-    data.thumb = null;
-    return data;
+    copyData.datagroups = datagroup;
+    copyData.state = null;
+    copyData.thumb = null;
+    return copyData;
   };
 
   useEffect(() => {
@@ -204,6 +205,7 @@ function CreateCryptogramPage({ edit = false }) {
               >
                 <div className={"w-full"}>
                   <CustomTextArea
+                    label={"Your Note"}
                     onChange={(name, value) => handleChange(name, value)}
                     name={"note"}
                   />

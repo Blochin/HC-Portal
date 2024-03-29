@@ -43,10 +43,6 @@ const CryptogramData = ({ data }) => {
   return (
     <>
       <Table striped>
-        <Table.Head>
-          <Table.HeadCell>Name</Table.HeadCell>
-          <Table.HeadCell>Value</Table.HeadCell>
-        </Table.Head>
         <Table.Body className="divide-y">
           <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
             <Table.Cell className="flex flex-row items-center whitespace-nowrap font-medium text-gray-900 dark:text-white">

@@ -189,6 +189,7 @@ const ListingTable = ({
                     {copyHeaders.map((header) => (
                       <CustomCell
                         key={`${header}-${index}`}
+                        model={model}
                         item={item}
                         header={header}
                         onClick={(event) => handleEditClick(event, item["id"])}

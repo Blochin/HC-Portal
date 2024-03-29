@@ -55,7 +55,7 @@ function CryptogramDetailPage() {
       });
 
       return {
-        url: item.url.thumb,
+        url: item.url.large,
         meta,
       };
     });
@@ -89,8 +89,8 @@ function CryptogramDetailPage() {
             className={"mb-6"}
             data={cipherKeyData}
             image={
-              cipherKeyData?.images?.[0]?.url.thumb
-                ? cipherKeyData?.images?.[0]?.url.thumb
+              cipherKeyData?.images?.[0]?.url.large
+                ? cipherKeyData?.images?.[0]?.url.large
                 : "/missing_image.jpeg"
             }
             onClone={handleClone}

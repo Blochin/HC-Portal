@@ -1,23 +1,26 @@
-import { Badge, Button, Table } from "flowbite-react";
+import { Badge, Table } from "flowbite-react";
 import PropTypes from "prop-types";
 import { v4 as uuid } from "uuid";
 import { truncateDescription } from "../../utils/utils";
+import { Link } from "react-router-dom";
 
-const CustomCell = ({ item, header, onClick }) => {
+const CustomCell = ({ item, model, header, onClick }) => {
   return (
     <Table.Cell className={"text-start"}>
-      {renderTableCell(header, item, onClick)}
+      {renderTableCell(header, model, item, onClick)}
     </Table.Cell>
   );
 };
 
 CustomCell.propTypes = {
   item: PropTypes.object,
+  model: PropTypes.string,
   header: PropTypes.string,
   onClick: PropTypes.func,
 };
 
-function renderTableCell(header, item, onClick) {
+function renderTableCell(header, model, item, onClick) {
+  const apiModel = model === "cipher_key" ? "cipher-keys" : "cryptograms";
   switch (header) {
     case "tags":
       return null;
@@ -40,21 +43,39 @@ function renderTableCell(header, item, onClick) {
             className={"w-10 h-10 rounded-full object-fill"}
             src={item["thumb"] ? item["thumb"] : "/missing_image.jpeg"}
           />
-          <span className={"ml-2"}>{item[header]}</span>
+          <div className={"hover:underline ml-2 flex flex-col"}>
+            <Link
+              className={"hover:underline"}
+              to={`/dashboard/${apiModel}/${item["id"]}`}
+            >
+              <div>#{item["id"]}</div>{" "}
+            </Link>
+            <span>
+              <Link
+                className={"hover:underline"}
+                to={`/dashboard/${apiModel}/${item["id"]}`}
+              >
+                {item[header]}
+              </Link>
+            </span>
+          </div>
         </div>
       );
     case "state":
       return (
         <div
-          className={"w-max flex-row flex justify-between gap-2 items-center"}
+          className={"w-full flex-row flex justify-between gap-2 items-center"}
         >
           <Badge color={setColor(item[header])} className={"w-max"}>
             {item[header]}
           </Badge>
           {item[header] !== "Rejected" && (
-            <Button size={"xs"} className={"w-max"} onClick={onClick}>
+            <div
+              onClick={onClick}
+              className="font-medium text-blue-500 hover:underline dark:text-cyan-500"
+            >
               Edit
-            </Button>
+            </div>
           )}
         </div>
       );

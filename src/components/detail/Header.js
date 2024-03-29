@@ -5,7 +5,9 @@ import React, { useState } from "react";
 import { useUser } from "../../context/UserContext";
 import CustomGallery from "./CustomGallery";
 import { HiDotsVertical } from "react-icons/hi";
-import Description from "./Description";
+import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Lightbox from "yet-another-react-lightbox";
 
 const Header = ({
   data,
@@ -17,6 +19,8 @@ const Header = ({
   onExport,
 }) => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [isThumbnailOpen, setIsThumbnailOpen] = useState(false);
+  const [thumbnailToDisplay] = useState([{ src: image }]);
   const { user } = useUser();
   const isOwner = data?.created_by?.id === user?.id && user?.id;
 
@@ -24,12 +28,21 @@ const Header = ({
     setIsGalleryOpen(!isGalleryOpen);
   };
 
+  const handleThumbnail = () => {
+    setIsThumbnailOpen(!isThumbnailOpen);
+  };
+
   return (
     <div className={className}>
       <div className="shadow-2xl border border-gray-100 p-5">
         <div className="flex flex-col gap-4 justify-start lg:flex-row  lg:items-start">
           <div className={"lg:w-2/5"}>
-            <div>
+            <div
+              className={"cursor-pointer"}
+              onClick={() => {
+                setIsThumbnailOpen(true);
+              }}
+            >
               <img
                 src={image}
                 alt={data?.name}
@@ -87,10 +100,6 @@ const Header = ({
                   ))}
                 </div>
               </div>
-              <div>
-                <div className="flex flex-row gap-2"></div>
-                <Description data={data} truncate={true} />
-              </div>
             </div>
           </div>
         </div>
@@ -102,6 +111,17 @@ const Header = ({
           setIsGalleryOpen={setIsGalleryOpen}
         />
       )}
+      <Lightbox
+        zoom={{
+          scrollToZoom: true,
+          maxZoomPixelRatio: 10,
+        }}
+        slides={thumbnailToDisplay}
+        open={isThumbnailOpen}
+        index={thumbnailToDisplay?.length - 1}
+        close={handleThumbnail}
+        plugins={[Fullscreen, Zoom]}
+      />
     </div>
   );
 };

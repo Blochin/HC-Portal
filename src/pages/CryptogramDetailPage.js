@@ -58,49 +58,23 @@ function CryptogramDetailPage() {
       });
   };
 
-  /*const printPDF = () => {
-    html2canvas(contentRef.current, { useCORS: true }).then((canvas) => {
-      const pdf = new jsPDF("p", "mm", "a4", true);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = canvas.width;
-      const imgHeight = canvas.height;
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-      const imgX = (pdfWidth - imgWidth * ratio) / 2;
-      const imgY = 0;
-
-      pdf.addImage(
-        canvas.toDataURL("image/png"),
-        "PNG",
-        imgX,
-        imgY,
-        imgWidth * ratio,
-        imgHeight * ratio,
-      );
-
-      pdf.save(`${new Date().toISOString()}.pdf`);
-    });
-  };/*
-
-  /*  const exportPDF = () => {
-    const doc = new jsPDF();
-    doc.text("Cryptogram Detail Page", 10, 10);
-    const url = doc.output("bloburi");
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "cryptogram.pdf";
-    link.click();
-  };*/
-
   const handleGallery = () => {
-    const data = cryptogramData?.datagroups?.flatMap((group) => {
-      return group.data
-        .filter((item) => item.type === "image")
-        .map((imageItem) => ({
-          url: imageItem.image.original,
-          meta: [],
-        }));
-    });
+    let data = [];
+
+    if (cryptogramData && cryptogramData.datagroups) {
+      data = cryptogramData.datagroups.flatMap((group) => {
+        return group.data
+          .filter((item) => item.type === "image")
+          .map((imageItem) => ({
+            url: imageItem.image.original,
+            meta: [],
+          }));
+      });
+    }
+
+    const thumbnail = { url: cryptogramData?.thumb, meta: [] };
+    data = [...data, thumbnail];
+
     setGalleryData(data);
   };
 

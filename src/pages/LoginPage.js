@@ -38,6 +38,15 @@ function LoginPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (isRegistration) {
+      if (formData.password !== formData.confirm_password) {
+        toast.error(
+          "Password and confirm password do not match.",
+          toastOptions,
+        );
+        return;
+      }
+    }
     toastId.current = toast("Loading...", {
       ...toastOptions,
       autoClose: false,

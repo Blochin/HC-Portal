@@ -1,4 +1,3 @@
-//import PhotoAlbum from "react-photo-album";
 import PropTypes from "prop-types";
 import Lightbox from "yet-another-react-lightbox";
 import { Captions } from "yet-another-react-lightbox/plugins";
@@ -9,37 +8,28 @@ import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/captions.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
-
 const CustomGallery = ({ data, isGalleryOpen, setIsGalleryOpen }) => {
-  // eslint-disable-next-line no-unused-vars
-
   const photos = data?.map((item) => {
-    let width = "600";
-    let height = "800";
-
     return {
       src: item.url,
-      width,
-      height,
       description: item.meta.map((metaItem) => (
         <div key={metaItem.key}>{`${metaItem.key}: ${metaItem.data}`}</div>
       )),
       title: "",
     };
   });
+
   const handleClose = () => {
     setIsGalleryOpen(false);
   };
 
   return (
     <>
-      {/*<PhotoAlbum
-        layout="rows"
-        photos={photos}
-        sizes={{ size: "calc(100vw - 240px)" }}
-        onClick={({ index }) => setIndex(index)}
-      />*/}
       <Lightbox
+        zoom={{
+          scrollToZoom: true,
+          maxZoomPixelRatio: 10,
+        }}
         slides={photos}
         open={isGalleryOpen}
         index={photos?.length - 1}

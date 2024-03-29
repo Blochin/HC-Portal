@@ -64,12 +64,16 @@ function CreateCipherKeyPage({ edit = false }) {
   };
 
   const adjustData = (data, addAction) => {
+    const copyData = { ...data };
+
     if (!addAction) {
-      return data;
+      return copyData;
     }
-    data.state = null;
-    data.images = null;
-    return data;
+
+    copyData.state = null;
+    copyData.images = null;
+
+    return copyData;
   };
 
   useEffect(() => {
@@ -170,6 +174,7 @@ function CreateCipherKeyPage({ edit = false }) {
               >
                 <div className={"w-full"}>
                   <CustomTextArea
+                    label={"Your Note"}
                     onChange={(name, value) => handleChange(name, value)}
                     name={"note"}
                   />

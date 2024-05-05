@@ -37,7 +37,7 @@ const DataGroups = ({ defaultValue, onChange }) => {
         data: [
           {
             type: "link",
-            title: "Links and references",
+            title: "Source",
           },
         ],
         selectedTab: 1,

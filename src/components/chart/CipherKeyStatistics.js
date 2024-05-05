@@ -35,6 +35,21 @@ function CipherKeyStatistics({ statistics }) {
             icon={TbKey}
           />
         </div>
+        <CipherOneChart
+          data={statistics.by_category.categories}
+          title={"Cipher Keys By Categories"}
+          type={"Cipher Key"}
+        />
+        <CipherOneChart
+          data={statistics.century.centuries}
+          title={"Cipher Keys By Centuries"}
+          type={"Cipher Key"}
+        />
+        <CipherOneChart
+          data={statistics.structure.structure}
+          title={"Cipher Keys By Structure"}
+          type={"Cipher Key"}
+        />
         <CipherKeyChart
           data={statistics.by_century.centuriesRows}
           title={"Used Chars in Cipher Keys By Centuries"}
@@ -53,6 +68,7 @@ function CipherKeyStatistics({ statistics }) {
     </div>
   );
 }
+
 CipherKeyStatistics.propTypes = {
   statistics: PropTypes.array.isRequired,
 };

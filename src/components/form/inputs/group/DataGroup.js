@@ -25,6 +25,7 @@ const DataGroup = ({
       const updatedComponents = prevComponents.map((comp) =>
         comp.id === id ? { ...comp, ...newData } : comp,
       );
+      console.log(updatedComponents);
       onChange(updatedComponents, groupDescription);
       return updatedComponents;
     });

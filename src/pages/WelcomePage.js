@@ -1,11 +1,19 @@
 import { HiArchive, HiOutlineKey } from "react-icons/hi";
 import { HiServer } from "react-icons/hi2";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DataContext } from "../context/DataContext";
 
 function WelcomePage() {
   const { statistic, loadingStatistic } = useContext(DataContext);
-  console.log(statistic);
+  const [languages, setLanguages] = useState(0);
+
+  useEffect(() => {
+    const count =
+      statistic?.global?.by_language?.languages?.filter(
+        (item) => item.cryptograms_count === 0,
+      )?.length ?? 0;
+    setLanguages(count);
+  }, [statistic]);
 
   return (
     <>
@@ -49,10 +57,9 @@ function WelcomePage() {
                     ].reduce((a, b) => a + b, 0)}
                   </b>{" "}
                   are solved only partially. Solved cryptograms cover{" "}
-                  <b>{statistic.global.by_language.languages.length - 1}</b>{" "}
-                  different languages. You can explore the database using the{" "}
-                  <b>Cryptograms</b> menu option. For statistics, visit the{" "}
-                  <b>Reports</b> menu option.
+                  <b>{languages}</b> different languages. You can explore the
+                  database using the <b>Cryptograms</b> menu option. For
+                  statistics, visit the <b>Reports</b> menu option.
                 </p>
               </div>
               <div className="space-y-4 border border-gray-100 rounded shadow p-3 flex flex-col items-center">

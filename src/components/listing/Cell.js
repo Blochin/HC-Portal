@@ -46,6 +46,9 @@ function renderTableCell(header, model, item, onClick) {
           <div className={"hover:underline ml-2 flex flex-col"}>
             <span>
               <Link
+                onClick={(event) => {
+                  event.stopPropagation();
+                }}
                 className={"hover:underline"}
                 to={`/dashboard/${apiModel}/${item["id"]}`}
               >

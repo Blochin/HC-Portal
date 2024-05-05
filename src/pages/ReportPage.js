@@ -73,7 +73,7 @@ function ReportPage() {
             </Tabs.Item>
             <Tabs.Item
               active={activeTab === 3}
-              title="Cryptogram Timeline"
+              title="Cryptograms Timeline"
               icon={HiClock}
             >
               <CustomTimeline data={sortedCryptograms} model={"cryptograms"} />

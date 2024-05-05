@@ -6,7 +6,7 @@ class Repository {
   }
 
   getMy() {
-    throw new Error("getAll method must be implemented in derived classes");
+    throw new Error("getMy method must be implemented in derived classes");
   }
 
   get() {
@@ -14,7 +14,7 @@ class Repository {
   }
 
   set() {
-    throw new Error("get method must be implemented in derived classes");
+    throw new Error("set method must be implemented in derived classes");
   }
 
   edit() {

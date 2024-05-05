@@ -48,6 +48,14 @@ function CryptogramStatistics({ statistics }) {
             icon={TbLock}
           />
         </div>
+        <CryptogramOneChart
+          data={statistics.by_category.categories}
+          title={"Cryptograms By Categories"}
+        />
+        <CryptogramOneChart
+          data={statistics.century.centuries}
+          title={"Cryptograms By Centuries"}
+        />
         <CryptogramChart
           data={statistics.by_century.centuriesRows}
           title={"Cryptogram Status By Centuries"}
@@ -62,6 +70,10 @@ function CryptogramStatistics({ statistics }) {
             "The 10 Most Frequent Names in Cryptograms (Senders/Receivers)"
           }
           type={"Cryptogram"}
+        />
+        <CryptogramOneChart
+          data={statistics.by_solution.solutions}
+          title={"Cryptograms By Solution Status"}
         />
         <CryptogramOneChart
           data={statistics.by_symbols.symbols}

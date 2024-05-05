@@ -92,19 +92,6 @@ const Data = ({ selectedTab, defaultValue, removeComponent, onChange }) => {
         aria-label="Default tabs"
         onActiveTabChange={(value) => setActiveTab(value)}
       >
-        <Tabs.Item active={activeTab === 2} title="Image" icon={HiCloud}>
-          <CustomTextInput
-            defaultValue={imageData.title}
-            onChange={(name, value) => handleImageChange(name, value)}
-            name={"title"}
-            label={"Title"}
-            placeholder={"Title"}
-          />
-          <ImageUploadDropzone
-            defaultValue={imageData.image_link}
-            onSelect={handleImageUpload}
-          />
-        </Tabs.Item>
         <Tabs.Item active={activeTab === 0} title="Text" icon={HiDocumentText}>
           <CustomTextInput
             defaultValue={textAreaData.title}
@@ -137,6 +124,20 @@ const Data = ({ selectedTab, defaultValue, removeComponent, onChange }) => {
             placeholder={"Link"}
           />
         </Tabs.Item>
+        <Tabs.Item active={activeTab === 2} title="Image" icon={HiCloud}>
+          <CustomTextInput
+            defaultValue={imageData.title}
+            onChange={(name, value) => handleImageChange(name, value)}
+            name={"title"}
+            label={"Title"}
+            placeholder={"Title"}
+          />
+          <ImageUploadDropzone
+            defaultValue={imageData.image_link}
+            onSelect={handleImageUpload}
+          />
+        </Tabs.Item>
+
         <Tabs.Item active={activeTab === 3} title="Remove" icon={HiTrash}>
           {removeComponent}
         </Tabs.Item>

@@ -119,10 +119,22 @@ const PairCryptograms = ({ defaultValue, onSelect }) => {
               model={"cryptogram"}
               fullHeaders={allCryptogramHeaders}
               lessHeaders={lessCryptogramHeaders}
-              data={[
-                ...cryptogramsMy.map((item) => mapCryptogramData(item)),
-                ...(cryptograms?.map((item) => mapCryptogramData(item)) || []),
-              ]}
+              data={
+                [
+                  ...cryptogramsMy.map((item) => mapCryptogramData(item)),
+                  ...(cryptograms?.map((item) => mapCryptogramData(item)) ||
+                    []),
+                ].reduce(
+                  (acc, curr) => {
+                    if (!acc.idSet.has(curr.id)) {
+                      acc.idSet.add(curr.id);
+                      acc.result.push(curr);
+                    }
+                    return acc;
+                  },
+                  { result: [], idSet: new Set() },
+                ).result
+              }
               handleRowClick={(id) => handleRowClick(id)}
             />
           )}

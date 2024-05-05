@@ -96,10 +96,21 @@ const PairCipherKey = ({ defaultValue, onSelect }) => {
               model={"cipher_key"}
               fullHeaders={allCipherKeyHeaders}
               lessHeaders={lessCipherKeyHeaders}
-              data={[
-                ...cipherKeysMy.map((item) => mapCipherKeyData(item)),
-                ...(cipherKeys?.map((item) => mapCipherKeyData(item)) || []),
-              ]}
+              data={
+                [
+                  ...cipherKeysMy.map((item) => mapCipherKeyData(item)),
+                  ...(cipherKeys?.map((item) => mapCipherKeyData(item)) || []),
+                ].reduce(
+                  (acc, curr) => {
+                    if (!acc.idSet.has(curr.id)) {
+                      acc.idSet.add(curr.id);
+                      acc.result.push(curr);
+                    }
+                    return acc;
+                  },
+                  { result: [], idSet: new Set() },
+                ).result
+              }
               handleRowClick={(id) => handleRowClick(id)}
             />
           )}

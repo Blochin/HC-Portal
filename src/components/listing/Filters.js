@@ -23,7 +23,7 @@ const Filters = ({
   );
   const [selectedHeaders, setSelectedHeaders] = useState([]);
   const [pageIndex, setPageIndex] = useState(0);
-  const [offset] = useState(4);
+  const [offset] = useState(3);
 
   useEffect(() => {
     setFilteredHeaders(headers.filter((item) => item.is_checked));
@@ -55,29 +55,31 @@ const Filters = ({
   };
   return (
     <div>
-      <div
-        className={
-          "flex flex-row justify-between items-center border-b border-gray-200 pb-4"
-        }
-      >
-        <div className={"flex flex-row"}>
-          <h3 className={"font-bold"}>Total Results:</h3>
-          <span className={"text-gray-500 ml-3"}>{data?.length} Records</span>
+      <div className={"flex flex-col border-b gap-2 border-gray-200 pb-3"}>
+        <div>
+          <div className={"flex flex-row justify-between"}>
+            <h3 className={"font-bold"}>Total Results:</h3>
+            <span className={"text-gray-500 ml-3"}>{data?.length} Records</span>
+          </div>
         </div>
-        <div className={"flex flex-row gap-2 items-center"}>
-          <div>{pagination}</div>
-          <div>{fullHeaders}</div>
-          <div>
+        <div className={"flex flex-row justify-between"}>
+          <div className={"w-max"}>{fullHeaders}</div>
+          <div className={"w-max"}>
             <Button onClick={() => handleOpenModal(true)} color={"gray"}>
               <HiOutlineViewColumns className={"mr-1"} />
               Manage Columns
             </Button>
           </div>
         </div>
+        <div className={"w-full"}>{pagination}</div>
       </div>
 
-      <div className={"mt-3 flex flex-row gap-5 items-center justify-between"}>
-        <div className={"w-1/2"}>
+      <div
+        className={
+          "mt-3 flex flex-col md:flex-row gap-3 md:gap-5 items-center justify-between"
+        }
+      >
+        <div className={"w-full md:w-1/2"}>
           <FloatingLabel
             variant="standard"
             onChange={(event) => onFilterChange("global", event.target.value)}

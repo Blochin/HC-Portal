@@ -5,12 +5,13 @@ import { DataContext } from "../context/DataContext";
 
 function WelcomePage() {
   const { statistic, loadingStatistic } = useContext(DataContext);
-  const [languages, setLanguages] = useState(0);
+  const [languages, setLanguages] = useState(1);
 
   useEffect(() => {
+    console.log(statistic);
     const count =
       statistic?.global?.by_language?.languages?.filter(
-        (item) => item.cryptograms_count === 0,
+        (item) => item.cryptograms_count !== 0,
       )?.length ?? 0;
     setLanguages(count);
   }, [statistic]);

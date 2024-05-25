@@ -316,7 +316,7 @@ function Dashboard() {
         >
           <Sidebar.Items>{renderSidebarMenu(user)}</Sidebar.Items>
         </Sidebar>
-        <div className="min-h-screen w-full p-4 overflow-auto">
+        <div className="min-h-screen w-full p-2  md:p-4 overflow-auto">
           <Outlet />
         </div>
       </div>

@@ -11,6 +11,7 @@ import { HiOutlineFunnel } from "react-icons/hi2";
 import useDataFilter from "../../hooks/useDataFilter";
 import useDataSort from "../../hooks/useDataSort";
 import TagsFilter from "./TagsFilter";
+import { LAYOUT_FULL } from "../form/inputs/dropdown/trigger/Layout";
 
 const ListingTable = ({
   fullHeaders,
@@ -124,12 +125,13 @@ const ListingTable = ({
         onFilterChange={(key, value) => handleFilterChange(key, value)}
         data={data}
         pagination={
-          <div className={"w-32"}>
+          <div>
             <Dropdown
               isMulti={false}
               withMeta={false}
               value={{ value: perPage }}
               data={perPageOptions}
+              layout={LAYOUT_FULL}
               name={"per_page"}
               canAddNew={false}
               canRemove={false}
@@ -201,11 +203,13 @@ const ListingTable = ({
           </Table.Body>
         </Table>
       </div>
-      <CustomPagination
-        current={currentPage}
-        onChangeCurrent={(page) => setCurrentPage(page)}
-        totalPages={totalPages}
-      />
+      <div className={"mt-3"}>
+        <CustomPagination
+          current={currentPage}
+          onChangeCurrent={(page) => setCurrentPage(page)}
+          totalPages={totalPages}
+        />
+      </div>
     </div>
   );
 };

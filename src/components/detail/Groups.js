@@ -36,7 +36,7 @@ const Groups = ({ data }) => {
                         {data.image && (
                           <div
                             className={
-                              "mt-3 group hover:shadow-2xl transition-shadow duration-300"
+                              "mt-3 max-w-max group hover:shadow-2xl transition-shadow duration-300"
                             }
                           >
                             <img
